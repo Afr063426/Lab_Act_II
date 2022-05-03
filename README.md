@@ -1,3 +1,3 @@
 # Lab_Act_II UCR
-Here I will be uploaded the laboratories of actuarial lab II
+Here I am going to upload the laboratories of actuarial lab II
 
