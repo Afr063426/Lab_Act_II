@@ -29,7 +29,7 @@ library(tidyverse)
 library(lifecontingencies)
 library(kableExtra)
 #Se procede a leer la tabla
-tabla<-read.csv("./Laboratorio_1/TablaBowers.csv",sep=";",dec=",",header=TRUE, stringsAsFactors = FALSE)
+tabla<-read.csv("TablaBowers.csv",sep=";",dec=",",header=TRUE, stringsAsFactors = FALSE)
 ```
 ## Ejercicio 1
 Considere un seguro de vida temporal a 10 años que paga un beneficio de 1.000, sobre una población $$l_{50}$$ a la edad de 50 años. Se utiliza la tabla ilustrativa del Bowers
@@ -81,7 +81,7 @@ kable(flows,
   , 'Intereses esperados',"Reclamos esprados","Fondos esperados al final","Reserva"),
   caption = "Flujos", format.args = list(big.mark = " ")
 ) %>%
-  kable_material()%>%scroll_box()
+  kable_material()%>%scroll_box(width = "50%")
 ```
 
 # Ejercicio 2
