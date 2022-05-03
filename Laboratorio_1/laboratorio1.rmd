@@ -1,0 +1,111 @@
+---
+title: "A clean and uncluttered template"
+author: "[Joshua Cervantes](https://github.com/Afr063426)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "joshua.cervantes@ucr.ac.cr"
+linkedin: ""
+twitter: ""
+github: "afr063426"
+home: ""
+# !!! You need to provide a logo image here !!! Or just delete the field for no logo
+logo: ""
+output:
+  epuRate::epurate:
+    toc: TRUE
+    number_sections: FALSE
+    code_folding: "hide"
+---
+
+```{r setup, include=FALSE}
+# Se carga la base de datos
+knitr::opts_chunk$set(echo = TRUE)
+
+##Paquetes necesarios
+#install_github("holtzy/epuRate")
+library(devtools)
+library(rmarkdown)
+library(epuRate)
+library(tidyverse)
+library(lifecontingencies)
+#Se procede a leer la tabla
+tabla<-read.csv("TablaBowers.csv",sep=";",dec=",",header=TRUE, stringsAsFactors = FALSE)
+```
+## Ejercicio 1
+Considere un seguro de vida temporal a 10 años que paga un beneficio de 1.000, sobre una población $$l_{50}$$ a la edad de 50 años. Se utiliza la tabla ilustrativa del Bowers
+con una tasa de interés del 6%.
+
+a. Se solicita calcular la prima de riesgos 
+
+```{r}
+#Se estiman las probabilidades de sobrevivencia al a\~no siguiente
+px<-tabla$lx[-1]/tabla$lx[-length(tabla$lx)]
+px[length(px)+1]<-0
+#Se genera una tabla de sobrevivencia a partir de las probabilidades calculadas
+life_table<-probs2lifetable(px,type = 'px')
+benefit<-1000
+
+#Se calcula la prima usando la formula empleando del principio de equivalencia
+nAx<-Axn(life_table,x=50,n=10,i=0.06)
+nax<-axn(life_table,x=50,n=10,i=0.06)
+
+#Prima de riesgo
+premium<-benefit*nAx/nax
+print(premium)
+```
+
+b. Se debe conformar una tabla con los flujos y los valores de reserva de la reserva en cada año.
+
+```{r}
+#Se genera un tabla para los flujos
+#Primero se generan los datos del primer año para ser usados al año siguiente
+for (i in 1:10){
+  year<-i
+
+}
+
+```
+
+# Ejercicio 2
+Un asegurado adquiere un seguro vitalicio a la edad de 50 años. La suma asegurada es de 10.000
+y paga al final de año de muerte. Para este ejercicio se considera la tabla del Bowers que se encuentra
+en la plataforma de virtual y una tasa de interés del 5%.
+
+a.  Calcule el valor de la póliza (reserva), bajo el concepto de prima bruta, 5 años después de la emisión de la póliza, 
+asumiendo que la póliza sigue vigente. Para determinar la prima se deber considerar que un 12% de la prima a pagar
+cubrirán los gastos de adquisición y administración.
+
+```{r}
+
+```
+
+b. En un segundo escenario, se calcula la prima neta considerando un 4% de interés, aunque la Compañía espera
+generar un 5% como en el escenario 1, la diferencia percibidad será destinada a cubrir los gastos de adquisición y administración.
+```{r}
+
+```
+
+c. Con base en el inciso a. construir una tabla de flujos considerando que $$l_{50}$$ individuos toman el seguro con las mismas condiciones,
+así mismo calcule la reserva al final de cada periodo como la razón de flujo final entre los sobrevivients y aplicando la fórmula teórica.
+
+### Preguntas
+
+1. ¿Porqué el valor de la póliza (reserva) al final de la edad 110 es de 9 316.83 si el monto
+que se espera pagar en siniestros durante el siguiente año son 1 100?
+2. Al graficar el fondo acumulado al final del año se presenta en forma de "campana", ¿esto a qué se debe?.
+
+
+d. Considerando el primer escenario (parte a.) y una única vida, se debe generar un vector que muestra la pérdida esperada para la compañía de seguros en función
+del año en que ocurre la pérdida. 
+
+```{r}
+
+
+```
+
+### Preguntas 
+1. ¿Cuál es la probabilidad de que la pérdida de la compañía sea mayor a 5 000
+? ¿A qué edad se podría asegurar que la compañía no presentará pérdidas mayores a 5 000 para esta póliza individual si 
+a esa edad el individuo sigue con vida?
+2. ¿Cuál es la probabilidad de qué la compañía no presente pérdida? ¿A qué edad se podría
+asegurar que la compañía no presentará pérdidas para esta póliza individual si a esa edad el individuo
+sigue con vida?
