@@ -1,5 +1,5 @@
 ---
-title: "A clean and uncluttered template"
+title: "Laboratorio 1"
 author: "[Joshua Cervantes](https://github.com/Afr063426)"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "joshua.cervantes@ucr.ac.cr"
@@ -81,7 +81,7 @@ kable(flows,
   , 'Intereses esperados',"Reclamos esprados","Fondos esperados al final","Reserva"),
   caption = "Flujos", format.args = list(big.mark = " ")
 ) %>%
-  kable_material()%>%scroll_box(width = "50%")
+  kable_material()%>%scroll_box(width = "70%")
 ```
 
 # Ejercicio 2
