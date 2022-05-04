@@ -19,6 +19,7 @@ output:
     code_folding: hide
 ---
 
+
 ```{r setup, include=FALSE}
 # Se carga la base de datos
 library(rmdformats)
@@ -209,7 +210,8 @@ ggplot(, aes(x = 0:60, y = L)) +
 1. ¿Cuál es la probabilidad de que la pérdida de la compañía sea mayor a 5 000?
 ? ¿A qué edad se podría asegurar que la compañía no presentará pérdidas mayores a 5 000 para esta póliza individual si 
 a esa edad el individuo sigue con vida?
-Se cumple que las perdidas se pueden modelar mediante la siguiente variable aleatoria
+Con $P$ es la prima neta, $S$ es el beneficio, $m$ es la cantidad de años que han pasado. Para la primera pregunta se tiene que las perdidas se pueden modelar mediante la siguiente variable aleatoria.
+
 
 $$
 L=Sv^{K_[x]+1}-P\frac{1-v^{K_{[x]+1}}}{d}
@@ -218,18 +220,18 @@ $$
 Entonces lo que se quiere se quiere es 
 
 $$
-\mathbb{P}\left(5000 > L \right)\Rightarrow \mathbb{P}\left(v^{K_[x]+1}>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}\right)}{\ln(v)} \right)
+\mathbb{P}\left(5000 < L \right)\Rightarrow \mathbb{P}\left(K_{[x]+1}>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}\right)}{\ln(v)} \right)
 $$
 Ahora para encontrar la edad en la que ya no se encuentran pérdidas mayores que 5 000, entonces podemos encontrar la siguiente variable aleatoria de pérdidas sabiendo que la persona llegó hasta esa edad.
 $$
-L=Sv^{K_[x+m]+1}-P\frac{1-v^{K_{[x+m]+1}}}{d}-\underbrace{P\frac{1+v^{m}}{d}}{a(m)}
+L=Sv^{K_{[x+m]}+1}-P\frac{1-v^{K_{[x+m]+1}}}{d}-\underbrace{P\frac{1+v^{m}}{d}}_{a(m)}
 $$ 
-Donde $P$ es la prima neta, $S$ es el beneficio, $m$ es la cantidad de años que han pasado 
+
 De tal forma que podemos utilizar la función anterior
+$$
+\mathbb{P}\left(5000 \geq L \right)\Rightarrow \mathbb{P}\left(K_{[x+m]}+1>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}+a(m)\right)}{\ln(v)} \right)
+$$
 Ahora entoncese se proghrama que va ser de utilidad para este ejercicio y el siguiente.
-$$
-\mathbb{P}\left(5000 > L \right)\Rightarrow \mathbb{P}\left(v^{K_[x]+1}>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}+a(m)\right)}{\ln(v)} \right)
-$$
 ```{r}
 probability_loss <- function(P, S, i, a, amount, x) {
   v <- 1 / (1 + i)
@@ -246,7 +248,49 @@ Con esta función entonces se puede calcular entonces que la probabilidad de ten
  ```{r}
 probability_loss(net_premium, 10000, 0.05, 0, 5000, 50)
  ```
+ 
+ Para la segunda pregunta entonces se puede utilizar la función con un ciclo hasta obtener pérdidas 0
+
+```{r}
+# Variable de control
+o <- 1
+m <- 0
+d <- 1 - 1 / 1.05
+while (o > 0) {
+  a <- net_premium * (1 - (1 - d)^m) / d * (1 - d)^{
+    -m
+  }
+  o <- 1 - probability_loss(net_premium, 10000, 0.05, a, 5000, 50 + m)
+  m <- m + 1
+}
+# Edad a la que ya no hay perdidas
+m + 50
+```
 
 2. ¿Cuál es la probabilidad de qué la compañía no presente pérdida? ¿A qué edad se podría
 asegurar que la compañía no presentará pérdidas para esta póliza individual si a esa edad el individuo
 sigue con vida?
+
+En este otro caso podemos utilizar una vez más la función anterior, simplementa hay que cambiar el monto de 5000 a 0 y verlo, pero esto es el complemento de lo que queremoe entonces le restamos a 1 esta probabilidad que sería el tener pérdidas.
+
+```{r}
+1 - probability_loss(net_premium, 10000, 0.05, 0, 0, 50)
+ ```
+
+ De forma similar a lo hecho con el ciclo, se puede estimar a qué edad ya no se tienen pérdidas seguramente. 
+
+ ```{r}
+# Variable de control
+o_b <- 1
+m_b <- 0
+d <- 1 - 1 / 1.05
+while (o_b > 0) {
+  a <- net_premium * (1 - (1 - d)^m_b) / d * (1 - d)^{
+    -m_b
+  }
+  o_b <- 1 - probability_loss(net_premium, 10000, 0.05, a, 0, 50 + m)
+  m_b <- m_b + 1
+}
+# Edad a la que ya no hay perdidas
+50 + m_b
+```

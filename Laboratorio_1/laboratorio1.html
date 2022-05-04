@@ -191,6 +191,66 @@ window.buildTabsets = function(tocID) {
 };
 
 </script>
+        <script>
+window.initializeCodeFolding = function(show) {
+
+  // handlers for show-all and hide all
+  $("#rmd-show-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('show');
+    });
+  });
+  $("#rmd-hide-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('hide');
+    });
+  });
+
+  // index for unique code element ids
+  var currentIndex = 1;
+
+  // select all R code blocks
+  var rCodeBlocks = $('pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.julia');
+  rCodeBlocks.each(function() {
+
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse r-code-collapse"></div>');
+    if (show || $(this)[0].classList.contains('fold-show'))
+      div.addClass('in');
+    var id = 'rcode-643E0F36' + currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+
+    // add a show code button right above
+    var showCodeText = $('<span>' + (show ? 'Hide' : 'Code') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs code-folding-btn pull-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-target', '#' + id)
+        .attr('aria-expanded', show)
+        .attr('aria-controls', id);
+
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+
+    div.before(buttonRow);
+
+    // update state of button on show/hide
+    div.on('hidden.bs.collapse', function () {
+      showCodeText.text('Code');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide');
+    });
+  });
+
+}
+</script>
         <style type="text/css">
 .mfp-bg {
 top: 0;
@@ -1773,6 +1833,11 @@ border: 0;
     </script>
 
     <!-- code folding -->
+        <script>
+      $(document).ready(function () {
+	  	  	  window.initializeCodeFolding("hide" === "show");
+	        });
+    </script>
     
     <!-- code download -->
     
@@ -1849,6 +1914,13 @@ border: 0;
        <a role="button" href="#" data-toggle="wy-nav-top"><span class="glyphicon glyphicon-menu-hamburger"></span></a>
      </nav>
          
+      <div class="btn-group pull-right">
+     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+     <ul class="dropdown-menu" style="min-width: 50px;">
+	    	    <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+	    <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+	    	    	         </ul>
+   </div>
    
         
       <h1 class="title">Laboratorio 1</h1>
@@ -4564,14 +4636,36 @@ L=Sv^{K_[x]+1}-P\frac{1-v^{K_{[x]+1}}}{d}
 <p>Entonces lo que se quiere se quiere es</p>
 <p><span class="math display">\[
 \mathbb{P}\left(5000 &gt; L \right)\Rightarrow
-\mathbb{P}\left(v^{K_[x]+1}&gt;\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}\right)}{\ln(v)}
+\mathbb{P}\left(K_{[x]+1}&gt;\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}\right)}{\ln(v)}
 \right)
-\]</span> Ahora entoncese se proghrama que va ser de utilidad para este
-ejercicio y el siguiente.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>probability_losse <span class="ot">&lt;-</span> <span class="cf">function</span>(P, S, i, a) {</span>
+\]</span> Ahora para encontrar la edad en la que ya no se encuentran
+pérdidas mayores que 5 000, entonces podemos encontrar la siguiente
+variable aleatoria de pérdidas sabiendo que la persona llegó hasta esa
+edad. <span class="math display">\[
+L=Sv^{K_{[x+m]}+1}-P\frac{1-v^{K_{[x+m]+1}}}{d}-\underbrace{P\frac{1+v^{m}}{d}}_{a(m)}
+\]</span> Donde <span class="math inline">\(P\)</span> es la prima neta,
+<span class="math inline">\(S\)</span> es el beneficio, <span class="math inline">\(m\)</span> es la cantidad de años que han pasado
+De tal forma que podemos utilizar la función anterior Ahora entoncese se
+proghrama que va ser de utilidad para este ejercicio y el siguiente.
+<span class="math display">\[
+\mathbb{P}\left(5000 &gt; L \right)\Rightarrow
+\mathbb{P}\left(K_{[x+m]}+1&gt;\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}+a(m)\right)}{\ln(v)}
+\right)
+\]</span></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>probability_loss <span class="ot">&lt;-</span> <span class="cf">function</span>(P, S, i, a, amount, x) {</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> i)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> v</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  numerator <span class="ot">&lt;-</span> <span class="fu">log</span>((amount <span class="sc">+</span> P <span class="sc">/</span> d <span class="sc">+</span> a) <span class="sc">/</span> (S <span class="sc">+</span> P <span class="sc">/</span> d))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  denominator <span class="ot">&lt;-</span> <span class="fu">log</span>(v)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(numerator <span class="sc">/</span> denominator)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(t)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">pxt</span>(life_table, <span class="at">x =</span> x, <span class="at">t =</span> t))</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Con esta función entonces se puede calcular entonces que la
+probabilidad de tener pérdidas mayores a 5 000 es</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">probability_loss</span>(net_premium, <span class="dv">10000</span>, <span class="fl">0.05</span>, <span class="dv">0</span>, <span class="dv">5000</span>, <span class="dv">50</span>)</span></code></pre></div>
+<pre><code>## [1] 9</code></pre>
+<pre><code>## [1] 0.9264667</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>¿Cuál es la probabilidad de qué la compañía no presente pérdida? ¿A
 qué edad se podría asegurar que la compañía no presentará pérdidas para
