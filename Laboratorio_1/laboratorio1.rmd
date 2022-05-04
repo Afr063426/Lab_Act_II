@@ -10,16 +10,20 @@ home: ""
 # !!! You need to provide a logo image here !!! Or just delete the field for no logo
 logo: ""
 output:
-  epuRate::epurate:
-    toc: TRUE
-    number_sections: FALSE
-    code_folding: "hide"
+  rmdformats::readthedown:
+    highlight: kate
+    toc_depth: 3
+    embed_fonts: true
+    use_bookdown: false
+    pandoc_args: Null 
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
 # Se carga la base de datos
+library(rmdformats)
 knitr::opts_chunk$set(echo = TRUE)
-
+library(pdftools)
 ## Paquetes necesarios
 # install_github("holtzy/epuRate")
 library(devtools)
@@ -30,7 +34,7 @@ library(lifecontingencies)
 library(kableExtra)
 library(jcolors)
 # Se procede a leer la tabla
-tabla <- read.csv("TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
+tabla <- read.csv("./Laboratorio_1/TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
 # Ejercicio 1
 Considere un seguro de vida temporal a 10 años que paga un beneficio de 1.000, sobre una población $l_{50}$ a la edad de 50 años. Se utiliza la tabla ilustrativa del Bowers
@@ -214,14 +218,34 @@ $$
 Entonces lo que se quiere se quiere es 
 
 $$
-\mathbb{P}\left(5000 < L \right)\Rightarrow \mathbb{P}\left( \right)
+\mathbb{P}\left(5000 > L \right)\Rightarrow \mathbb{P}\left(v^{K_[x]+1}>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}\right)}{\ln(v)} \right)
 $$
+Ahora para encontrar la edad en la que ya no se encuentran pérdidas mayores que 5 000, entonces podemos encontrar la siguiente variable aleatoria de pérdidas sabiendo que la persona llegó hasta esa edad.
+$$
+L=Sv^{K_[x+m]+1}-P\frac{1-v^{K_{[x+m]+1}}}{d}-\underbrace{P\frac{1+v^{m}}{d}}{a(m)}
+$$ 
+Donde $P$ es la prima neta, $S$ es el beneficio, $m$ es la cantidad de años que han pasado 
+De tal forma que podemos utilizar la función anterior
+Ahora entoncese se proghrama que va ser de utilidad para este ejercicio y el siguiente.
+$$
+\mathbb{P}\left(5000 > L \right)\Rightarrow \mathbb{P}\left(v^{K_[x]+1}>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}+a(m)\right)}{\ln(v)} \right)
+$$
+```{r}
+probability_loss <- function(P, S, i, a, amount, x) {
+  v <- 1 / (1 + i)
+  d <- 1 - v
+  numerator <- log((amount + P / d + a) / (S + P / d))
+  denominator <- log(v)
+  t <- ceiling(numerator / denominator)
+  print(t)
+  return(pxt(life_table, x = x, t = t))
+}
+```
+Con esta función entonces se puede calcular entonces que la probabilidad de tener pérdidas mayores a 5 000 es
 
-
-
-
-
-
+ ```{r}
+probability_loss(net_premium, 10000, 0.05, 0, 5000, 50)
+ ```
 
 2. ¿Cuál es la probabilidad de qué la compañía no presente pérdida? ¿A qué edad se podría
 asegurar que la compañía no presentará pérdidas para esta póliza individual si a esa edad el individuo
