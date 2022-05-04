@@ -33,7 +33,7 @@ library(jcolors)
 tabla <- read.csv("TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
 # Ejercicio 1
-Considere un seguro de vida temporal a 10 años que paga un beneficio de 1.000, sobre una población $$l_{50}$$ a la edad de 50 años. Se utiliza la tabla ilustrativa del Bowers
+Considere un seguro de vida temporal a 10 años que paga un beneficio de 1.000, sobre una población $l_{50}$ a la edad de 50 años. Se utiliza la tabla ilustrativa del Bowers
 con una tasa de interés del 6%.
 
 a. Se solicita calcular la prima de riesgos 
@@ -170,12 +170,13 @@ kable(flows_2,
   caption = "Flujos", format.args = list(big.mark = " ")
 ) %>%
   kable_material() %>%
-  scroll_box(width = "90%", height = "50%")
+  scroll_box(width = "90%", height = "500px")
 ```
 ### Preguntas
 
 1. ¿Porqué el valor de la póliza (reserva) al final de la edad 110 es de 9 316.83 si el monto
 que se espera pagar en siniestros durante el siguiente año son 1 100?
+Esto se debe a que el monto original del seguro es de 10 000, sin embargo esto es por es por individuo. Al final se tiene por decirlo de cierta forma 0.11 individuos, a pesar de que no se le pagara 10 0000 al no ser un individuo completo, la reserva del seguro en base a este individuo que no es la unidad es 9 316.83 al final del año, pero solo se pagará 1100.
 2. Al graficar el fondo acumulado al final del año se presenta en forma de "campana", ¿esto a qué se debe?.
 ```{r}
 ggplot(flows_2, aes(x = c(age - 50), y = E_funds_e_2)) +
@@ -183,6 +184,8 @@ ggplot(flows_2, aes(x = c(age - 50), y = E_funds_e_2)) +
   theme_minimal() +
   scale_color_jcolors_contin(palette = "pal4")
 ```
+
+Esto se debe a que conforme se va avanzando se va obteniendo el dinero de las primas, y con estas se van acumulando intereses. A pesar de que se tienen decesos no son tantos como para tener que cubrir todo lo que se ha acumulado en primas e intereses sobre estas, esto hasta llegar al punto más alto de la curva. Sin embargo, posterior a este punto se siguen acumulando primas e intereses, pero en este caso se tienen más decesos por lo que hay que pagar una mayor cantidad de los seguros y a su vez se tienen menor cantidad de primas y se acumulan menos intereses.
 
 d. Considerando el primer escenario (parte a.) y una única vida, se debe generar un vector que muestra la pérdida esperada para la compañía de seguros en función
 del año en que ocurre la pérdida. 
@@ -199,9 +202,27 @@ ggplot(, aes(x = 0:60, y = L)) +
 ```
 
 ### Preguntas 
-1. ¿Cuál es la probabilidad de que la pérdida de la compañía sea mayor a 5 000
+1. ¿Cuál es la probabilidad de que la pérdida de la compañía sea mayor a 5 000?
 ? ¿A qué edad se podría asegurar que la compañía no presentará pérdidas mayores a 5 000 para esta póliza individual si 
 a esa edad el individuo sigue con vida?
+Se cumple que las perdidas se pueden modelar mediante la siguiente variable aleatoria
+
+$$
+L=Sv^{K_[x]+1}-P\frac{1-v^{K_{[x]+1}}}{d}
+$$ 
+
+Entonces lo que se quiere se quiere es 
+
+$$
+\mathbb{P}\left(5000 < L \right)\Rightarrow \mathbb{P}\left( \right)
+$$
+
+
+
+
+
+
+
 2. ¿Cuál es la probabilidad de qué la compañía no presente pérdida? ¿A qué edad se podría
 asegurar que la compañía no presentará pérdidas para esta póliza individual si a esa edad el individuo
 sigue con vida?
