@@ -20,68 +20,72 @@ output:
 # Se carga la base de datos
 knitr::opts_chunk$set(echo = TRUE)
 
-##Paquetes necesarios
-#install_github("holtzy/epuRate")
+## Paquetes necesarios
+# install_github("holtzy/epuRate")
 library(devtools)
 library(rmarkdown)
 library(epuRate)
 library(tidyverse)
 library(lifecontingencies)
 library(kableExtra)
-#Se procede a leer la tabla
-tabla<-read.csv("TablaBowers.csv",sep=";",dec=",",header=TRUE, stringsAsFactors = FALSE)
+library(jcolors)
+# Se procede a leer la tabla
+tabla <- read.csv("TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
-## Ejercicio 1
+# Ejercicio 1
 Considere un seguro de vida temporal a 10 años que paga un beneficio de 1.000, sobre una población $$l_{50}$$ a la edad de 50 años. Se utiliza la tabla ilustrativa del Bowers
 con una tasa de interés del 6%.
 
 a. Se solicita calcular la prima de riesgos 
 
 ```{r}
-#Se estiman las probabilidades de sobrevivencia al a\~no siguiente
-px<-tabla$lx[-1]/tabla$lx[-length(tabla$lx)]
-px[length(px)+1]<-0
-#Se genera una tabla de sobrevivencia a partir de las probabilidades calculadas
-life_table<-probs2lifetable(px,type = 'px')
-benefit<-1000
+# Se estiman las probabilidades de sobrevivencia al a\~no siguiente
+px <- tabla$lx[-1] / tabla$lx[-length(tabla$lx)]
+px[length(px) + 1] <- 0
+# Se genera una tabla de sobrevivencia a partir de las probabilidades calculadas
+life_table <- probs2lifetable(px, type = "px")
+benefit <- 1000
 
-#Se calcula la prima usando la formula empleando del principio de equivalencia
-nAx<-Axn(life_table,x=50,n=10,i=0.06)
-nax<-axn(life_table,x=50,n=10,i=0.06)
+# Se calcula la prima usando la formula empleando del principio de equivalencia
+nAx <- Axn(life_table, x = 50, n = 10, i = 0.06)
+nax <- axn(life_table, x = 50, n = 10, i = 0.06)
 
-#Prima de riesgo
-premium<-benefit*nAx/nax
+# Prima de riesgo
+premium <- benefit * nAx / nax
 print(premium)
 ```
 
 b. Se debe conformar una tabla con los flujos y los valores de reserva de la reserva en cada año.
 
 ```{r}
-#Se genera un tabla para los flujos
-#Se calculan los valoresq que pueden ser estiamdos de forma vectorial
-#Sobreviviente de 50 años a 60 años
-lx<-tabla$lx[51:61]
-year<-1:10
-E_survival<-lx[-length(lx)]
-E_premium<-E_survival*premium
-E_reclaims<--diff(lx)*1000
-E_i<-E_premium[1]*0.06
-E_funds_b<-E_premium[1]
-E_funds_e<-E_premium[1]+E_i[1]-E_reclaims[1]
-E_survival_e<-lx[-1]
-for (i in 2:10){
-  E_funds_b[i]<-E_funds_e[i-1]+E_premium[i]
-  E_i[i]<-E_funds_b[i]*0.06
-  E_funds_e[i]<-E_funds_b[i]+E_i[i]-E_reclaims[i]
+# Se genera un tabla para los flujos
+# Se calculan los valoresq que pueden ser estiamdos de forma vectorial
+# Sobreviviente de 50 años a 60 años
+lx <- tabla$lx[51:61]
+year <- 1:10
+E_survival <- lx[-length(lx)]
+E_premium <- E_survival * premium
+E_reclaims <- -diff(lx) * 1000
+E_i <- E_premium[1] * 0.06
+E_funds_b <- E_premium[1]
+E_funds_e <- E_premium[1] + E_i[1] - E_reclaims[1]
+E_survival_e <- lx[-1]
+for (i in 2:10) {
+  E_funds_b[i] <- E_funds_e[i - 1] + E_premium[i]
+  E_i[i] <- E_funds_b[i] * 0.06
+  E_funds_e[i] <- E_funds_b[i] + E_i[i] - E_reclaims[i]
 }
-reserve<-E_funds_e/E_survival_e
-flows<-data.frame(year,E_survival,E_premium,E_funds_b,E_i,E_reclaims,E_funds_e,reserve)
+reserve <- E_funds_e / E_survival_e
+flows <- data.frame(year, E_survival, E_premium, E_funds_b, E_i, E_reclaims, E_funds_e, reserve)
 kable(flows,
-  col.names = c("Año", "Sobrevientes al inicio", "Primas esperadas", 'Fondos esperados al inicio'
-  , 'Intereses esperados',"Reclamos esprados","Fondos esperados al final","Reserva"),
+  col.names = c(
+    "Año", "Sobrevientes al inicio", "Primas esperadas", "Fondos esperados al inicio",
+    "Intereses esperados", "Reclamos esprados", "Fondos esperados al final", "Reserva"
+  ),
   caption = "Flujos", format.args = list(big.mark = " ")
 ) %>%
-  kable_material()%>%scroll_box(width = "70%")
+  kable_material() %>%
+  scroll_box(width = "90%")
 ```
 
 # Ejercicio 2
@@ -94,31 +98,104 @@ asumiendo que la póliza sigue vigente. Para determinar la prima se deber consid
 cubrirán los gastos de adquisición y administración.
 
 ```{r}
+# Para este ejercicio podemos utilizar mucho de lo que
+# se implemento anteriormente respecto a la tabla de sobrevivencia
+# Se calcula la prima usando la formula empleando del principio de equivalencia
+nAx_2 <- Axn(life_table, x = 50, i = 0.05)
+nax_2 <- axn(life_table, x = 50, i = 0.05, payment = "advance")
 
+# Tasas
+net_rate <- nAx_2 / nax_2
+gross_rate <- net_rate / 0.875
+# Primas
+gross_premium <- 10000 * net_rate / 0.875
+net_premium <- 10000 * net_rate
+# Print
+print(paste("La tasa neta es", net_rate, sep = " "))
+print(paste("La tasa bruta sería", gross_rate, sep = " "))
+print(paste("La prima bruta sería", gross_premium, sep = " "))
+
+
+## El monto de la reserva bajo el concepto de prima bruta sería
+V_5 <- 10000 * Axn(life_table, x = 55, i = 0.05) - 0.875 * gross_premium * axn(life_table, x = 55, i = 0.05)
+print(paste("La reserva es", V_5, sep = " "))
 ```
 
 b. En un segundo escenario, se calcula la prima neta considerando un 4% de interés, aunque la Compañía espera
 generar un 5% como en el escenario 1, la diferencia percibidad será destinada a cubrir los gastos de adquisición y administración.
 ```{r}
+nAx_2_b <- Axn(life_table, x = 50, i = 0.04)
+nax_2_b <- axn(life_table, x = 50, i = 0.04)
 
+# Prima de riesgo
+net_rate_b <- nAx_2_b / nax_2_b
+net_premium_b <- 10000 * net_rate_b
+print(paste("La tasa neta es", net_rate_b, sep = " "))
+print(paste("La prima neta sería", net_premium_b, sep = " "))
+
+
+## El monto de la reserva
+V_5_b <- 10000 * Axn(life_table, x = 55, i = 0.04) - net_premium_b * axn(life_table, x = 55, i = 0.04)
+print(paste("La reserva es", V_5_b, sep = " "))
 ```
 
 c. Con base en el inciso a. construir una tabla de flujos considerando que $$l_{50}$$ individuos toman el seguro con las mismas condiciones,
 así mismo calcule la reserva al final de cada periodo como la razón de flujo final entre los sobrevivients y aplicando la fórmula teórica.
-
+```{r}
+# Empleamos lo utilizado en el ejercicio 1 y la parte a del ejercicio 2
+benefit <- 10000
+lx_2 <- tabla$lx[51:length(tabla$lx)]
+E_survival_2 <- lx_2
+E_premium_net_2 <- benefit * E_survival_2 * net_rate
+E_premium_gross_2 <- E_premium_net_2 / 0.875
+E_spends_2 <- E_premium_gross_2 - E_premium_net_2
+E_reclaims_2 <- c(-diff(lx_2) * benefit, benefit * E_survival_2[length(E_survival_2)])
+E_i_2 <- E_premium_net_2[1] * 0.05
+E_funds_b_2 <- E_premium_net_2[1]
+E_funds_e_2 <- E_premium_net_2[1] + E_i_2[1] - E_reclaims_2[1]
+E_survival_e_2 <- c(lx_2[-1], 0)
+age <- 50:110
+for (i in 2:61) {
+  E_funds_b_2[i] <- E_funds_e_2[i - 1] + E_premium_net_2[i]
+  E_i_2[i] <- E_funds_b_2[i] * 0.05
+  E_funds_e_2[i] <- max(E_funds_b_2[i] + E_i_2[i] - E_reclaims_2[i], 0)
+}
+# Se calcula reserva como division entre los fondos y los sobrevivientes
+reserve_2 <- E_funds_e_2 / E_survival_e_2
+reserve_2[length(reserve_2)] <- 0
+# Se calcula la reserva teorica
+t_reserve_2 <- benefit * Axn(life_table, x = age + 1, i = 0.05) - net_premium * axn(life_table, x = age + 1, i = 0.05)
+flows_2 <- data.frame(E_survival_2, E_premium_gross_2, E_premium_net_2, E_spends_2, E_funds_b_2, E_i_2, E_reclaims_2, E_funds_e_2, E_survival_e_2, reserve_2, t_reserve_2)
+kable(flows_2,
+  caption = "Flujos", format.args = list(big.mark = " ")
+) %>%
+  kable_material() %>%
+  scroll_box(width = "90%", height = "50%")
+```
 ### Preguntas
 
 1. ¿Porqué el valor de la póliza (reserva) al final de la edad 110 es de 9 316.83 si el monto
 que se espera pagar en siniestros durante el siguiente año son 1 100?
 2. Al graficar el fondo acumulado al final del año se presenta en forma de "campana", ¿esto a qué se debe?.
-
+```{r}
+ggplot(flows_2, aes(x = c(age - 50), y = E_funds_e_2)) +
+  geom_line() +
+  theme_minimal() +
+  scale_color_jcolors_contin(palette = "pal4")
+```
 
 d. Considerando el primer escenario (parte a.) y una única vida, se debe generar un vector que muestra la pérdida esperada para la compañía de seguros en función
 del año en que ocurre la pérdida. 
 
 ```{r}
+v <- 1 / (1.05)
+v_acum <- v^(0:60)
+n <- length(v_acum)
+L <- 10000 * v_acum - net_premium * cumsum(v_acum)
 
-
+ggplot(, aes(x = 0:60, y = L)) +
+  geom_line() +
+  theme_minimal()
 ```
 
 ### Preguntas 

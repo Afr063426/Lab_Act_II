@@ -3233,59 +3233,62 @@ div.tocify {
 </div>
 
 
-<div id="ejercicio-1" class="section level2">
-<h2>Ejercicio 1</h2>
+<div id="ejercicio-1" class="section level1">
+<h1>Ejercicio 1</h1>
 <p>Considere un seguro de vida temporal a 10 años que paga un beneficio
 de 1.000, sobre una población <span class="math display">\[l_{50}\]</span> a la edad de 50 años. Se utiliza
 la tabla ilustrativa del Bowers con una tasa de interés del 6%.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Se solicita calcular la prima de riesgos</li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Se estiman las probabilidades de sobrevivencia al a\~no siguiente</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>px<span class="ot">&lt;-</span>tabla<span class="sc">$</span>lx[<span class="sc">-</span><span class="dv">1</span>]<span class="sc">/</span>tabla<span class="sc">$</span>lx[<span class="sc">-</span><span class="fu">length</span>(tabla<span class="sc">$</span>lx)]</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>px[<span class="fu">length</span>(px)<span class="sc">+</span><span class="dv">1</span>]<span class="ot">&lt;-</span><span class="dv">0</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Se genera una tabla de sobrevivencia a partir de las probabilidades calculadas</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>life_table<span class="ot">&lt;-</span><span class="fu">probs2lifetable</span>(px,<span class="at">type =</span> <span class="st">&#39;px&#39;</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>benefit<span class="ot">&lt;-</span><span class="dv">1000</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Se estiman las probabilidades de sobrevivencia al a\~no siguiente</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>px <span class="ot">&lt;-</span> tabla<span class="sc">$</span>lx[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">/</span> tabla<span class="sc">$</span>lx[<span class="sc">-</span><span class="fu">length</span>(tabla<span class="sc">$</span>lx)]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>px[<span class="fu">length</span>(px) <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Se genera una tabla de sobrevivencia a partir de las probabilidades calculadas</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>life_table <span class="ot">&lt;-</span> <span class="fu">probs2lifetable</span>(px, <span class="at">type =</span> <span class="st">&quot;px&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>benefit <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Se calcula la prima usando la formula empleando del principio de equivalencia</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>nAx<span class="ot">&lt;-</span><span class="fu">Axn</span>(life_table,<span class="at">x=</span><span class="dv">50</span>,<span class="at">n=</span><span class="dv">10</span>,<span class="at">i=</span><span class="fl">0.06</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>nax<span class="ot">&lt;-</span><span class="fu">axn</span>(life_table,<span class="at">x=</span><span class="dv">50</span>,<span class="at">n=</span><span class="dv">10</span>,<span class="at">i=</span><span class="fl">0.06</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Se calcula la prima usando la formula empleando del principio de equivalencia</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>nAx <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">50</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">i =</span> <span class="fl">0.06</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>nax <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">50</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">i =</span> <span class="fl">0.06</span>)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Prima de riesgo</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>premium<span class="ot">&lt;-</span>benefit<span class="sc">*</span>nAx<span class="sc">/</span>nax</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Prima de riesgo</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>premium <span class="ot">&lt;-</span> benefit <span class="sc">*</span> nAx <span class="sc">/</span> nax</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(premium)</span></code></pre></div>
 <pre><code>## [1] 7.987234</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Se debe conformar una tabla con los flujos y los valores de reserva
 de la reserva en cada año.</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Se genera un tabla para los flujos</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Se calculan los valoresq que pueden ser estiamdos de forma vectorial</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Sobreviviente de 50 años a 60 años</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>lx<span class="ot">&lt;-</span>tabla<span class="sc">$</span>lx[<span class="dv">51</span><span class="sc">:</span><span class="dv">61</span>]</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>year<span class="ot">&lt;-</span><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>E_survival<span class="ot">&lt;-</span>lx[<span class="sc">-</span><span class="fu">length</span>(lx)]</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>E_premium<span class="ot">&lt;-</span>E_survival<span class="sc">*</span>premium</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>E_reclaims<span class="ot">&lt;-</span><span class="sc">-</span><span class="fu">diff</span>(lx)<span class="sc">*</span><span class="dv">1000</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>E_i<span class="ot">&lt;-</span>E_premium[<span class="dv">1</span>]<span class="sc">*</span><span class="fl">0.06</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>E_funds_b<span class="ot">&lt;-</span>E_premium[<span class="dv">1</span>]</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>E_funds_e<span class="ot">&lt;-</span>E_premium[<span class="dv">1</span>]<span class="sc">+</span>E_i[<span class="dv">1</span>]<span class="sc">-</span>E_reclaims[<span class="dv">1</span>]</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>E_survival_e<span class="ot">&lt;-</span>lx[<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>){</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  E_funds_b[i]<span class="ot">&lt;-</span>E_funds_e[i<span class="dv">-1</span>]<span class="sc">+</span>E_premium[i]</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  E_i[i]<span class="ot">&lt;-</span>E_funds_b[i]<span class="sc">*</span><span class="fl">0.06</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  E_funds_e[i]<span class="ot">&lt;-</span>E_funds_b[i]<span class="sc">+</span>E_i[i]<span class="sc">-</span>E_reclaims[i]</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Se genera un tabla para los flujos</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Se calculan los valoresq que pueden ser estiamdos de forma vectorial</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sobreviviente de 50 años a 60 años</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>lx <span class="ot">&lt;-</span> tabla<span class="sc">$</span>lx[<span class="dv">51</span><span class="sc">:</span><span class="dv">61</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>E_survival <span class="ot">&lt;-</span> lx[<span class="sc">-</span><span class="fu">length</span>(lx)]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>E_premium <span class="ot">&lt;-</span> E_survival <span class="sc">*</span> premium</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>E_reclaims <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">diff</span>(lx) <span class="sc">*</span> <span class="dv">1000</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>E_i <span class="ot">&lt;-</span> E_premium[<span class="dv">1</span>] <span class="sc">*</span> <span class="fl">0.06</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>E_funds_b <span class="ot">&lt;-</span> E_premium[<span class="dv">1</span>]</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>E_funds_e <span class="ot">&lt;-</span> E_premium[<span class="dv">1</span>] <span class="sc">+</span> E_i[<span class="dv">1</span>] <span class="sc">-</span> E_reclaims[<span class="dv">1</span>]</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>E_survival_e <span class="ot">&lt;-</span> lx[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  E_funds_b[i] <span class="ot">&lt;-</span> E_funds_e[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> E_premium[i]</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  E_i[i] <span class="ot">&lt;-</span> E_funds_b[i] <span class="sc">*</span> <span class="fl">0.06</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  E_funds_e[i] <span class="ot">&lt;-</span> E_funds_b[i] <span class="sc">+</span> E_i[i] <span class="sc">-</span> E_reclaims[i]</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>reserve<span class="ot">&lt;-</span>E_funds_e<span class="sc">/</span>E_survival_e</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>flows<span class="ot">&lt;-</span><span class="fu">data.frame</span>(year,E_survival,E_premium,E_funds_b,E_i,E_reclaims,E_funds_e,reserve)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>reserve <span class="ot">&lt;-</span> E_funds_e <span class="sc">/</span> E_survival_e</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>flows <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(year, E_survival, E_premium, E_funds_b, E_i, E_reclaims, E_funds_e, reserve)</span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(flows,</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Año&quot;</span>, <span class="st">&quot;Sobrevientes al inicio&quot;</span>, <span class="st">&quot;Primas esperadas&quot;</span>, <span class="st">&#39;Fondos esperados al inicio&#39;</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  , <span class="st">&#39;Intereses esperados&#39;</span>,<span class="st">&quot;Reclamos esprados&quot;</span>,<span class="st">&quot;Fondos esperados al final&quot;</span>,<span class="st">&quot;Reserva&quot;</span>),</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">big.mark =</span> <span class="st">&quot; &quot;</span>)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_material</span>()<span class="sc">%&gt;%</span><span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">&quot;70%&quot;</span>)</span></code></pre></div>
-<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:70%; ">
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Año&quot;</span>, <span class="st">&quot;Sobrevientes al inicio&quot;</span>, <span class="st">&quot;Primas esperadas&quot;</span>, <span class="st">&quot;Fondos esperados al inicio&quot;</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Intereses esperados&quot;</span>, <span class="st">&quot;Reclamos esprados&quot;</span>, <span class="st">&quot;Fondos esperados al final&quot;</span>, <span class="st">&quot;Reserva&quot;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">big.mark =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">&quot;90%&quot;</span>)</span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:90%; ">
 <table class=" lightable-material" style="font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
 <caption>
 Flujos
@@ -3590,21 +3593,2272 @@ suma asegurada es de 10.000 y paga al final de año de muerte. Para este
 ejercicio se considera la tabla del Bowers que se encuentra en la
 plataforma de virtual y una tasa de interés del 5%.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Calcule el valor de la póliza (reserva), bajo el concepto de
-prima bruta, 5 años después de la emisión de la póliza, asumiendo que la
+<li>Calcule el valor de la póliza (reserva), bajo el concepto de prima
+bruta, 5 años después de la emisión de la póliza, asumiendo que la
 póliza sigue vigente. Para determinar la prima se deber considerar que
 un 12% de la prima a pagar cubrirán los gastos de adquisición y
-administración.</p></li>
-<li><p>En un segundo escenario, se calcula la prima neta considerando un
-4% de interés, aunque la Compañía espera generar un 5% como en el
-escenario 1, la diferencia percibidad será destinada a cubrir los gastos
-de adquisición y administración.</p></li>
-<li><p>Con base en el inciso a. construir una tabla de flujos
-considerando que <span class="math display">\[l_{50}\]</span> individuos
-toman el seguro con las mismas condiciones, así mismo calcule la reserva
-al final de cada periodo como la razón de flujo final entre los
-sobrevivients y aplicando la fórmula teórica.</p></li>
+administración.</li>
 </ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para este ejercicio podemos utilizar mucho de lo que</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># se implemento anteriormente respecto a la tabla de sobrevivencia</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Se calcula la prima usando la formula empleando del principio de equivalencia</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>nAx_2 <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">50</span>, <span class="at">i =</span> <span class="fl">0.05</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>nax_2 <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">50</span>, <span class="at">i =</span> <span class="fl">0.05</span>, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Tasas</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>net_rate <span class="ot">&lt;-</span> nAx_2 <span class="sc">/</span> nax_2</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>gross_rate <span class="ot">&lt;-</span> net_rate <span class="sc">/</span> <span class="fl">0.875</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Primas</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>gross_premium <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> net_rate <span class="sc">/</span> <span class="fl">0.875</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>net_premium <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> net_rate</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La tasa neta es&quot;</span>, net_rate, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;La tasa neta es 0.0206977281284667&quot;</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La tasa bruta sería&quot;</span>, gross_rate, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;La tasa bruta sería 0.0236545464325334&quot;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La prima bruta sería&quot;</span>, gross_premium, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;La prima bruta sería 236.545464325334&quot;</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## El monto de la reserva bajo el concepto de prima bruta sería</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>V_5 <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.05</span>) <span class="sc">-</span> <span class="fl">0.875</span> <span class="sc">*</span> gross_premium <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.05</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La reserva es&quot;</span>, V_5, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;La reserva es 835.219130235627&quot;</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>En un segundo escenario, se calcula la prima neta considerando un 4%
+de interés, aunque la Compañía espera generar un 5% como en el escenario
+1, la diferencia percibidad será destinada a cubrir los gastos de
+adquisición y administración.</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nAx_2_b <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">50</span>, <span class="at">i =</span> <span class="fl">0.04</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>nax_2_b <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">50</span>, <span class="at">i =</span> <span class="fl">0.04</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prima de riesgo</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>net_rate_b <span class="ot">&lt;-</span> nAx_2_b <span class="sc">/</span> nax_2_b</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>net_premium_b <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> net_rate_b</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La tasa neta es&quot;</span>, net_rate_b, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;La tasa neta es 0.0229461383469807&quot;</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La prima neta sería&quot;</span>, net_premium_b, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;La prima neta sería 229.461383469807&quot;</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## El monto de la reserva</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>V_5_b <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.04</span>) <span class="sc">-</span> net_premium_b <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.04</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La reserva es&quot;</span>, V_5_b, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
+<pre><code>## [1] &quot;La reserva es 936.097053431185&quot;</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Con base en el inciso a. construir una tabla de flujos considerando
+que <span class="math display">\[l_{50}\]</span> individuos toman el
+seguro con las mismas condiciones, así mismo calcule la reserva al final
+de cada periodo como la razón de flujo final entre los sobrevivients y
+aplicando la fórmula teórica.</li>
+</ol>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Empleamos lo utilizado en el ejercicio 1 y la parte a del ejercicio 2</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>benefit <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>lx_2 <span class="ot">&lt;-</span> tabla<span class="sc">$</span>lx[<span class="dv">51</span><span class="sc">:</span><span class="fu">length</span>(tabla<span class="sc">$</span>lx)]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>E_survival_2 <span class="ot">&lt;-</span> lx_2</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>E_premium_net_2 <span class="ot">&lt;-</span> benefit <span class="sc">*</span> E_survival_2 <span class="sc">*</span> net_rate</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>E_premium_gross_2 <span class="ot">&lt;-</span> E_premium_net_2 <span class="sc">/</span> <span class="fl">0.875</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>E_spends_2 <span class="ot">&lt;-</span> E_premium_gross_2 <span class="sc">-</span> E_premium_net_2</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>E_reclaims_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fu">diff</span>(lx_2) <span class="sc">*</span> benefit, benefit <span class="sc">*</span> E_survival_2[<span class="fu">length</span>(E_survival_2)])</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>E_i_2 <span class="ot">&lt;-</span> E_premium_net_2[<span class="dv">1</span>] <span class="sc">*</span> <span class="fl">0.05</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>E_funds_b_2 <span class="ot">&lt;-</span> E_premium_net_2[<span class="dv">1</span>]</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>E_funds_e_2 <span class="ot">&lt;-</span> E_premium_net_2[<span class="dv">1</span>] <span class="sc">+</span> E_i_2[<span class="dv">1</span>] <span class="sc">-</span> E_reclaims_2[<span class="dv">1</span>]</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>E_survival_e_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(lx_2[<span class="sc">-</span><span class="dv">1</span>], <span class="dv">0</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="dv">50</span><span class="sc">:</span><span class="dv">110</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">61</span>) {</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  E_funds_b_2[i] <span class="ot">&lt;-</span> E_funds_e_2[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> E_premium_net_2[i]</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  E_i_2[i] <span class="ot">&lt;-</span> E_funds_b_2[i] <span class="sc">*</span> <span class="fl">0.05</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  E_funds_e_2[i] <span class="ot">&lt;-</span> <span class="fu">max</span>(E_funds_b_2[i] <span class="sc">+</span> E_i_2[i] <span class="sc">-</span> E_reclaims_2[i], <span class="dv">0</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Se calcula reserva como division entre los fondos y los sobrevivientes</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>reserve_2 <span class="ot">&lt;-</span> E_funds_e_2 <span class="sc">/</span> E_survival_e_2</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>reserve_2[<span class="fu">length</span>(reserve_2)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Se calcula la reserva teorica</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>t_reserve_2 <span class="ot">&lt;-</span> benefit <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> age <span class="sc">+</span> <span class="dv">1</span>, <span class="at">i =</span> <span class="fl">0.05</span>) <span class="sc">-</span> net_premium <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> age <span class="sc">+</span> <span class="dv">1</span>, <span class="at">i =</span> <span class="fl">0.05</span>)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>flows_2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(E_survival_2, E_premium_gross_2, E_premium_net_2, E_spends_2, E_funds_b_2, E_i_2, E_reclaims_2, E_funds_e_2, E_survival_e_2, reserve_2, t_reserve_2)</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(flows_2,</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">big.mark =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">&quot;90%&quot;</span>)</span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:90%; ">
+<table class=" lightable-material" style="font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<caption>
+Flujos
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+E_survival_2
+</th>
+<th style="text-align:right;">
+E_premium_gross_2
+</th>
+<th style="text-align:right;">
+E_premium_net_2
+</th>
+<th style="text-align:right;">
+E_spends_2
+</th>
+<th style="text-align:right;">
+E_funds_b_2
+</th>
+<th style="text-align:right;">
+E_i_2
+</th>
+<th style="text-align:right;">
+E_reclaims_2
+</th>
+<th style="text-align:right;">
+E_funds_e_2
+</th>
+<th style="text-align:right;">
+E_survival_e_2
+</th>
+<th style="text-align:right;">
+reserve_2
+</th>
+<th style="text-align:right;">
+t_reserve_2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+89 509.00
+</td>
+<td style="text-align:right;">
+2.117295e+07
+</td>
+<td style="text-align:right;">
+1.852633e+07
+</td>
+<td style="text-align:right;">
+2.646618e+06
+</td>
+<td style="text-align:right;">
+1.852633e+07
+</td>
+<td style="text-align:right;">
+9.263165e+05
+</td>
+<td style="text-align:right;">
+5 298 900
+</td>
+<td style="text-align:right;">
+1.415375e+07
+</td>
+<td style="text-align:right;">
+88 979.11
+</td>
+<td style="text-align:right;">
+159.0682
+</td>
+<td style="text-align:right;">
+159.0682
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+88 979.11
+</td>
+<td style="text-align:right;">
+2.104760e+07
+</td>
+<td style="text-align:right;">
+1.841665e+07
+</td>
+<td style="text-align:right;">
+2.630951e+06
+</td>
+<td style="text-align:right;">
+3.257040e+07
+</td>
+<td style="text-align:right;">
+1.628520e+06
+</td>
+<td style="text-align:right;">
+5 714 300
+</td>
+<td style="text-align:right;">
+2.848462e+07
+</td>
+<td style="text-align:right;">
+88 407.68
+</td>
+<td style="text-align:right;">
+322.1962
+</td>
+<td style="text-align:right;">
+322.1962
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+88 407.68
+</td>
+<td style="text-align:right;">
+2.091244e+07
+</td>
+<td style="text-align:right;">
+1.829838e+07
+</td>
+<td style="text-align:right;">
+2.614054e+06
+</td>
+<td style="text-align:right;">
+4.678300e+07
+</td>
+<td style="text-align:right;">
+2.339150e+06
+</td>
+<td style="text-align:right;">
+6 164 200
+</td>
+<td style="text-align:right;">
+4.295795e+07
+</td>
+<td style="text-align:right;">
+87 791.26
+</td>
+<td style="text-align:right;">
+489.3192
+</td>
+<td style="text-align:right;">
+489.3192
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+87 791.26
+</td>
+<td style="text-align:right;">
+2.076662e+07
+</td>
+<td style="text-align:right;">
+1.817080e+07
+</td>
+<td style="text-align:right;">
+2.595828e+06
+</td>
+<td style="text-align:right;">
+6.112875e+07
+</td>
+<td style="text-align:right;">
+3.056437e+06
+</td>
+<td style="text-align:right;">
+6 650 600
+</td>
+<td style="text-align:right;">
+5.753459e+07
+</td>
+<td style="text-align:right;">
+87 126.20
+</td>
+<td style="text-align:right;">
+660.3592
+</td>
+<td style="text-align:right;">
+660.3592
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+87 126.20
+</td>
+<td style="text-align:right;">
+2.060931e+07
+</td>
+<td style="text-align:right;">
+1.803314e+07
+</td>
+<td style="text-align:right;">
+2.576163e+06
+</td>
+<td style="text-align:right;">
+7.556773e+07
+</td>
+<td style="text-align:right;">
+3.778386e+06
+</td>
+<td style="text-align:right;">
+7 176 000
+</td>
+<td style="text-align:right;">
+7.217012e+07
+</td>
+<td style="text-align:right;">
+86 408.60
+</td>
+<td style="text-align:right;">
+835.2191
+</td>
+<td style="text-align:right;">
+835.2191
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+86 408.60
+</td>
+<td style="text-align:right;">
+2.043956e+07
+</td>
+<td style="text-align:right;">
+1.788462e+07
+</td>
+<td style="text-align:right;">
+2.554945e+06
+</td>
+<td style="text-align:right;">
+9.005473e+07
+</td>
+<td style="text-align:right;">
+4.502737e+06
+</td>
+<td style="text-align:right;">
+7 742 700
+</td>
+<td style="text-align:right;">
+8.681477e+07
+</td>
+<td style="text-align:right;">
+85 634.33
+</td>
+<td style="text-align:right;">
+1 013.7847
+</td>
+<td style="text-align:right;">
+1 013.7847
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+85 634.33
+</td>
+<td style="text-align:right;">
+2.025641e+07
+</td>
+<td style="text-align:right;">
+1.772436e+07
+</td>
+<td style="text-align:right;">
+2.532052e+06
+</td>
+<td style="text-align:right;">
+1.045391e+08
+</td>
+<td style="text-align:right;">
+5.226957e+06
+</td>
+<td style="text-align:right;">
+8 352 600
+</td>
+<td style="text-align:right;">
+1.014135e+08
+</td>
+<td style="text-align:right;">
+84 799.07
+</td>
+<td style="text-align:right;">
+1 195.9269
+</td>
+<td style="text-align:right;">
+1 195.9269
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+84 799.07
+</td>
+<td style="text-align:right;">
+2.005884e+07
+</td>
+<td style="text-align:right;">
+1.755148e+07
+</td>
+<td style="text-align:right;">
+2.507354e+06
+</td>
+<td style="text-align:right;">
+1.189650e+08
+</td>
+<td style="text-align:right;">
+5.948248e+06
+</td>
+<td style="text-align:right;">
+9 008 200
+</td>
+<td style="text-align:right;">
+1.159050e+08
+</td>
+<td style="text-align:right;">
+83 898.25
+</td>
+<td style="text-align:right;">
+1 381.4950
+</td>
+<td style="text-align:right;">
+1 381.4950
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+83 898.25
+</td>
+<td style="text-align:right;">
+1.984575e+07
+</td>
+<td style="text-align:right;">
+1.736503e+07
+</td>
+<td style="text-align:right;">
+2.480719e+06
+</td>
+<td style="text-align:right;">
+1.332700e+08
+</td>
+<td style="text-align:right;">
+6.663502e+06
+</td>
+<td style="text-align:right;">
+9 711 400
+</td>
+<td style="text-align:right;">
+1.302222e+08
+</td>
+<td style="text-align:right;">
+82 927.11
+</td>
+<td style="text-align:right;">
+1 570.3206
+</td>
+<td style="text-align:right;">
+1 570.3206
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+82 927.11
+</td>
+<td style="text-align:right;">
+1.961603e+07
+</td>
+<td style="text-align:right;">
+1.716403e+07
+</td>
+<td style="text-align:right;">
+2.452004e+06
+</td>
+<td style="text-align:right;">
+1.473862e+08
+</td>
+<td style="text-align:right;">
+7.369309e+06
+</td>
+<td style="text-align:right;">
+10 463 800
+</td>
+<td style="text-align:right;">
+1.442917e+08
+</td>
+<td style="text-align:right;">
+81 880.73
+</td>
+<td style="text-align:right;">
+1 762.2179
+</td>
+<td style="text-align:right;">
+1 762.2179
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+81 880.73
+</td>
+<td style="text-align:right;">
+1.936852e+07
+</td>
+<td style="text-align:right;">
+1.694745e+07
+</td>
+<td style="text-align:right;">
+2.421064e+06
+</td>
+<td style="text-align:right;">
+1.612391e+08
+</td>
+<td style="text-align:right;">
+8.061957e+06
+</td>
+<td style="text-align:right;">
+11 267 200
+</td>
+<td style="text-align:right;">
+1.580339e+08
+</td>
+<td style="text-align:right;">
+80 754.01
+</td>
+<td style="text-align:right;">
+1 956.9789
+</td>
+<td style="text-align:right;">
+1 956.9789
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+80 754.01
+</td>
+<td style="text-align:right;">
+1.910199e+07
+</td>
+<td style="text-align:right;">
+1.671425e+07
+</td>
+<td style="text-align:right;">
+2.387749e+06
+</td>
+<td style="text-align:right;">
+1.747481e+08
+</td>
+<td style="text-align:right;">
+8.737407e+06
+</td>
+<td style="text-align:right;">
+12 122 300
+</td>
+<td style="text-align:right;">
+1.713632e+08
+</td>
+<td style="text-align:right;">
+79 541.78
+</td>
+<td style="text-align:right;">
+2 154.3803
+</td>
+<td style="text-align:right;">
+2 154.3803
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+79 541.78
+</td>
+<td style="text-align:right;">
+1.881525e+07
+</td>
+<td style="text-align:right;">
+1.646334e+07
+</td>
+<td style="text-align:right;">
+2.351906e+06
+</td>
+<td style="text-align:right;">
+1.878266e+08
+</td>
+<td style="text-align:right;">
+9.391329e+06
+</td>
+<td style="text-align:right;">
+13 030 000
+</td>
+<td style="text-align:right;">
+1.841879e+08
+</td>
+<td style="text-align:right;">
+78 238.78
+</td>
+<td style="text-align:right;">
+2 354.1768
+</td>
+<td style="text-align:right;">
+2 354.1768
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+78 238.78
+</td>
+<td style="text-align:right;">
+1.850703e+07
+</td>
+<td style="text-align:right;">
+1.619365e+07
+</td>
+<td style="text-align:right;">
+2.313379e+06
+</td>
+<td style="text-align:right;">
+2.003816e+08
+</td>
+<td style="text-align:right;">
+1.001908e+07
+</td>
+<td style="text-align:right;">
+13 990 000
+</td>
+<td style="text-align:right;">
+1.964106e+08
+</td>
+<td style="text-align:right;">
+76 839.78
+</td>
+<td style="text-align:right;">
+2 556.1063
+</td>
+<td style="text-align:right;">
+2 556.1063
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+76 839.78
+</td>
+<td style="text-align:right;">
+1.817610e+07
+</td>
+<td style="text-align:right;">
+1.590409e+07
+</td>
+<td style="text-align:right;">
+2.272013e+06
+</td>
+<td style="text-align:right;">
+2.123147e+08
+</td>
+<td style="text-align:right;">
+1.061574e+07
+</td>
+<td style="text-align:right;">
+15 001 500
+</td>
+<td style="text-align:right;">
+2.079290e+08
+</td>
+<td style="text-align:right;">
+75 339.63
+</td>
+<td style="text-align:right;">
+2 759.8884
+</td>
+<td style="text-align:right;">
+2 759.8884
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+75 339.63
+</td>
+<td style="text-align:right;">
+1.782125e+07
+</td>
+<td style="text-align:right;">
+1.559359e+07
+</td>
+<td style="text-align:right;">
+2.227656e+06
+</td>
+<td style="text-align:right;">
+2.235226e+08
+</td>
+<td style="text-align:right;">
+1.117613e+07
+</td>
+<td style="text-align:right;">
+16 062 600
+</td>
+<td style="text-align:right;">
+2.186361e+08
+</td>
+<td style="text-align:right;">
+73 733.37
+</td>
+<td style="text-align:right;">
+2 965.2258
+</td>
+<td style="text-align:right;">
+2 965.2258
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+73 733.37
+</td>
+<td style="text-align:right;">
+1.744129e+07
+</td>
+<td style="text-align:right;">
+1.526113e+07
+</td>
+<td style="text-align:right;">
+2.180162e+06
+</td>
+<td style="text-align:right;">
+2.338972e+08
+</td>
+<td style="text-align:right;">
+1.169486e+07
+</td>
+<td style="text-align:right;">
+17 170 400
+</td>
+<td style="text-align:right;">
+2.284217e+08
+</td>
+<td style="text-align:right;">
+72 016.33
+</td>
+<td style="text-align:right;">
+3 171.8040
+</td>
+<td style="text-align:right;">
+3 171.8040
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+72 016.33
+</td>
+<td style="text-align:right;">
+1.703514e+07
+</td>
+<td style="text-align:right;">
+1.490574e+07
+</td>
+<td style="text-align:right;">
+2.129392e+06
+</td>
+<td style="text-align:right;">
+2.433274e+08
+</td>
+<td style="text-align:right;">
+1.216637e+07
+</td>
+<td style="text-align:right;">
+18 320 200
+</td>
+<td style="text-align:right;">
+2.371736e+08
+</td>
+<td style="text-align:right;">
+70 184.31
+</td>
+<td style="text-align:right;">
+3 379.2966
+</td>
+<td style="text-align:right;">
+3 379.2966
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+70 184.31
+</td>
+<td style="text-align:right;">
+1.660178e+07
+</td>
+<td style="text-align:right;">
+1.452656e+07
+</td>
+<td style="text-align:right;">
+2.075223e+06
+</td>
+<td style="text-align:right;">
+2.517002e+08
+</td>
+<td style="text-align:right;">
+1.258501e+07
+</td>
+<td style="text-align:right;">
+19 506 500
+</td>
+<td style="text-align:right;">
+2.447787e+08
+</td>
+<td style="text-align:right;">
+68 233.66
+</td>
+<td style="text-align:right;">
+3 587.3595
+</td>
+<td style="text-align:right;">
+3 587.3595
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+68 233.66
+</td>
+<td style="text-align:right;">
+1.614036e+07
+</td>
+<td style="text-align:right;">
+1.412282e+07
+</td>
+<td style="text-align:right;">
+2.017545e+06
+</td>
+<td style="text-align:right;">
+2.589015e+08
+</td>
+<td style="text-align:right;">
+1.294507e+07
+</td>
+<td style="text-align:right;">
+20 721 200
+</td>
+<td style="text-align:right;">
+2.511254e+08
+</td>
+<td style="text-align:right;">
+66 161.54
+</td>
+<td style="text-align:right;">
+3 795.6396
+</td>
+<td style="text-align:right;">
+3 795.6396
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+66 161.54
+</td>
+<td style="text-align:right;">
+1.565021e+07
+</td>
+<td style="text-align:right;">
+1.369394e+07
+</td>
+<td style="text-align:right;">
+1.956277e+06
+</td>
+<td style="text-align:right;">
+2.648193e+08
+</td>
+<td style="text-align:right;">
+1.324096e+07
+</td>
+<td style="text-align:right;">
+21 954 600
+</td>
+<td style="text-align:right;">
+2.561057e+08
+</td>
+<td style="text-align:right;">
+63 966.08
+</td>
+<td style="text-align:right;">
+4 003.7729
+</td>
+<td style="text-align:right;">
+4 003.7729
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+63 966.08
+</td>
+<td style="text-align:right;">
+1.513089e+07
+</td>
+<td style="text-align:right;">
+1.323953e+07
+</td>
+<td style="text-align:right;">
+1.891361e+06
+</td>
+<td style="text-align:right;">
+2.693452e+08
+</td>
+<td style="text-align:right;">
+1.346726e+07
+</td>
+<td style="text-align:right;">
+23 194 600
+</td>
+<td style="text-align:right;">
+2.596178e+08
+</td>
+<td style="text-align:right;">
+61 646.62
+</td>
+<td style="text-align:right;">
+4 211.3881
+</td>
+<td style="text-align:right;">
+4 211.3881
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+61 646.62
+</td>
+<td style="text-align:right;">
+1.458223e+07
+</td>
+<td style="text-align:right;">
+1.275945e+07
+</td>
+<td style="text-align:right;">
+1.822779e+06
+</td>
+<td style="text-align:right;">
+2.723773e+08
+</td>
+<td style="text-align:right;">
+1.361886e+07
+</td>
+<td style="text-align:right;">
+24 426 900
+</td>
+<td style="text-align:right;">
+2.615693e+08
+</td>
+<td style="text-align:right;">
+59 203.93
+</td>
+<td style="text-align:right;">
+4 418.1063
+</td>
+<td style="text-align:right;">
+4 418.1063
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+59 203.93
+</td>
+<td style="text-align:right;">
+1.400442e+07
+</td>
+<td style="text-align:right;">
+1.225387e+07
+</td>
+<td style="text-align:right;">
+1.750553e+06
+</td>
+<td style="text-align:right;">
+2.738231e+08
+</td>
+<td style="text-align:right;">
+1.369116e+07
+</td>
+<td style="text-align:right;">
+25 634 200
+</td>
+<td style="text-align:right;">
+2.618801e+08
+</td>
+<td style="text-align:right;">
+56 640.51
+</td>
+<td style="text-align:right;">
+4 623.5474
+</td>
+<td style="text-align:right;">
+4 623.5474
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+56 640.51
+</td>
+<td style="text-align:right;">
+1.339806e+07
+</td>
+<td style="text-align:right;">
+1.172330e+07
+</td>
+<td style="text-align:right;">
+1.674757e+06
+</td>
+<td style="text-align:right;">
+2.736034e+08
+</td>
+<td style="text-align:right;">
+1.368017e+07
+</td>
+<td style="text-align:right;">
+26 797 100
+</td>
+<td style="text-align:right;">
+2.604865e+08
+</td>
+<td style="text-align:right;">
+53 960.80
+</td>
+<td style="text-align:right;">
+4 827.3274
+</td>
+<td style="text-align:right;">
+4 827.3274
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+53 960.80
+</td>
+<td style="text-align:right;">
+1.276418e+07
+</td>
+<td style="text-align:right;">
+1.116866e+07
+</td>
+<td style="text-align:right;">
+1.595523e+06
+</td>
+<td style="text-align:right;">
+2.716551e+08
+</td>
+<td style="text-align:right;">
+1.358276e+07
+</td>
+<td style="text-align:right;">
+27 892 900
+</td>
+<td style="text-align:right;">
+2.573450e+08
+</td>
+<td style="text-align:right;">
+51 171.51
+</td>
+<td style="text-align:right;">
+5 029.0673
+</td>
+<td style="text-align:right;">
+5 029.0673
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+51 171.51
+</td>
+<td style="text-align:right;">
+1.210439e+07
+</td>
+<td style="text-align:right;">
+1.059134e+07
+</td>
+<td style="text-align:right;">
+1.513049e+06
+</td>
+<td style="text-align:right;">
+2.679363e+08
+</td>
+<td style="text-align:right;">
+1.339682e+07
+</td>
+<td style="text-align:right;">
+28 887 000
+</td>
+<td style="text-align:right;">
+2.524461e+08
+</td>
+<td style="text-align:right;">
+48 282.81
+</td>
+<td style="text-align:right;">
+5 228.4886
+</td>
+<td style="text-align:right;">
+5 228.4886
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+48 282.81
+</td>
+<td style="text-align:right;">
+1.142108e+07
+</td>
+<td style="text-align:right;">
+9.993445e+06
+</td>
+<td style="text-align:right;">
+1.427635e+06
+</td>
+<td style="text-align:right;">
+2.624396e+08
+</td>
+<td style="text-align:right;">
+1.312198e+07
+</td>
+<td style="text-align:right;">
+29 792 100
+</td>
+<td style="text-align:right;">
+2.457694e+08
+</td>
+<td style="text-align:right;">
+45 303.60
+</td>
+<td style="text-align:right;">
+5 424.9429
+</td>
+<td style="text-align:right;">
+5 424.9429
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+45 303.60
+</td>
+<td style="text-align:right;">
+1.071636e+07
+</td>
+<td style="text-align:right;">
+9.376816e+06
+</td>
+<td style="text-align:right;">
+1.339545e+06
+</td>
+<td style="text-align:right;">
+2.551463e+08
+</td>
+<td style="text-align:right;">
+1.275731e+07
+</td>
+<td style="text-align:right;">
+30 519 800
+</td>
+<td style="text-align:right;">
+2.373838e+08
+</td>
+<td style="text-align:right;">
+42 251.62
+</td>
+<td style="text-align:right;">
+5 618.3354
+</td>
+<td style="text-align:right;">
+5 618.3354
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+42 251.62
+</td>
+<td style="text-align:right;">
+9.994429e+06
+</td>
+<td style="text-align:right;">
+8.745125e+06
+</td>
+<td style="text-align:right;">
+1.249304e+06
+</td>
+<td style="text-align:right;">
+2.461289e+08
+</td>
+<td style="text-align:right;">
+1.230644e+07
+</td>
+<td style="text-align:right;">
+31 079 800
+</td>
+<td style="text-align:right;">
+2.273555e+08
+</td>
+<td style="text-align:right;">
+39 143.64
+</td>
+<td style="text-align:right;">
+5 808.2371
+</td>
+<td style="text-align:right;">
+5 808.2371
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+39 143.64
+</td>
+<td style="text-align:right;">
+9.259250e+06
+</td>
+<td style="text-align:right;">
+8.101844e+06
+</td>
+<td style="text-align:right;">
+1.157406e+06
+</td>
+<td style="text-align:right;">
+2.354574e+08
+</td>
+<td style="text-align:right;">
+1.177287e+07
+</td>
+<td style="text-align:right;">
+31 432 700
+</td>
+<td style="text-align:right;">
+2.157976e+08
+</td>
+<td style="text-align:right;">
+36 000.37
+</td>
+<td style="text-align:right;">
+5 994.3150
+</td>
+<td style="text-align:right;">
+5 994.3150
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+36 000.37
+</td>
+<td style="text-align:right;">
+8.515724e+06
+</td>
+<td style="text-align:right;">
+7.451259e+06
+</td>
+<td style="text-align:right;">
+1.064466e+06
+</td>
+<td style="text-align:right;">
+2.232488e+08
+</td>
+<td style="text-align:right;">
+1.116244e+07
+</td>
+<td style="text-align:right;">
+31 549 600
+</td>
+<td style="text-align:right;">
+2.028617e+08
+</td>
+<td style="text-align:right;">
+32 845.41
+</td>
+<td style="text-align:right;">
+6 176.2559
+</td>
+<td style="text-align:right;">
+6 176.2559
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+32 845.41
+</td>
+<td style="text-align:right;">
+7.769433e+06
+</td>
+<td style="text-align:right;">
+6.798254e+06
+</td>
+<td style="text-align:right;">
+9.711791e+05
+</td>
+<td style="text-align:right;">
+2.096599e+08
+</td>
+<td style="text-align:right;">
+1.048300e+07
+</td>
+<td style="text-align:right;">
+31 404 600
+</td>
+<td style="text-align:right;">
+1.887383e+08
+</td>
+<td style="text-align:right;">
+29 704.95
+</td>
+<td style="text-align:right;">
+6 353.7661
+</td>
+<td style="text-align:right;">
+6 353.7661
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+29 704.95
+</td>
+<td style="text-align:right;">
+7.026571e+06
+</td>
+<td style="text-align:right;">
+6.148250e+06
+</td>
+<td style="text-align:right;">
+8.783214e+05
+</td>
+<td style="text-align:right;">
+1.948866e+08
+</td>
+<td style="text-align:right;">
+9.744328e+06
+</td>
+<td style="text-align:right;">
+30 976 100
+</td>
+<td style="text-align:right;">
+1.736548e+08
+</td>
+<td style="text-align:right;">
+26 607.34
+</td>
+<td style="text-align:right;">
+6 526.5744
+</td>
+<td style="text-align:right;">
+6 526.5744
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+26 607.34
+</td>
+<td style="text-align:right;">
+6.293846e+06
+</td>
+<td style="text-align:right;">
+5.507115e+06
+</td>
+<td style="text-align:right;">
+7.867307e+05
+</td>
+<td style="text-align:right;">
+1.791619e+08
+</td>
+<td style="text-align:right;">
+8.958095e+06
+</td>
+<td style="text-align:right;">
+30 248 900
+</td>
+<td style="text-align:right;">
+1.578711e+08
+</td>
+<td style="text-align:right;">
+23 582.45
+</td>
+<td style="text-align:right;">
+6 694.4314
+</td>
+<td style="text-align:right;">
+6 694.4314
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+23 582.45
+</td>
+<td style="text-align:right;">
+5.578322e+06
+</td>
+<td style="text-align:right;">
+4.881031e+06
+</td>
+<td style="text-align:right;">
+6.972902e+05
+</td>
+<td style="text-align:right;">
+1.627521e+08
+</td>
+<td style="text-align:right;">
+8.137606e+06
+</td>
+<td style="text-align:right;">
+29 215 500
+</td>
+<td style="text-align:right;">
+1.416742e+08
+</td>
+<td style="text-align:right;">
+20 660.90
+</td>
+<td style="text-align:right;">
+6 857.1181
+</td>
+<td style="text-align:right;">
+6 857.1181
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20 660.90
+</td>
+<td style="text-align:right;">
+4.887242e+06
+</td>
+<td style="text-align:right;">
+4.276337e+06
+</td>
+<td style="text-align:right;">
+6.109053e+05
+</td>
+<td style="text-align:right;">
+1.459506e+08
+</td>
+<td style="text-align:right;">
+7.297528e+06
+</td>
+<td style="text-align:right;">
+27 879 100
+</td>
+<td style="text-align:right;">
+1.253690e+08
+</td>
+<td style="text-align:right;">
+17 872.99
+</td>
+<td style="text-align:right;">
+7 014.4389
+</td>
+<td style="text-align:right;">
+7 014.4389
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17 872.99
+</td>
+<td style="text-align:right;">
+4.227775e+06
+</td>
+<td style="text-align:right;">
+3.699303e+06
+</td>
+<td style="text-align:right;">
+5.284718e+05
+</td>
+<td style="text-align:right;">
+1.290683e+08
+</td>
+<td style="text-align:right;">
+6.453415e+06
+</td>
+<td style="text-align:right;">
+26 254 100
+</td>
+<td style="text-align:right;">
+1.092676e+08
+</td>
+<td style="text-align:right;">
+15 247.58
+</td>
+<td style="text-align:right;">
+7 166.2266
+</td>
+<td style="text-align:right;">
+7 166.2266
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15 247.58
+</td>
+<td style="text-align:right;">
+3.606746e+06
+</td>
+<td style="text-align:right;">
+3.155903e+06
+</td>
+<td style="text-align:right;">
+4.508432e+05
+</td>
+<td style="text-align:right;">
+1.124235e+08
+</td>
+<td style="text-align:right;">
+5.621176e+06
+</td>
+<td style="text-align:right;">
+24 367 500
+</td>
+<td style="text-align:right;">
+9.367719e+07
+</td>
+<td style="text-align:right;">
+12 810.83
+</td>
+<td style="text-align:right;">
+7 312.3437
+</td>
+<td style="text-align:right;">
+7 312.3437
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12 810.83
+</td>
+<td style="text-align:right;">
+3.030344e+06
+</td>
+<td style="text-align:right;">
+2.651551e+06
+</td>
+<td style="text-align:right;">
+3.787930e+05
+</td>
+<td style="text-align:right;">
+9.632874e+07
+</td>
+<td style="text-align:right;">
+4.816437e+06
+</td>
+<td style="text-align:right;">
+22 259 200
+</td>
+<td style="text-align:right;">
+7.888598e+07
+</td>
+<td style="text-align:right;">
+10 584.91
+</td>
+<td style="text-align:right;">
+7 452.6831
+</td>
+<td style="text-align:right;">
+7 452.6831
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10 584.91
+</td>
+<td style="text-align:right;">
+2.503812e+06
+</td>
+<td style="text-align:right;">
+2.190836e+06
+</td>
+<td style="text-align:right;">
+3.129766e+05
+</td>
+<td style="text-align:right;">
+8.107682e+07
+</td>
+<td style="text-align:right;">
+4.053841e+06
+</td>
+<td style="text-align:right;">
+19 981 600
+</td>
+<td style="text-align:right;">
+6.514906e+07
+</td>
+<td style="text-align:right;">
+8 586.75
+</td>
+<td style="text-align:right;">
+7 587.1612
+</td>
+<td style="text-align:right;">
+7 587.1612
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8 586.75
+</td>
+<td style="text-align:right;">
+2.031157e+06
+</td>
+<td style="text-align:right;">
+1.777262e+06
+</td>
+<td style="text-align:right;">
+2.538946e+05
+</td>
+<td style="text-align:right;">
+6.692632e+07
+</td>
+<td style="text-align:right;">
+3.346316e+06
+</td>
+<td style="text-align:right;">
+17 596 800
+</td>
+<td style="text-align:right;">
+5.267583e+07
+</td>
+<td style="text-align:right;">
+6 827.07
+</td>
+<td style="text-align:right;">
+7 715.7308
+</td>
+<td style="text-align:right;">
+7 715.7308
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6 827.07
+</td>
+<td style="text-align:right;">
+1.614912e+06
+</td>
+<td style="text-align:right;">
+1.413048e+06
+</td>
+<td style="text-align:right;">
+2.018641e+05
+</td>
+<td style="text-align:right;">
+5.408888e+07
+</td>
+<td style="text-align:right;">
+2.704444e+06
+</td>
+<td style="text-align:right;">
+15 174 900
+</td>
+<td style="text-align:right;">
+4.161843e+07
+</td>
+<td style="text-align:right;">
+5 309.58
+</td>
+<td style="text-align:right;">
+7 838.3652
+</td>
+<td style="text-align:right;">
+7 838.3652
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5 309.58
+</td>
+<td style="text-align:right;">
+1.255957e+06
+</td>
+<td style="text-align:right;">
+1.098962e+06
+</td>
+<td style="text-align:right;">
+1.569946e+05
+</td>
+<td style="text-align:right;">
+4.271739e+07
+</td>
+<td style="text-align:right;">
+2.135869e+06
+</td>
+<td style="text-align:right;">
+12 788 600
+</td>
+<td style="text-align:right;">
+3.206466e+07
+</td>
+<td style="text-align:right;">
+4 030.72
+</td>
+<td style="text-align:right;">
+7 955.0698
+</td>
+<td style="text-align:right;">
+7 955.0698
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4 030.72
+</td>
+<td style="text-align:right;">
+9.534485e+05
+</td>
+<td style="text-align:right;">
+8.342675e+05
+</td>
+<td style="text-align:right;">
+1.191811e+05
+</td>
+<td style="text-align:right;">
+3.289893e+07
+</td>
+<td style="text-align:right;">
+1.644946e+06
+</td>
+<td style="text-align:right;">
+10 509 100
+</td>
+<td style="text-align:right;">
+2.403477e+07
+</td>
+<td style="text-align:right;">
+2 979.81
+</td>
+<td style="text-align:right;">
+8 065.8743
+</td>
+<td style="text-align:right;">
+8 065.8743
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2 979.81
+</td>
+<td style="text-align:right;">
+7.048605e+05
+</td>
+<td style="text-align:right;">
+6.167530e+05
+</td>
+<td style="text-align:right;">
+8.810757e+04
+</td>
+<td style="text-align:right;">
+2.465153e+07
+</td>
+<td style="text-align:right;">
+1.232576e+06
+</td>
+<td style="text-align:right;">
+8 400 400
+</td>
+<td style="text-align:right;">
+1.748370e+07
+</td>
+<td style="text-align:right;">
+2 139.77
+</td>
+<td style="text-align:right;">
+8 170.8324
+</td>
+<td style="text-align:right;">
+8 170.8324
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2 139.77
+</td>
+<td style="text-align:right;">
+5.061529e+05
+</td>
+<td style="text-align:right;">
+4.428838e+05
+</td>
+<td style="text-align:right;">
+6.326911e+04
+</td>
+<td style="text-align:right;">
+1.792659e+07
+</td>
+<td style="text-align:right;">
+8.963293e+05
+</td>
+<td style="text-align:right;">
+6 514 500
+</td>
+<td style="text-align:right;">
+1.230842e+07
+</td>
+<td style="text-align:right;">
+1 488.32
+</td>
+<td style="text-align:right;">
+8 270.0059
+</td>
+<td style="text-align:right;">
+8 270.0059
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1 488.32
+</td>
+<td style="text-align:right;">
+3.520553e+05
+</td>
+<td style="text-align:right;">
+3.080484e+05
+</td>
+<td style="text-align:right;">
+4.400692e+04
+</td>
+<td style="text-align:right;">
+1.261646e+07
+</td>
+<td style="text-align:right;">
+6.308232e+05
+</td>
+<td style="text-align:right;">
+4 886 700
+</td>
+<td style="text-align:right;">
+8.360587e+06
+</td>
+<td style="text-align:right;">
+999.65
+</td>
+<td style="text-align:right;">
+8 363.5140
+</td>
+<td style="text-align:right;">
+8 363.5140
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+999.65
+</td>
+<td style="text-align:right;">
+2.364627e+05
+</td>
+<td style="text-align:right;">
+2.069048e+05
+</td>
+<td style="text-align:right;">
+2.955783e+04
+</td>
+<td style="text-align:right;">
+8.567492e+06
+</td>
+<td style="text-align:right;">
+4.283746e+05
+</td>
+<td style="text-align:right;">
+3 534 800
+</td>
+<td style="text-align:right;">
+5.461066e+06
+</td>
+<td style="text-align:right;">
+646.17
+</td>
+<td style="text-align:right;">
+8 451.4388
+</td>
+<td style="text-align:right;">
+8 451.4388
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+646.17
+</td>
+<td style="text-align:right;">
+1.528486e+05
+</td>
+<td style="text-align:right;">
+1.337425e+05
+</td>
+<td style="text-align:right;">
+1.910607e+04
+</td>
+<td style="text-align:right;">
+5.594809e+06
+</td>
+<td style="text-align:right;">
+2.797404e+05
+</td>
+<td style="text-align:right;">
+2 456 800
+</td>
+<td style="text-align:right;">
+3.417749e+06
+</td>
+<td style="text-align:right;">
+400.49
+</td>
+<td style="text-align:right;">
+8 533.9188
+</td>
+<td style="text-align:right;">
+8 533.9188
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+400.49
+</td>
+<td style="text-align:right;">
+9.473409e+04
+</td>
+<td style="text-align:right;">
+8.289233e+04
+</td>
+<td style="text-align:right;">
+1.184176e+04
+</td>
+<td style="text-align:right;">
+3.500641e+06
+</td>
+<td style="text-align:right;">
+1.750321e+05
+</td>
+<td style="text-align:right;">
+1 634 400
+</td>
+<td style="text-align:right;">
+2.041274e+06
+</td>
+<td style="text-align:right;">
+237.05
+</td>
+<td style="text-align:right;">
+8 611.1519
+</td>
+<td style="text-align:right;">
+8 611.1519
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+237.05
+</td>
+<td style="text-align:right;">
+5.607310e+04
+</td>
+<td style="text-align:right;">
+4.906396e+04
+</td>
+<td style="text-align:right;">
+7.009138e+03
+</td>
+<td style="text-align:right;">
+2.090338e+06
+</td>
+<td style="text-align:right;">
+1.045169e+05
+</td>
+<td style="text-align:right;">
+1 036 600
+</td>
+<td style="text-align:right;">
+1.158254e+06
+</td>
+<td style="text-align:right;">
+133.39
+</td>
+<td style="text-align:right;">
+8 683.2176
+</td>
+<td style="text-align:right;">
+8 683.2176
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+133.39
+</td>
+<td style="text-align:right;">
+3.155280e+04
+</td>
+<td style="text-align:right;">
+2.760870e+04
+</td>
+<td style="text-align:right;">
+3.944100e+03
+</td>
+<td style="text-align:right;">
+1.185863e+06
+</td>
+<td style="text-align:right;">
+5.929315e+04
+</td>
+<td style="text-align:right;">
+623 800
+</td>
+<td style="text-align:right;">
+6.213563e+05
+</td>
+<td style="text-align:right;">
+71.01
+</td>
+<td style="text-align:right;">
+8 750.2641
+</td>
+<td style="text-align:right;">
+8 750.2641
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+71.01
+</td>
+<td style="text-align:right;">
+1.679709e+04
+</td>
+<td style="text-align:right;">
+1.469746e+04
+</td>
+<td style="text-align:right;">
+2.099637e+03
+</td>
+<td style="text-align:right;">
+6.360537e+05
+</td>
+<td style="text-align:right;">
+3.180269e+04
+</td>
+<td style="text-align:right;">
+354 300
+</td>
+<td style="text-align:right;">
+3.135564e+05
+</td>
+<td style="text-align:right;">
+35.58
+</td>
+<td style="text-align:right;">
+8 812.7148
+</td>
+<td style="text-align:right;">
+8 812.7148
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+35.58
+</td>
+<td style="text-align:right;">
+8.416288e+03
+</td>
+<td style="text-align:right;">
+7.364252e+03
+</td>
+<td style="text-align:right;">
+1.052036e+03
+</td>
+<td style="text-align:right;">
+3.209206e+05
+</td>
+<td style="text-align:right;">
+1.604603e+04
+</td>
+<td style="text-align:right;">
+189 000
+</td>
+<td style="text-align:right;">
+1.479667e+05
+</td>
+<td style="text-align:right;">
+16.68
+</td>
+<td style="text-align:right;">
+8 870.9039
+</td>
+<td style="text-align:right;">
+8 870.9039
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16.68
+</td>
+<td style="text-align:right;">
+3.945578e+03
+</td>
+<td style="text-align:right;">
+3.452381e+03
+</td>
+<td style="text-align:right;">
+4.931973e+02
+</td>
+<td style="text-align:right;">
+1.514191e+05
+</td>
+<td style="text-align:right;">
+7.570953e+03
+</td>
+<td style="text-align:right;">
+94 100
+</td>
+<td style="text-align:right;">
+6.489001e+04
+</td>
+<td style="text-align:right;">
+7.27
+</td>
+<td style="text-align:right;">
+8 925.7236
+</td>
+<td style="text-align:right;">
+8 925.7236
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7.27
+</td>
+<td style="text-align:right;">
+1.719686e+03
+</td>
+<td style="text-align:right;">
+1.504725e+03
+</td>
+<td style="text-align:right;">
+2.149607e+02
+</td>
+<td style="text-align:right;">
+6.639474e+04
+</td>
+<td style="text-align:right;">
+3.319737e+03
+</td>
+<td style="text-align:right;">
+43 500
+</td>
+<td style="text-align:right;">
+2.621447e+04
+</td>
+<td style="text-align:right;">
+2.92
+</td>
+<td style="text-align:right;">
+8 977.5589
+</td>
+<td style="text-align:right;">
+8 977.5589
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2.92
+</td>
+<td style="text-align:right;">
+6.907128e+02
+</td>
+<td style="text-align:right;">
+6.043737e+02
+</td>
+<td style="text-align:right;">
+8.633909e+01
+</td>
+<td style="text-align:right;">
+2.681885e+04
+</td>
+<td style="text-align:right;">
+1.340942e+03
+</td>
+<td style="text-align:right;">
+18 400
+</td>
+<td style="text-align:right;">
+9.759788e+03
+</td>
+<td style="text-align:right;">
+1.08
+</td>
+<td style="text-align:right;">
+9 036.8407
+</td>
+<td style="text-align:right;">
+9 036.8408
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1.08
+</td>
+<td style="text-align:right;">
+2.554691e+02
+</td>
+<td style="text-align:right;">
+2.235355e+02
+</td>
+<td style="text-align:right;">
+3.193364e+01
+</td>
+<td style="text-align:right;">
+9.983323e+03
+</td>
+<td style="text-align:right;">
+4.991662e+02
+</td>
+<td style="text-align:right;">
+7 200
+</td>
+<td style="text-align:right;">
+3.282490e+03
+</td>
+<td style="text-align:right;">
+0.36
+</td>
+<td style="text-align:right;">
+9 118.0268
+</td>
+<td style="text-align:right;">
+9 118.0268
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.36
+</td>
+<td style="text-align:right;">
+8.515637e+01
+</td>
+<td style="text-align:right;">
+7.451182e+01
+</td>
+<td style="text-align:right;">
+1.064455e+01
+</td>
+<td style="text-align:right;">
+3.357001e+03
+</td>
+<td style="text-align:right;">
+1.678501e+02
+</td>
+<td style="text-align:right;">
+2 500
+</td>
+<td style="text-align:right;">
+1.024852e+03
+</td>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+9 316.8322
+</td>
+<td style="text-align:right;">
+9 316.8322
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0.11
+</td>
+<td style="text-align:right;">
+2.602000e+01
+</td>
+<td style="text-align:right;">
+2.276750e+01
+</td>
+<td style="text-align:right;">
+3.252500e+00
+</td>
+<td style="text-align:right;">
+1.047619e+03
+</td>
+<td style="text-align:right;">
+5.238095e+01
+</td>
+<td style="text-align:right;">
+1 100
+</td>
+<td style="text-align:right;">
+0.000000e+00
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="preguntas" class="section level3">
 <h3>Preguntas</h3>
 <ol style="list-style-type: decimal">
@@ -3614,11 +5868,25 @@ siguiente año son 1 100?</li>
 <li>Al graficar el fondo acumulado al final del año se presenta en forma
 de “campana”, ¿esto a qué se debe?.</li>
 </ol>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(flows_2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">c</span>(age <span class="sc">-</span> <span class="dv">50</span>), <span class="at">y =</span> E_funds_e_2)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_jcolors_contin</span>(<span class="at">palette =</span> <span class="st">&quot;pal4&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" width="672" /></p>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Considerando el primer escenario (parte a.) y una única vida, se
 debe generar un vector que muestra la pérdida esperada para la compañía
 de seguros en función del año en que ocurre la pérdida.</li>
 </ol>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="fl">1.05</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>v_acum <span class="ot">&lt;-</span> v<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">60</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(v_acum)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> v_acum <span class="sc">-</span> net_premium <span class="sc">*</span> <span class="fu">cumsum</span>(v_acum)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">60</span>, <span class="at">y =</span> L)) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="data:image/png;base64,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" width="672" /></p>
 </div>
 <div id="preguntas-1" class="section level3">
 <h3>Preguntas</h3>
