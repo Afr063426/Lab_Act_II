@@ -21,21 +21,22 @@ output:
 
 
 ```{r setup, include=FALSE}
+# install_github("holtzy/epuRate")
+# library(epuRate) aqui hay templates muy buenos, pero da problemas con latex
 # Se carga la base de datos
 library(rmdformats)
-knitr::opts_chunk$set(echo = TRUE)
-library(pdftools)
+knitr::opts_chunk$set(echo = TRUE, width = 60)
+# library(pdftools)
 ## Paquetes necesarios
-# install_github("holtzy/epuRate")
 library(devtools)
 library(rmarkdown)
-library(epuRate)
 library(tidyverse)
 library(lifecontingencies)
 library(kableExtra)
 library(jcolors)
+options(scipen = 999, digits = 4)
 # Se procede a leer la tabla
-tabla <- read.csv("./Laboratorio_1/TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
+tabla <- read.csv("TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
 # Ejercicio 1
 Considere un seguro de vida temporal a 10 años que paga un beneficio de 1.000, sobre una población $l_{50}$ a la edad de 50 años. Se utiliza la tabla ilustrativa del Bowers
@@ -89,8 +90,9 @@ kable(flows,
   ),
   caption = "Flujos", format.args = list(big.mark = " ")
 ) %>%
+  kable_styling(full_width = F) %>%
   kable_material() %>%
-  scroll_box(width = "90%")
+  scroll_box()
 ```
 
 # Ejercicio 2
@@ -174,20 +176,25 @@ flows_2 <- data.frame(E_survival_2, E_premium_gross_2, E_premium_net_2, E_spends
 kable(flows_2,
   caption = "Flujos", format.args = list(big.mark = " ")
 ) %>%
+  kable_styling(full_width = F) %>%
   kable_material() %>%
-  scroll_box(width = "90%", height = "500px")
+  scroll_box(height = "500px")
 ```
 ### Preguntas
 
 1. ¿Porqué el valor de la póliza (reserva) al final de la edad 110 es de 9 316.83 si el monto
 que se espera pagar en siniestros durante el siguiente año son 1 100?
+
 Esto se debe a que el monto original del seguro es de 10 000, sin embargo esto es por es por individuo. Al final se tiene por decirlo de cierta forma 0.11 individuos, a pesar de que no se le pagara 10 0000 al no ser un individuo completo, la reserva del seguro en base a este individuo que no es la unidad es 9 316.83 al final del año, pero solo se pagará 1100.
+
 2. Al graficar el fondo acumulado al final del año se presenta en forma de "campana", ¿esto a qué se debe?.
+
+<caption><center><strong>Figura 1: Fondos esperados </strong></center></caption>
 ```{r}
 ggplot(flows_2, aes(x = c(age - 50), y = E_funds_e_2)) +
   geom_line() +
   theme_minimal() +
-  scale_color_jcolors_contin(palette = "pal4")
+  labs(y = "Fondos esperados", x = "Años")
 ```
 
 Esto se debe a que conforme se va avanzando se va obteniendo el dinero de las primas, y con estas se van acumulando intereses. A pesar de que se tienen decesos no son tantos como para tener que cubrir todo lo que se ha acumulado en primas e intereses sobre estas, esto hasta llegar al punto más alto de la curva. Sin embargo, posterior a este punto se siguen acumulando primas e intereses, pero en este caso se tienen más decesos por lo que hay que pagar una mayor cantidad de los seguros y a su vez se tienen menor cantidad de primas y se acumulan menos intereses.
@@ -195,6 +202,7 @@ Esto se debe a que conforme se va avanzando se va obteniendo el dinero de las pr
 d. Considerando el primer escenario (parte a.) y una única vida, se debe generar un vector que muestra la pérdida esperada para la compañía de seguros en función
 del año en que ocurre la pérdida. 
 
+<caption><center><strong>Figura 2: Pérdida esperada según la edad de muertes</strong></center></caption>
 ```{r}
 v <- 1 / (1.05)
 v_acum <- v^(0:60)
@@ -203,13 +211,15 @@ L <- 10000 * v_acum - net_premium * cumsum(v_acum)
 
 ggplot(, aes(x = 0:60, y = L)) +
   geom_line() +
-  theme_minimal()
+  theme_minimal() +
+  labs(y = "Pérdidas", x = "Años")
 ```
 
 ### Preguntas 
 1. ¿Cuál es la probabilidad de que la pérdida de la compañía sea mayor a 5 000?
 ? ¿A qué edad se podría asegurar que la compañía no presentará pérdidas mayores a 5 000 para esta póliza individual si 
 a esa edad el individuo sigue con vida?
+
 Con $P$ es la prima neta, $S$ es el beneficio, $m$ es la cantidad de años que han pasado. Para la primera pregunta se tiene que las perdidas se pueden modelar mediante la siguiente variable aleatoria.
 
 
@@ -220,7 +230,7 @@ $$
 Entonces lo que se quiere se quiere es 
 
 $$
-\mathbb{P}\left(5000 < L \right)\Rightarrow \mathbb{P}\left(K_{[x]+1}>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}\right)}{\ln(v)} \right)
+\mathbb{P}\left(5000 < L \right) = \mathbb{P}\left(K_{[x]+1}>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}\right)}{\ln(v)} \right)
 $$
 Ahora para encontrar la edad en la que ya no se encuentran pérdidas mayores que 5 000, entonces podemos encontrar la siguiente variable aleatoria de pérdidas sabiendo que la persona llegó hasta esa edad.
 $$
@@ -229,7 +239,7 @@ $$
 
 De tal forma que podemos utilizar la función anterior
 $$
-\mathbb{P}\left(5000 \geq L \right)\Rightarrow \mathbb{P}\left(K_{[x+m]}+1>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}+a(m)\right)}{\ln(v)} \right)
+\mathbb{P}\left(5000 \geq L \right)=1-\mathbb{P}\left(5000 < L \right)=1- \mathbb{P}\left(K_{[x+m]}+1>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}+a(m)\right)}{\ln(v)} \right)
 $$
 Ahora entoncese se proghrama que va ser de utilidad para este ejercicio y el siguiente.
 ```{r}
@@ -239,15 +249,15 @@ probability_loss <- function(P, S, i, a, amount, x) {
   numerator <- log((amount + P / d + a) / (S + P / d))
   denominator <- log(v)
   t <- ceiling(numerator / denominator)
-  print(t)
+  # print(t)
   return(pxt(life_table, x = x, t = t))
 }
 ```
 Con esta función entonces se puede calcular entonces que la probabilidad de tener pérdidas mayores a 5 000 es
 
- ```{r}
+```{r}
 probability_loss(net_premium, 10000, 0.05, 0, 5000, 50)
- ```
+```
  
  Para la segunda pregunta entonces se puede utilizar la función con un ciclo hasta obtener pérdidas 0
 
@@ -275,11 +285,11 @@ En este otro caso podemos utilizar una vez más la función anterior, simplement
 
 ```{r}
 1 - probability_loss(net_premium, 10000, 0.05, 0, 0, 50)
- ```
+```
 
  De forma similar a lo hecho con el ciclo, se puede estimar a qué edad ya no se tienen pérdidas seguramente. 
 
- ```{r}
+```{r}
 # Variable de control
 o_b <- 1
 m_b <- 0
