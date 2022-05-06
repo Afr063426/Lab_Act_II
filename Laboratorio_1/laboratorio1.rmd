@@ -1,34 +1,32 @@
 ---
 title: "Laboratorio 1"
-author: "[Joshua Cervantes](https://github.com/Afr063426)"
+author: "Joshua Cervantes"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "joshua.cervantes@ucr.ac.cr"
 linkedin: ""
 twitter: ""
 github: "afr063426"
+
 home: ""
 # !!! You need to provide a logo image here !!! Or just delete the field for no logo
 logo: ""
 output:
-  rmdformats::readthedown:
-    highlight: kate
-    toc_depth: 3
-    embed_fonts: true
-    use_bookdown: false
-    pandoc_args: Null 
-    code_folding: hide
+  prettydoc::html_pretty:
+      theme: cayman
+      highlight: github
+      math: katex
+      toc: true
+      toc_depth: 2
+      code_menu: true
+
 ---
 
 
 ```{r setup, include=FALSE}
-# install_github("holtzy/epuRate")
-# library(epuRate) aqui hay templates muy buenos, pero da problemas con latex
-# Se carga la base de datos
-library(rmdformats)
 knitr::opts_chunk$set(echo = TRUE, width = 60)
-# library(pdftools)
 ## Paquetes necesarios
 library(devtools)
+library(prettydoc)
 library(rmarkdown)
 library(tidyverse)
 library(lifecontingencies)
@@ -92,7 +90,8 @@ kable(flows,
 ) %>%
   kable_styling(full_width = F) %>%
   kable_material() %>%
-  scroll_box()
+  row_spec(0, bold = T, color = "white", background = "#159957") %>%
+  scroll_box(height = "500px", width = "100%")
 ```
 
 # Ejercicio 2
@@ -178,7 +177,8 @@ kable(flows_2,
 ) %>%
   kable_styling(full_width = F) %>%
   kable_material() %>%
-  scroll_box(height = "500px")
+  row_spec(0, bold = T, color = "white", background = "#159957") %>%
+  scroll_box(height = "500px", width = "100%")
 ```
 ### Preguntas
 
@@ -220,7 +220,7 @@ ggplot(, aes(x = 0:60, y = L)) +
 ? ¿A qué edad se podría asegurar que la compañía no presentará pérdidas mayores a 5 000 para esta póliza individual si 
 a esa edad el individuo sigue con vida?
 
-Con $P$ es la prima neta, $S$ es el beneficio, $m$ es la cantidad de años que han pasado. Para la primera pregunta se tiene que las perdidas se pueden modelar mediante la siguiente variable aleatoria.
+Con $P$ es la prima neta, $S$ es el beneficio. Para la primera pregunta se tiene que las perdidas se pueden modelar mediante la siguiente variable aleatoria.
 
 
 $$
@@ -230,77 +230,36 @@ $$
 Entonces lo que se quiere se quiere es 
 
 $$
-\mathbb{P}\left(5000 < L \right) = \mathbb{P}\left(K_{[x]+1}>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}\right)}{\ln(v)} \right)
+\begin{split}
+\mathbb{P}\left(5000 < L \right) = 1-\mathbb{P}\left(K_{[x]+1}>\underbrace{\frac{\ln\left(\frac{S+\frac{P}{d}}{5000+\frac{P}{d}}\right)}{\ln(1+i)}}_{\tau} \right)
+\end{split}
 $$
-Ahora para encontrar la edad en la que ya no se encuentran pérdidas mayores que 5 000, entonces podemos encontrar la siguiente variable aleatoria de pérdidas sabiendo que la persona llegó hasta esa edad.
-$$
-L=Sv^{K_{[x+m]}+1}-P\frac{1-v^{K_{[x+m]+1}}}{d}-\underbrace{P\frac{1+v^{m}}{d}}_{a(m)}
-$$ 
-
-De tal forma que podemos utilizar la función anterior
-$$
-\mathbb{P}\left(5000 \geq L \right)=1-\mathbb{P}\left(5000 < L \right)=1- \mathbb{P}\left(K_{[x+m]}+1>\frac{\ln\left(\frac{5000+\frac{P}{d}}{S+\frac{P}{d}}+a(m)\right)}{\ln(v)} \right)
-$$
-Ahora entoncese se proghrama que va ser de utilidad para este ejercicio y el siguiente.
+Hay que tener presente que pueden obtener números no enteros, por lo que se debe tomar $\floor{\lfloor\tau\rfloor}$, entonces lo anterior es $1-_\floor{\lfloor\tau\rfloor}p_{x}$. Entonces se puede programar la siguiente función, notanto que esto es la probabilidad de que el individuo sobreviva esa cantidad de tiempo
 ```{r}
-probability_loss <- function(P, S, i, a, amount, x) {
+probability_loss <- function(P, S, i, amount, x) {
   v <- 1 / (1 + i)
   d <- 1 - v
-  numerator <- log((amount + P / d + a) / (S + P / d))
-  denominator <- log(v)
-  t <- ceiling(numerator / denominator)
-  # print(t)
-  return(pxt(life_table, x = x, t = t))
+  numerator <- log((S + P / d) / (amount + P / d))
+  denominator <- log(1 + i)
+  t <- floor(numerator / denominator)
+  r <- c(pxt(life_table, x = x, t = t), t)
+  return(r)
 }
 ```
 Con esta función entonces se puede calcular entonces que la probabilidad de tener pérdidas mayores a 5 000 es
 
 ```{r}
-probability_loss(net_premium, 10000, 0.05, 0, 5000, 50)
+p_5000 <- probability_loss(net_premium, 10000, 0.05, 5000, 50)
 ```
+Probabilidad de tener pérdidas mayores a 5 000 es `r 1-p_5000[1]`. Y la edad a la que se puede asegurar que se tienen pérdidas no mayores a 5000 es `r 50+p_5000[2]`
  
- Para la segunda pregunta entonces se puede utilizar la función con un ciclo hasta obtener pérdidas 0
-
-```{r}
-# Variable de control
-o <- 1
-m <- 0
-d <- 1 - 1 / 1.05
-while (o > 0) {
-  a <- net_premium * (1 - (1 - d)^m) / d * (1 - d)^{
-    -m
-  }
-  o <- 1 - probability_loss(net_premium, 10000, 0.05, a, 5000, 50 + m)
-  m <- m + 1
-}
-# Edad a la que ya no hay perdidas
-m + 50
-```
-
+ 
 2. ¿Cuál es la probabilidad de qué la compañía no presente pérdida? ¿A qué edad se podría
 asegurar que la compañía no presentará pérdidas para esta póliza individual si a esa edad el individuo
 sigue con vida?
 
-En este otro caso podemos utilizar una vez más la función anterior, simplementa hay que cambiar el monto de 5000 a 0 y verlo, pero esto es el complemento de lo que queremoe entonces le restamos a 1 esta probabilidad que sería el tener pérdidas.
-
+Este caso es análogo al anterior basta cambiar 5000 por 0, y se desea la probabilidad de no tener pérdidas
 ```{r}
-1 - probability_loss(net_premium, 10000, 0.05, 0, 0, 50)
+p_0 <- probability_loss(net_premium, 10000, 0.05, 0, 50)
 ```
-
- De forma similar a lo hecho con el ciclo, se puede estimar a qué edad ya no se tienen pérdidas seguramente. 
-
-```{r}
-# Variable de control
-o_b <- 1
-m_b <- 0
-d <- 1 - 1 / 1.05
-while (o_b > 0) {
-  a <- net_premium * (1 - (1 - d)^m_b) / d * (1 - d)^{
-    -m_b
-  }
-  o_b <- 1 - probability_loss(net_premium, 10000, 0.05, a, 0, 50 + m)
-  m_b <- m_b + 1
-}
-# Edad a la que ya no hay perdidas
-50 + m_b
-```
+Entonces las probabilidades de tener pérdidades menores a `r p_0[1]` y la edad es `r 50+p_0[2]`.
