@@ -32,7 +32,7 @@ library(tidyverse)
 library(lifecontingencies)
 library(kableExtra)
 library(jcolors)
-options(scipen = 999, digits = 4)
+options(scipen = 999, digits = 2)
 # Se procede a leer la tabla
 tabla <- read.csv("TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
@@ -86,7 +86,7 @@ kable(flows,
     "Año", "Sobrevientes al inicio", "Primas esperadas", "Fondos esperados al inicio",
     "Intereses esperados", "Reclamos esprados", "Fondos esperados al final", "Reserva"
   ),
-  caption = "Flujos", format.args = list(big.mark = " ")
+  caption = "Flujos", format.args = list(decimal.mark = ",", big.mark = ".")
 ) %>%
   kable_styling(full_width = F) %>%
   kable_material() %>%
@@ -172,8 +172,9 @@ reserve_2[length(reserve_2)] <- 0
 # Se calcula la reserva teorica
 t_reserve_2 <- benefit * Axn(life_table, x = age + 1, i = 0.05) - net_premium * axn(life_table, x = age + 1, i = 0.05)
 flows_2 <- data.frame(E_survival_2, E_premium_gross_2, E_premium_net_2, E_spends_2, E_funds_b_2, E_i_2, E_reclaims_2, E_funds_e_2, E_survival_e_2, reserve_2, t_reserve_2)
+nombres <- c("Sobrevivientes", "Primas brutas esperadas", "Primas netas", "Gastos esperados", "Fondos esperados al inicio", "Interéses esperados", "Reclamos esperados", "Fondos esperado al final", "Sobrevientes esperados al final", "Rerserva", "Reserva teórica")
 kable(flows_2,
-  caption = "Flujos", format.args = list(big.mark = " ")
+  caption = "Flujos", col.names = nombres, format.args = list(decimal.mark = ",", big.mark = ".")
 ) %>%
   kable_styling(full_width = F) %>%
   kable_material() %>%
@@ -216,8 +217,7 @@ ggplot(, aes(x = 0:60, y = L)) +
 ```
 
 ### Preguntas 
-1. ¿Cuál es la probabilidad de que la pérdida de la compañía sea mayor a 5 000?
-? ¿A qué edad se podría asegurar que la compañía no presentará pérdidas mayores a 5 000 para esta póliza individual si 
+1. ¿Cuál es la probabilidad de que la pérdida de la compañía sea mayor a 5 000? ¿A qué edad se podría asegurar que la compañía no presentará pérdidas mayores a 5 000 para esta póliza individual si 
 a esa edad el individuo sigue con vida?
 
 Con $P$ es la prima neta, $S$ es el beneficio. Para la primera pregunta se tiene que las perdidas se pueden modelar mediante la siguiente variable aleatoria.
@@ -230,11 +230,9 @@ $$
 Entonces lo que se quiere se quiere es 
 
 $$
-\begin{split}
-\mathbb{P}\left(5000 < L \right) = 1-\mathbb{P}\left(K_{[x]+1}>\underbrace{\frac{\ln\left(\frac{S+\frac{P}{d}}{5000+\frac{P}{d}}\right)}{\ln(1+i)}}_{\tau} \right)
-\end{split}
+\mathbb{P}\left(5000 \geq L \right) = 1-\mathbb{P}\left(K_{[x]}+1>\underbrace{\frac{\ln\left(\frac{S+\frac{P}{d}}{5000+\frac{P}{d}}\right)}{\ln(1+i)}}_{\tau} \right)
 $$
-Hay que tener presente que pueden obtener números no enteros, por lo que se debe tomar $\floor{\lfloor\tau\rfloor}$, entonces lo anterior es $1-_\floor{\lfloor\tau\rfloor}p_{x}$. Entonces se puede programar la siguiente función, notanto que esto es la probabilidad de que el individuo sobreviva esa cantidad de tiempo
+Hay que tener presente que pueden obtener números no enteros, por lo que se debe tomar $\lfloor\tau\rfloor$, entonces lo anterior es $1-_ {\lfloor\tau\rfloor} p_{x}$. Entonces se puede programar la siguiente función, notanto que esto es la probabilidad de que el individuo sobreviva esa cantidad de tiempo
 ```{r}
 probability_loss <- function(P, S, i, amount, x) {
   v <- 1 / (1 + i)
@@ -262,4 +260,4 @@ Este caso es análogo al anterior basta cambiar 5000 por 0, y se desea la probab
 ```{r}
 p_0 <- probability_loss(net_premium, 10000, 0.05, 0, 50)
 ```
-Entonces las probabilidades de tener pérdidades menores a `r p_0[1]` y la edad es `r 50+p_0[2]`.
+Entonces las probabilidades de tener pérdidades menores a 0 es `r p_0[1]` y la edad es `r 50+p_0[2]`.

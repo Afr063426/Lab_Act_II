@@ -1,8 +1,0 @@
----
-title: "Laboratorio 1"
-author: "[Joshua Cervantes](https://github.com/Afr063426)"
-output: html_document
----
-
-## Prueba
-$\frac{1}{n}$
