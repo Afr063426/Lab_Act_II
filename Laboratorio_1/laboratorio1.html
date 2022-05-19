@@ -8,23 +8,14 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
+
 <a href="https://github.com/afr063426/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-  <div class="col-xs-12 col-sm-4 col-md-3">
-  <div id="TOC" class="tocify">
-      </div>
-  </div>
-
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Joshua Cervantes" />
 
-<meta name="date" content="2022-05-05" />
+<meta name="date" content="2022-05-18" />
 
 <title>Laboratorio 1</title>
 
@@ -404,7 +395,7 @@ code span.ot { color: #007020; }
 <section class="page-header">
 <h1 class="title toc-ignore project-name">Laboratorio 1</h1>
 <h4 class="author project-author">Joshua Cervantes</h4>
-<h4 class="date project-date">05 May 2022</h4>
+<h4 class="date project-date">18 May 2022</h4>
 </section>
 
 
@@ -439,8 +430,8 @@ la tabla ilustrativa del Bowers con una tasa de interés del 6%.</p>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Prima de riesgo</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>premium <span class="ot">&lt;-</span> benefit <span class="sc">*</span> nAx <span class="sc">/</span> nax</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(premium)</span></code></pre></div>
-<pre><code>## [1] 8</code></pre>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>premium</span></code></pre></div>
+<pre><code>## [1] 7,9872</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Se debe conformar una tabla con los flujos y los valores de reserva
 de la reserva en cada año.</li>
@@ -532,7 +523,7 @@ Reserva
 227.935
 </td>
 <td style="text-align:right;">
-2,6
+2,5617
 </td>
 </tr>
 <tr>
@@ -558,7 +549,7 @@ Reserva
 423.520
 </td>
 <td style="text-align:right;">
-4,8
+4,7905
 </td>
 </tr>
 <tr>
@@ -584,7 +575,7 @@ Reserva
 581.012
 </td>
 <td style="text-align:right;">
-6,6
+6,6181
 </td>
 </tr>
 <tr>
@@ -610,7 +601,7 @@ Reserva
 694.095
 </td>
 <td style="text-align:right;">
-8,0
+7,9665
 </td>
 </tr>
 <tr>
@@ -636,7 +627,7 @@ Reserva
 755.792
 </td>
 <td style="text-align:right;">
-8,8
+8,7467
 </td>
 </tr>
 <tr>
@@ -662,7 +653,7 @@ Reserva
 758.445
 </td>
 <td style="text-align:right;">
-8,9
+8,8568
 </td>
 </tr>
 <tr>
@@ -688,7 +679,7 @@ Reserva
 693.712
 </td>
 <td style="text-align:right;">
-8,2
+8,1806
 </td>
 </tr>
 <tr>
@@ -714,7 +705,7 @@ Reserva
 552.463
 </td>
 <td style="text-align:right;">
-6,6
+6,5849
 </td>
 </tr>
 <tr>
@@ -740,7 +731,7 @@ Reserva
 324.793
 </td>
 <td style="text-align:right;">
-3,9
+3,9166
 </td>
 </tr>
 <tr>
@@ -766,7 +757,7 @@ Reserva
 0
 </td>
 <td style="text-align:right;">
-0,0
+0,0000
 </td>
 </tr>
 </tbody>
@@ -799,75 +790,77 @@ administración.</li>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>gross_premium <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> net_rate <span class="sc">/</span> <span class="fl">0.875</span></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>net_premium <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> net_rate</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La tasa neta es&quot;</span>, net_rate, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
-<pre><code>## [1] &quot;La tasa neta es 0.0206977281284667&quot;</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La tasa bruta sería&quot;</span>, gross_rate, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
-<pre><code>## [1] &quot;La tasa bruta sería 0.0236545464325334&quot;</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La prima bruta sería&quot;</span>, gross_premium, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
-<pre><code>## [1] &quot;La prima bruta sería 236.545464325334&quot;</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## El monto de la reserva bajo el concepto de prima bruta sería</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>V_5 <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.05</span>) <span class="sc">-</span> <span class="fl">0.875</span> <span class="sc">*</span> gross_premium <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.05</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La reserva es&quot;</span>, V_5, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
-<pre><code>## [1] &quot;La reserva es 835.219130235627&quot;</code></pre>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># print(paste(&quot;La tasa neta es&quot;, net_rate, sep = &quot; &quot;))</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># print(paste(&quot;La tasa bruta sería&quot;, gross_rate, sep = &quot; &quot;))</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># print(paste(&quot;La prima bruta sería&quot;, gross_premium, sep = &quot; &quot;))</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">## El monto de la reserva bajo el concepto de prima bruta sería</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>V_5 <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.05</span>) <span class="sc">-</span> <span class="fl">0.875</span> <span class="sc">*</span> gross_premium <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.05</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># print(paste(&quot;La reserva es&quot;, V_5, sep = &quot; &quot;))</span></span></code></pre></div>
+<p>La la tasa neta es 0,0207, la tasa bruta es 0,02365, la prima bruta
+es 236,54546 y la reserva en 5 años después de la emisión de la póliza
+es 835,21913.</p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>En un segundo escenario, se calcula la prima neta considerando un 4%
 de interés, aunque la Compañía espera generar un 5% como en el escenario
 1, la diferencia percibidad será destinada a cubrir los gastos de
 adquisición y administración.</li>
 </ol>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nAx_2_b <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">50</span>, <span class="at">i =</span> <span class="fl">0.04</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>nax_2_b <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">50</span>, <span class="at">i =</span> <span class="fl">0.04</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prima de riesgo</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>net_rate_b <span class="ot">&lt;-</span> nAx_2_b <span class="sc">/</span> nax_2_b</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>net_premium_b <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> net_rate_b</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La tasa neta es&quot;</span>, net_rate_b, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
-<pre><code>## [1] &quot;La tasa neta es 0.0229461383469807&quot;</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La prima neta sería&quot;</span>, net_premium_b, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
-<pre><code>## [1] &quot;La prima neta sería 229.461383469807&quot;</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## El monto de la reserva</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>V_5_b <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.04</span>) <span class="sc">-</span> net_premium_b <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.04</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;La reserva es&quot;</span>, V_5_b, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
-<pre><code>## [1] &quot;La reserva es 936.097053431185&quot;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nAx_2_b <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">50</span>, <span class="at">i =</span> <span class="fl">0.04</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>nax_2_b <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">50</span>, <span class="at">i =</span> <span class="fl">0.04</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prima de riesgo</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>net_rate_b <span class="ot">&lt;-</span> nAx_2_b <span class="sc">/</span> nax_2_b</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>net_premium_b <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> net_rate_b</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># print(paste(&quot;La tasa neta es&quot;, net_rate_b, sep = &quot; &quot;))</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># print(paste(&quot;La prima neta sería&quot;, net_premium_b, sep = &quot; &quot;))</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">## El monto de la reserva</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>V_5_b <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.04</span>) <span class="sc">-</span> net_premium_b <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">i =</span> <span class="fl">0.04</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># print(paste(&quot;La reserva es&quot;, V_5_b, sep = &quot; &quot;))</span></span></code></pre></div>
+<p>La la tasa neta es 0,02295, la prima neta es 229,46138 y la reserva
+en 5 años después de la emisión de la póliza es 936,09705.</p>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Con base en el inciso a. construir una tabla de flujos considerando
-que <span class="math display">\[l_{50}\]</span> individuos toman el
+que <span class="math inline">\(l_{50}\)</span> individuos toman el
 seguro con las mismas condiciones, así mismo calcule la reserva al final
-de cada periodo como la razón de flujo final entre los sobrevivients y
+de cada periodo como la razón de flujo final entre los sobrevivientes y
 aplicando la fórmula teórica.</li>
 </ol>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Empleamos lo utilizado en el ejercicio 1 y la parte a del ejercicio 2</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>benefit <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>lx_2 <span class="ot">&lt;-</span> tabla<span class="sc">$</span>lx[<span class="dv">51</span><span class="sc">:</span><span class="fu">length</span>(tabla<span class="sc">$</span>lx)]</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>E_survival_2 <span class="ot">&lt;-</span> lx_2</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>E_premium_net_2 <span class="ot">&lt;-</span> benefit <span class="sc">*</span> E_survival_2 <span class="sc">*</span> net_rate</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>E_premium_gross_2 <span class="ot">&lt;-</span> E_premium_net_2 <span class="sc">/</span> <span class="fl">0.875</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>E_spends_2 <span class="ot">&lt;-</span> E_premium_gross_2 <span class="sc">-</span> E_premium_net_2</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>E_reclaims_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fu">diff</span>(lx_2) <span class="sc">*</span> benefit, benefit <span class="sc">*</span> E_survival_2[<span class="fu">length</span>(E_survival_2)])</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>E_i_2 <span class="ot">&lt;-</span> E_premium_net_2[<span class="dv">1</span>] <span class="sc">*</span> <span class="fl">0.05</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>E_funds_b_2 <span class="ot">&lt;-</span> E_premium_net_2[<span class="dv">1</span>]</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>E_funds_e_2 <span class="ot">&lt;-</span> E_premium_net_2[<span class="dv">1</span>] <span class="sc">+</span> E_i_2[<span class="dv">1</span>] <span class="sc">-</span> E_reclaims_2[<span class="dv">1</span>]</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>E_survival_e_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(lx_2[<span class="sc">-</span><span class="dv">1</span>], <span class="dv">0</span>)</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="dv">50</span><span class="sc">:</span><span class="dv">110</span></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">61</span>) {</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  E_funds_b_2[i] <span class="ot">&lt;-</span> E_funds_e_2[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> E_premium_net_2[i]</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  E_i_2[i] <span class="ot">&lt;-</span> E_funds_b_2[i] <span class="sc">*</span> <span class="fl">0.05</span></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  E_funds_e_2[i] <span class="ot">&lt;-</span> <span class="fu">max</span>(E_funds_b_2[i] <span class="sc">+</span> E_i_2[i] <span class="sc">-</span> E_reclaims_2[i], <span class="dv">0</span>)</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Se calcula reserva como division entre los fondos y los sobrevivientes</span></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>reserve_2 <span class="ot">&lt;-</span> E_funds_e_2 <span class="sc">/</span> E_survival_e_2</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>reserve_2[<span class="fu">length</span>(reserve_2)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Se calcula la reserva teorica</span></span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>t_reserve_2 <span class="ot">&lt;-</span> benefit <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> age <span class="sc">+</span> <span class="dv">1</span>, <span class="at">i =</span> <span class="fl">0.05</span>) <span class="sc">-</span> net_premium <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> age <span class="sc">+</span> <span class="dv">1</span>, <span class="at">i =</span> <span class="fl">0.05</span>)</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>flows_2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(E_survival_2, E_premium_gross_2, E_premium_net_2, E_spends_2, E_funds_b_2, E_i_2, E_reclaims_2, E_funds_e_2, E_survival_e_2, reserve_2, t_reserve_2)</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>nombres <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Sobrevivientes&quot;</span>, <span class="st">&quot;Primas brutas esperadas&quot;</span>, <span class="st">&quot;Primas netas&quot;</span>, <span class="st">&quot;Gastos esperados&quot;</span>, <span class="st">&quot;Fondos esperados al inicio&quot;</span>, <span class="st">&quot;Interéses esperados&quot;</span>, <span class="st">&quot;Reclamos esperados&quot;</span>, <span class="st">&quot;Fondos esperado al final&quot;</span>, <span class="st">&quot;Sobrevientes esperados al final&quot;</span>, <span class="st">&quot;Rerserva&quot;</span>, <span class="st">&quot;Reserva teórica&quot;</span>)</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(flows_2,</span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">col.names =</span> nombres, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>)</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Empleamos lo utilizado en el ejercicio 1 y la parte a del ejercicio 2</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>benefit <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>lx_2 <span class="ot">&lt;-</span> tabla<span class="sc">$</span>lx[<span class="dv">51</span><span class="sc">:</span><span class="fu">length</span>(tabla<span class="sc">$</span>lx)]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>E_survival_2 <span class="ot">&lt;-</span> lx_2</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>E_premium_net_2 <span class="ot">&lt;-</span> benefit <span class="sc">*</span> E_survival_2 <span class="sc">*</span> net_rate</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>E_premium_gross_2 <span class="ot">&lt;-</span> E_premium_net_2 <span class="sc">/</span> <span class="fl">0.875</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>E_spends_2 <span class="ot">&lt;-</span> E_premium_gross_2 <span class="sc">-</span> E_premium_net_2</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>E_reclaims_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fu">diff</span>(lx_2) <span class="sc">*</span> benefit, benefit <span class="sc">*</span> E_survival_2[<span class="fu">length</span>(E_survival_2)])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>E_i_2 <span class="ot">&lt;-</span> E_premium_net_2[<span class="dv">1</span>] <span class="sc">*</span> <span class="fl">0.05</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>E_funds_b_2 <span class="ot">&lt;-</span> E_premium_net_2[<span class="dv">1</span>]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>E_funds_e_2 <span class="ot">&lt;-</span> E_premium_net_2[<span class="dv">1</span>] <span class="sc">+</span> E_i_2[<span class="dv">1</span>] <span class="sc">-</span> E_reclaims_2[<span class="dv">1</span>]</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>E_survival_e_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(lx_2[<span class="sc">-</span><span class="dv">1</span>], <span class="dv">0</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>age <span class="ot">&lt;-</span> <span class="dv">50</span><span class="sc">:</span><span class="dv">110</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">61</span>) {</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  E_funds_b_2[i] <span class="ot">&lt;-</span> E_funds_e_2[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> E_premium_net_2[i]</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  E_i_2[i] <span class="ot">&lt;-</span> E_funds_b_2[i] <span class="sc">*</span> <span class="fl">0.05</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  E_funds_e_2[i] <span class="ot">&lt;-</span> <span class="fu">max</span>(E_funds_b_2[i] <span class="sc">+</span> E_i_2[i] <span class="sc">-</span> E_reclaims_2[i], <span class="dv">0</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Se calcula reserva como division entre los fondos y los sobrevivientes</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>reserve_2 <span class="ot">&lt;-</span> E_funds_e_2 <span class="sc">/</span> E_survival_e_2</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>reserve_2[<span class="fu">length</span>(reserve_2)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Se calcula la reserva teorica</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>t_reserve_2 <span class="ot">&lt;-</span> benefit <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> age <span class="sc">+</span> <span class="dv">1</span>, <span class="at">i =</span> <span class="fl">0.05</span>) <span class="sc">-</span> net_premium <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> age <span class="sc">+</span> <span class="dv">1</span>, <span class="at">i =</span> <span class="fl">0.05</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>flows_2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(E_survival_2, E_premium_gross_2, E_premium_net_2, E_spends_2, E_funds_b_2, E_i_2, E_reclaims_2, E_funds_e_2, E_survival_e_2, reserve_2, t_reserve_2)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>nombres <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Sobrevivientes&quot;</span>, <span class="st">&quot;Primas brutas esperadas&quot;</span>, <span class="st">&quot;Primas netas&quot;</span>, <span class="st">&quot;Gastos esperados&quot;</span>, <span class="st">&quot;Fondos esperados al inicio&quot;</span>, <span class="st">&quot;Interéses esperados&quot;</span>, <span class="st">&quot;Reclamos esperados&quot;</span>, <span class="st">&quot;Fondos esperado al final&quot;</span>, <span class="st">&quot;Sobrevientes esperados al final&quot;</span>, <span class="st">&quot;Rerserva&quot;</span>, <span class="st">&quot;Reserva teórica&quot;</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(flows_2,</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">col.names =</span> nombres, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
 <table class="table lightable-material" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
 <caption>
@@ -916,34 +909,34 @@ Reserva teórica
 89.509,00
 </td>
 <td style="text-align:right;">
-21.172.948
+21.172.947,966
 </td>
 <td style="text-align:right;">
-18.526.329
+18.526.329,471
 </td>
 <td style="text-align:right;">
-2.646.618,5
+2.646.618,4958
 </td>
 <td style="text-align:right;">
-18.526.329
+18.526.329,5
 </td>
 <td style="text-align:right;">
-926.316
+926.316,474
 </td>
 <td style="text-align:right;">
 5.298.900
 </td>
 <td style="text-align:right;">
-14.153.746
+14.153.745,9
 </td>
 <td style="text-align:right;">
 88.979,11
 </td>
 <td style="text-align:right;">
-159
+159,07
 </td>
 <td style="text-align:right;">
-159
+159,07
 </td>
 </tr>
 <tr>
@@ -951,34 +944,34 @@ Reserva teórica
 88.979,11
 </td>
 <td style="text-align:right;">
-21.047.605
+21.047.604,890
 </td>
 <td style="text-align:right;">
-18.416.654
+18.416.654,279
 </td>
 <td style="text-align:right;">
-2.630.950,6
+2.630.950,6113
 </td>
 <td style="text-align:right;">
-32.570.400
+32.570.400,2
 </td>
 <td style="text-align:right;">
-1.628.520
+1.628.520,011
 </td>
 <td style="text-align:right;">
 5.714.300
 </td>
 <td style="text-align:right;">
-28.484.620
+28.484.620,2
 </td>
 <td style="text-align:right;">
 88.407,68
 </td>
 <td style="text-align:right;">
-322
+322,20
 </td>
 <td style="text-align:right;">
-322
+322,20
 </td>
 </tr>
 <tr>
@@ -986,34 +979,34 @@ Reserva teórica
 88.407,68
 </td>
 <td style="text-align:right;">
-20.912.436
+20.912.435,716
 </td>
 <td style="text-align:right;">
-18.298.381
+18.298.381,251
 </td>
 <td style="text-align:right;">
-2.614.054,5
+2.614.054,4644
 </td>
 <td style="text-align:right;">
-46.783.001
+46.783.001,5
 </td>
 <td style="text-align:right;">
-2.339.150
+2.339.150,074
 </td>
 <td style="text-align:right;">
 6.164.200
 </td>
 <td style="text-align:right;">
-42.957.952
+42.957.951,6
 </td>
 <td style="text-align:right;">
 87.791,26
 </td>
 <td style="text-align:right;">
-489
+489,32
 </td>
 <td style="text-align:right;">
-489
+489,32
 </td>
 </tr>
 <tr>
@@ -1021,34 +1014,34 @@ Reserva teórica
 87.791,26
 </td>
 <td style="text-align:right;">
-20.766.624
+20.766.624,360
 </td>
 <td style="text-align:right;">
-18.170.796
+18.170.796,315
 </td>
 <td style="text-align:right;">
-2.595.828,0
+2.595.828,0450
 </td>
 <td style="text-align:right;">
-61.128.748
+61.128.747,9
 </td>
 <td style="text-align:right;">
-3.056.437
+3.056.437,394
 </td>
 <td style="text-align:right;">
 6.650.600
 </td>
 <td style="text-align:right;">
-57.534.585
+57.534.585,3
 </td>
 <td style="text-align:right;">
 87.126,20
 </td>
 <td style="text-align:right;">
-660
+660,36
 </td>
 <td style="text-align:right;">
-660
+660,36
 </td>
 </tr>
 <tr>
@@ -1056,34 +1049,34 @@ Reserva teórica
 87.126,20
 </td>
 <td style="text-align:right;">
-20.609.307
+20.609.307,434
 </td>
 <td style="text-align:right;">
-18.033.144
+18.033.144,005
 </td>
 <td style="text-align:right;">
-2.576.163,4
+2.576.163,4292
 </td>
 <td style="text-align:right;">
-75.567.729
+75.567.729,3
 </td>
 <td style="text-align:right;">
-3.778.386
+3.778.386,464
 </td>
 <td style="text-align:right;">
 7.176.000
 </td>
 <td style="text-align:right;">
-72.170.116
+72.170.115,7
 </td>
 <td style="text-align:right;">
 86.408,60
 </td>
 <td style="text-align:right;">
-835
+835,22
 </td>
 <td style="text-align:right;">
-835
+835,22
 </td>
 </tr>
 <tr>
@@ -1091,34 +1084,34 @@ Reserva teórica
 86.408,60
 </td>
 <td style="text-align:right;">
-20.439.562
+20.439.562,409
 </td>
 <td style="text-align:right;">
-17.884.617
+17.884.617,108
 </td>
 <td style="text-align:right;">
-2.554.945,3
+2.554.945,3011
 </td>
 <td style="text-align:right;">
-90.054.733
+90.054.732,8
 </td>
 <td style="text-align:right;">
-4.502.737
+4.502.736,642
 </td>
 <td style="text-align:right;">
 7.742.700
 </td>
 <td style="text-align:right;">
-86.814.769
+86.814.769,5
 </td>
 <td style="text-align:right;">
 85.634,33
 </td>
 <td style="text-align:right;">
-1.014
+1.013,78
 </td>
 <td style="text-align:right;">
-1.014
+1.013,78
 </td>
 </tr>
 <tr>
@@ -1126,34 +1119,34 @@ Reserva teórica
 85.634,33
 </td>
 <td style="text-align:right;">
-20.256.412
+20.256.412,352
 </td>
 <td style="text-align:right;">
-17.724.361
+17.724.360,808
 </td>
 <td style="text-align:right;">
-2.532.051,5
+2.532.051,5440
 </td>
 <td style="text-align:right;">
-104.539.130
+104.539.130,3
 </td>
 <td style="text-align:right;">
-5.226.957
+5.226.956,515
 </td>
 <td style="text-align:right;">
 8.352.600
 </td>
 <td style="text-align:right;">
-101.413.487
+101.413.486,8
 </td>
 <td style="text-align:right;">
 84.799,07
 </td>
 <td style="text-align:right;">
-1.196
+1.195,93
 </td>
 <td style="text-align:right;">
-1.196
+1.195,93
 </td>
 </tr>
 <tr>
@@ -1161,34 +1154,34 @@ Reserva teórica
 84.799,07
 </td>
 <td style="text-align:right;">
-20.058.835
+20.058.835,388
 </td>
 <td style="text-align:right;">
-17.551.481
+17.551.480,964
 </td>
 <td style="text-align:right;">
-2.507.354,4
+2.507.354,4234
 </td>
 <td style="text-align:right;">
-118.964.968
+118.964.967,8
 </td>
 <td style="text-align:right;">
-5.948.248
+5.948.248,389
 </td>
 <td style="text-align:right;">
 9.008.200
 </td>
 <td style="text-align:right;">
-115.905.016
+115.905.016,2
 </td>
 <td style="text-align:right;">
 83.898,25
 </td>
 <td style="text-align:right;">
-1.382
+1.381,50
 </td>
 <td style="text-align:right;">
-1.382
+1.381,50
 </td>
 </tr>
 <tr>
@@ -1196,34 +1189,34 @@ Reserva teórica
 83.898,25
 </td>
 <td style="text-align:right;">
-19.845.751
+19.845.750,502
 </td>
 <td style="text-align:right;">
-17.365.032
+17.365.031,690
 </td>
 <td style="text-align:right;">
-2.480.718,8
+2.480.718,8128
 </td>
 <td style="text-align:right;">
-133.270.048
+133.270.047,9
 </td>
 <td style="text-align:right;">
-6.663.502
+6.663.502,393
 </td>
 <td style="text-align:right;">
 9.711.400
 </td>
 <td style="text-align:right;">
-130.222.150
+130.222.150,2
 </td>
 <td style="text-align:right;">
 82.927,11
 </td>
 <td style="text-align:right;">
-1.570
+1.570,32
 </td>
 <td style="text-align:right;">
-1.570
+1.570,32
 </td>
 </tr>
 <tr>
@@ -1231,34 +1224,34 @@ Reserva teórica
 82.927,11
 </td>
 <td style="text-align:right;">
-19.616.032
+19.616.031,740
 </td>
 <td style="text-align:right;">
-17.164.028
+17.164.027,773
 </td>
 <td style="text-align:right;">
-2.452.004,0
+2.452.003,9675
 </td>
 <td style="text-align:right;">
-147.386.178
+147.386.178,0
 </td>
 <td style="text-align:right;">
-7.369.309
+7.369.308,901
 </td>
 <td style="text-align:right;">
 10.463.800
 </td>
 <td style="text-align:right;">
-144.291.687
+144.291.686,9
 </td>
 <td style="text-align:right;">
 81.880,73
 </td>
 <td style="text-align:right;">
-1.762
+1.762,22
 </td>
 <td style="text-align:right;">
-1.762
+1.762,22
 </td>
 </tr>
 <tr>
@@ -1266,34 +1259,34 @@ Reserva teórica
 81.880,73
 </td>
 <td style="text-align:right;">
-19.368.515
+19.368.515,297
 </td>
 <td style="text-align:right;">
-16.947.451
+16.947.450,885
 </td>
 <td style="text-align:right;">
-2.421.064,4
+2.421.064,4121
 </td>
 <td style="text-align:right;">
-161.239.138
+161.239.137,8
 </td>
 <td style="text-align:right;">
-8.061.957
+8.061.956,890
 </td>
 <td style="text-align:right;">
 11.267.200
 </td>
 <td style="text-align:right;">
-158.033.895
+158.033.894,7
 </td>
 <td style="text-align:right;">
 80.754,01
 </td>
 <td style="text-align:right;">
-1.957
+1.956,98
 </td>
 <td style="text-align:right;">
-1.957
+1.956,98
 </td>
 </tr>
 <tr>
@@ -1301,34 +1294,34 @@ Reserva teórica
 80.754,01
 </td>
 <td style="text-align:right;">
-19.101.995
+19.101.994,792
 </td>
 <td style="text-align:right;">
-16.714.245
+16.714.245,443
 </td>
 <td style="text-align:right;">
-2.387.749,4
+2.387.749,3490
 </td>
 <td style="text-align:right;">
-174.748.140
+174.748.140,1
 </td>
 <td style="text-align:right;">
-8.737.407
+8.737.407,007
 </td>
 <td style="text-align:right;">
 12.122.300
 </td>
 <td style="text-align:right;">
-171.363.247
+171.363.247,1
 </td>
 <td style="text-align:right;">
 79.541,78
 </td>
 <td style="text-align:right;">
-2.154
+2.154,38
 </td>
 <td style="text-align:right;">
-2.154
+2.154,38
 </td>
 </tr>
 <tr>
@@ -1336,34 +1329,34 @@ Reserva teórica
 79.541,78
 </td>
 <td style="text-align:right;">
-18.815.247
+18.815.247,283
 </td>
 <td style="text-align:right;">
-16.463.341
+16.463.341,373
 </td>
 <td style="text-align:right;">
-2.351.905,9
+2.351.905,9104
 </td>
 <td style="text-align:right;">
-187.826.589
+187.826.588,5
 </td>
 <td style="text-align:right;">
-9.391.329
+9.391.329,426
 </td>
 <td style="text-align:right;">
 13.030.000
 </td>
 <td style="text-align:right;">
-184.187.918
+184.187.917,9
 </td>
 <td style="text-align:right;">
 78.238,78
 </td>
 <td style="text-align:right;">
-2.354
+2.354,18
 </td>
 <td style="text-align:right;">
-2.354
+2.354,18
 </td>
 </tr>
 <tr>
@@ -1371,34 +1364,34 @@ Reserva teórica
 78.238,78
 </td>
 <td style="text-align:right;">
-18.507.029
+18.507.028,543
 </td>
 <td style="text-align:right;">
-16.193.650
+16.193.649,975
 </td>
 <td style="text-align:right;">
-2.313.378,6
+2.313.378,5679
 </td>
 <td style="text-align:right;">
-200.381.568
+200.381.567,9
 </td>
 <td style="text-align:right;">
-10.019.078
+10.019.078,396
 </td>
 <td style="text-align:right;">
 13.990.000
 </td>
 <td style="text-align:right;">
-196.410.646
+196.410.646,3
 </td>
 <td style="text-align:right;">
 76.839,78
 </td>
 <td style="text-align:right;">
-2.556
+2.556,11
 </td>
 <td style="text-align:right;">
-2.556
+2.556,11
 </td>
 </tr>
 <tr>
@@ -1406,34 +1399,34 @@ Reserva teórica
 76.839,78
 </td>
 <td style="text-align:right;">
-18.176.101
+18.176.101,439
 </td>
 <td style="text-align:right;">
-15.904.089
+15.904.088,759
 </td>
 <td style="text-align:right;">
-2.272.012,7
+2.272.012,6798
 </td>
 <td style="text-align:right;">
-212.314.735
+212.314.735,1
 </td>
 <td style="text-align:right;">
-10.615.737
+10.615.736,754
 </td>
 <td style="text-align:right;">
 15.001.500
 </td>
 <td style="text-align:right;">
-207.928.972
+207.928.971,8
 </td>
 <td style="text-align:right;">
 75.339,63
 </td>
 <td style="text-align:right;">
-2.760
+2.759,89
 </td>
 <td style="text-align:right;">
-2.760
+2.759,89
 </td>
 </tr>
 <tr>
@@ -1441,34 +1434,34 @@ Reserva teórica
 75.339,63
 </td>
 <td style="text-align:right;">
-17.821.248
+17.821.247,760
 </td>
 <td style="text-align:right;">
-15.593.592
+15.593.591,790
 </td>
 <td style="text-align:right;">
-2.227.656,0
+2.227.655,9701
 </td>
 <td style="text-align:right;">
-223.522.564
+223.522.563,6
 </td>
 <td style="text-align:right;">
-11.176.128
+11.176.128,181
 </td>
 <td style="text-align:right;">
 16.062.600
 </td>
 <td style="text-align:right;">
-218.636.092
+218.636.091,8
 </td>
 <td style="text-align:right;">
 73.733,37
 </td>
 <td style="text-align:right;">
-2.965
+2.965,23
 </td>
 <td style="text-align:right;">
-2.965
+2.965,23
 </td>
 </tr>
 <tr>
@@ -1476,34 +1469,34 @@ Reserva teórica
 73.733,37
 </td>
 <td style="text-align:right;">
-17.441.294
+17.441.294,243
 </td>
 <td style="text-align:right;">
-15.261.132
+15.261.132,463
 </td>
 <td style="text-align:right;">
-2.180.161,8
+2.180.161,7804
 </td>
 <td style="text-align:right;">
-233.897.224
+233.897.224,3
 </td>
 <td style="text-align:right;">
-11.694.861
+11.694.861,213
 </td>
 <td style="text-align:right;">
 17.170.400
 </td>
 <td style="text-align:right;">
-228.421.685
+228.421.685,5
 </td>
 <td style="text-align:right;">
 72.016,33
 </td>
 <td style="text-align:right;">
-3.172
+3.171,80
 </td>
 <td style="text-align:right;">
-3.172
+3.171,80
 </td>
 </tr>
 <tr>
@@ -1511,34 +1504,34 @@ Reserva teórica
 72.016,33
 </td>
 <td style="text-align:right;">
-17.035.136
+17.035.136,219
 </td>
 <td style="text-align:right;">
-14.905.744
+14.905.744,192
 </td>
 <td style="text-align:right;">
-2.129.392,0
+2.129.392,0274
 </td>
 <td style="text-align:right;">
-243.327.430
+243.327.429,7
 </td>
 <td style="text-align:right;">
-12.166.371
+12.166.371,483
 </td>
 <td style="text-align:right;">
 18.320.200
 </td>
 <td style="text-align:right;">
-237.173.601
+237.173.601,1
 </td>
 <td style="text-align:right;">
 70.184,31
 </td>
 <td style="text-align:right;">
-3.379
+3.379,30
 </td>
 <td style="text-align:right;">
-3.379
+3.379,30
 </td>
 </tr>
 <tr>
@@ -1546,34 +1539,34 @@ Reserva teórica
 70.184,31
 </td>
 <td style="text-align:right;">
-16.601.780
+16.601.780,197
 </td>
 <td style="text-align:right;">
-14.526.558
+14.526.557,673
 </td>
 <td style="text-align:right;">
-2.075.222,5
+2.075.222,5247
 </td>
 <td style="text-align:right;">
-251.700.159
+251.700.158,8
 </td>
 <td style="text-align:right;">
-12.585.008
+12.585.007,941
 </td>
 <td style="text-align:right;">
 19.506.500
 </td>
 <td style="text-align:right;">
-244.778.667
+244.778.666,8
 </td>
 <td style="text-align:right;">
 68.233,66
 </td>
 <td style="text-align:right;">
-3.587
+3.587,36
 </td>
 <td style="text-align:right;">
-3.587
+3.587,36
 </td>
 </tr>
 <tr>
@@ -1581,34 +1574,34 @@ Reserva teórica
 68.233,66
 </td>
 <td style="text-align:right;">
-16.140.363
+16.140.362,787
 </td>
 <td style="text-align:right;">
-14.122.817
+14.122.817,439
 </td>
 <td style="text-align:right;">
-2.017.545,4
+2.017.545,3484
 </td>
 <td style="text-align:right;">
-258.901.484
+258.901.484,2
 </td>
 <td style="text-align:right;">
-12.945.074
+12.945.074,210
 </td>
 <td style="text-align:right;">
 20.721.200
 </td>
 <td style="text-align:right;">
-251.125.358
+251.125.358,4
 </td>
 <td style="text-align:right;">
 66.161,54
 </td>
 <td style="text-align:right;">
-3.796
+3.795,64
 </td>
 <td style="text-align:right;">
-3.796
+3.795,64
 </td>
 </tr>
 <tr>
@@ -1616,34 +1609,34 @@ Reserva teórica
 66.161,54
 </td>
 <td style="text-align:right;">
-15.650.212
+15.650.212,200
 </td>
 <td style="text-align:right;">
-13.693.936
+13.693.935,675
 </td>
 <td style="text-align:right;">
-1.956.276,5
+1.956.276,5250
 </td>
 <td style="text-align:right;">
-264.819.294
+264.819.294,1
 </td>
 <td style="text-align:right;">
-13.240.965
+13.240.964,704
 </td>
 <td style="text-align:right;">
 21.954.600
 </td>
 <td style="text-align:right;">
-256.105.659
+256.105.658,8
 </td>
 <td style="text-align:right;">
 63.966,08
 </td>
 <td style="text-align:right;">
-4.004
+4.003,77
 </td>
 <td style="text-align:right;">
-4.004
+4.003,77
 </td>
 </tr>
 <tr>
@@ -1651,34 +1644,34 @@ Reserva teórica
 63.966,08
 </td>
 <td style="text-align:right;">
-15.130.886
+15.130.886,095
 </td>
 <td style="text-align:right;">
-13.239.525
+13.239.525,333
 </td>
 <td style="text-align:right;">
-1.891.360,8
+1.891.360,7618
 </td>
 <td style="text-align:right;">
-269.345.184
+269.345.184,1
 </td>
 <td style="text-align:right;">
-13.467.259
+13.467.259,206
 </td>
 <td style="text-align:right;">
 23.194.600
 </td>
 <td style="text-align:right;">
-259.617.843
+259.617.843,3
 </td>
 <td style="text-align:right;">
 61.646,62
 </td>
 <td style="text-align:right;">
-4.211
+4.211,39
 </td>
 <td style="text-align:right;">
-4.211
+4.211,39
 </td>
 </tr>
 <tr>
@@ -1686,34 +1679,34 @@ Reserva teórica
 61.646,62
 </td>
 <td style="text-align:right;">
-14.582.228
+14.582.228,352
 </td>
 <td style="text-align:right;">
-12.759.450
+12.759.449,808
 </td>
 <td style="text-align:right;">
-1.822.778,5
+1.822.778,5440
 </td>
 <td style="text-align:right;">
-272.377.293
+272.377.293,1
 </td>
 <td style="text-align:right;">
-13.618.865
+13.618.864,657
 </td>
 <td style="text-align:right;">
 24.426.900
 </td>
 <td style="text-align:right;">
-261.569.258
+261.569.257,8
 </td>
 <td style="text-align:right;">
 59.203,93
 </td>
 <td style="text-align:right;">
-4.418
+4.418,11
 </td>
 <td style="text-align:right;">
-4.418
+4.418,11
 </td>
 </tr>
 <tr>
@@ -1721,34 +1714,34 @@ Reserva teórica
 59.203,93
 </td>
 <td style="text-align:right;">
-14.004.421
+14.004.421,112
 </td>
 <td style="text-align:right;">
-12.253.868
+12.253.868,473
 </td>
 <td style="text-align:right;">
-1.750.552,6
+1.750.552,6390
 </td>
 <td style="text-align:right;">
-273.823.126
+273.823.126,3
 </td>
 <td style="text-align:right;">
-13.691.156
+13.691.156,313
 </td>
 <td style="text-align:right;">
 25.634.200
 </td>
 <td style="text-align:right;">
-261.880.083
+261.880.082,6
 </td>
 <td style="text-align:right;">
 56.640,51
 </td>
 <td style="text-align:right;">
-4.624
+4.623,55
 </td>
 <td style="text-align:right;">
-4.624
+4.623,55
 </td>
 </tr>
 <tr>
@@ -1756,34 +1749,34 @@ Reserva teórica
 56.640,51
 </td>
 <td style="text-align:right;">
-13.398.056
+13.398.055,738
 </td>
 <td style="text-align:right;">
-11.723.299
+11.723.298,770
 </td>
 <td style="text-align:right;">
-1.674.757,0
+1.674.756,9672
 </td>
 <td style="text-align:right;">
-273.603.381
+273.603.381,3
 </td>
 <td style="text-align:right;">
-13.680.169
+13.680.169,067
 </td>
 <td style="text-align:right;">
 26.797.100
 </td>
 <td style="text-align:right;">
-260.486.450
+260.486.450,4
 </td>
 <td style="text-align:right;">
 53.960,80
 </td>
 <td style="text-align:right;">
-4.827
+4.827,33
 </td>
 <td style="text-align:right;">
-4.827
+4.827,33
 </td>
 </tr>
 <tr>
@@ -1791,34 +1784,34 @@ Reserva teórica
 53.960,80
 </td>
 <td style="text-align:right;">
-12.764.182
+12.764.182,491
 </td>
 <td style="text-align:right;">
-11.168.660
+11.168.659,680
 </td>
 <td style="text-align:right;">
-1.595.522,8
+1.595.522,8114
 </td>
 <td style="text-align:right;">
-271.655.110
+271.655.110,1
 </td>
 <td style="text-align:right;">
-13.582.756
+13.582.755,505
 </td>
 <td style="text-align:right;">
 27.892.900
 </td>
 <td style="text-align:right;">
-257.344.966
+257.344.965,6
 </td>
 <td style="text-align:right;">
 51.171,51
 </td>
 <td style="text-align:right;">
-5.029
+5.029,07
 </td>
 <td style="text-align:right;">
-5.029
+5.029,07
 </td>
 </tr>
 <tr>
@@ -1826,34 +1819,34 @@ Reserva teórica
 51.171,51
 </td>
 <td style="text-align:right;">
-12.104.389
+12.104.388,593
 </td>
 <td style="text-align:right;">
-10.591.340
+10.591.340,019
 </td>
 <td style="text-align:right;">
-1.513.048,6
+1.513.048,5742
 </td>
 <td style="text-align:right;">
-267.936.306
+267.936.305,6
 </td>
 <td style="text-align:right;">
-13.396.815
+13.396.815,281
 </td>
 <td style="text-align:right;">
 28.887.000
 </td>
 <td style="text-align:right;">
-252.446.121
+252.446.120,9
 </td>
 <td style="text-align:right;">
 48.282,81
 </td>
 <td style="text-align:right;">
-5.228
+5.228,49
 </td>
 <td style="text-align:right;">
-5.228
+5.228,49
 </td>
 </tr>
 <tr>
@@ -1861,34 +1854,34 @@ Reserva teórica
 48.282,81
 </td>
 <td style="text-align:right;">
-11.421.080
+11.421.079,710
 </td>
 <td style="text-align:right;">
-9.993.445
+9.993.444,747
 </td>
 <td style="text-align:right;">
-1.427.635,0
+1.427.634,9638
 </td>
 <td style="text-align:right;">
-262.439.566
+262.439.565,6
 </td>
 <td style="text-align:right;">
-13.121.978
+13.121.978,282
 </td>
 <td style="text-align:right;">
 29.792.100
 </td>
 <td style="text-align:right;">
-245.769.444
+245.769.443,9
 </td>
 <td style="text-align:right;">
 45.303,60
 </td>
 <td style="text-align:right;">
-5.425
+5.424,94
 </td>
 <td style="text-align:right;">
-5.425
+5.424,94
 </td>
 </tr>
 <tr>
@@ -1896,34 +1889,34 @@ Reserva teórica
 45.303,60
 </td>
 <td style="text-align:right;">
-10.716.361
+10.716.361,098
 </td>
 <td style="text-align:right;">
-9.376.816
+9.376.815,960
 </td>
 <td style="text-align:right;">
-1.339.545,1
+1.339.545,1372
 </td>
 <td style="text-align:right;">
-255.146.260
+255.146.259,9
 </td>
 <td style="text-align:right;">
-12.757.313
+12.757.312,994
 </td>
 <td style="text-align:right;">
 30.519.800
 </td>
 <td style="text-align:right;">
-237.383.773
+237.383.772,9
 </td>
 <td style="text-align:right;">
 42.251,62
 </td>
 <td style="text-align:right;">
-5.618
+5.618,34
 </td>
 <td style="text-align:right;">
-5.618
+5.618,34
 </td>
 </tr>
 <tr>
@@ -1931,34 +1924,34 @@ Reserva teórica
 42.251,62
 </td>
 <td style="text-align:right;">
-9.994.429
+9.994.429,071
 </td>
 <td style="text-align:right;">
-8.745.125
+8.745.125,437
 </td>
 <td style="text-align:right;">
-1.249.303,6
+1.249.303,6339
 </td>
 <td style="text-align:right;">
-246.128.898
+246.128.898,3
 </td>
 <td style="text-align:right;">
-12.306.445
+12.306.444,916
 </td>
 <td style="text-align:right;">
 31.079.800
 </td>
 <td style="text-align:right;">
-227.355.543
+227.355.543,2
 </td>
 <td style="text-align:right;">
 39.143,64
 </td>
 <td style="text-align:right;">
-5.808
+5.808,24
 </td>
 <td style="text-align:right;">
-5.808
+5.808,24
 </td>
 </tr>
 <tr>
@@ -1966,34 +1959,34 @@ Reserva teórica
 39.143,64
 </td>
 <td style="text-align:right;">
-9.259.251
+9.259.250,499
 </td>
 <td style="text-align:right;">
-8.101.844
+8.101.844,187
 </td>
 <td style="text-align:right;">
-1.157.406,3
+1.157.406,3124
 </td>
 <td style="text-align:right;">
-235.457.387
+235.457.387,4
 </td>
 <td style="text-align:right;">
-11.772.869
+11.772.869,371
 </td>
 <td style="text-align:right;">
 31.432.700
 </td>
 <td style="text-align:right;">
-215.797.557
+215.797.556,8
 </td>
 <td style="text-align:right;">
 36.000,37
 </td>
 <td style="text-align:right;">
-5.994
+5.994,31
 </td>
 <td style="text-align:right;">
-5.994
+5.994,31
 </td>
 </tr>
 <tr>
@@ -2001,34 +1994,34 @@ Reserva teórica
 36.000,37
 </td>
 <td style="text-align:right;">
-8.515.724
+8.515.724,238
 </td>
 <td style="text-align:right;">
-7.451.259
+7.451.258,708
 </td>
 <td style="text-align:right;">
-1.064.465,5
+1.064.465,5297
 </td>
 <td style="text-align:right;">
-223.248.816
+223.248.815,5
 </td>
 <td style="text-align:right;">
-11.162.441
+11.162.440,775
 </td>
 <td style="text-align:right;">
 31.549.600
 </td>
 <td style="text-align:right;">
-202.861.656
+202.861.656,3
 </td>
 <td style="text-align:right;">
 32.845,41
 </td>
 <td style="text-align:right;">
-6.176
+6.176,26
 </td>
 <td style="text-align:right;">
-6.176
+6.176,26
 </td>
 </tr>
 <tr>
@@ -2036,34 +2029,34 @@ Reserva teórica
 32.845,41
 </td>
 <td style="text-align:right;">
-7.769.433
+7.769.432,759
 </td>
 <td style="text-align:right;">
-6.798.254
+6.798.253,664
 </td>
 <td style="text-align:right;">
-971.179,1
+971.179,0949
 </td>
 <td style="text-align:right;">
-209.659.910
+209.659.909,9
 </td>
 <td style="text-align:right;">
-10.482.996
+10.482.995,497
 </td>
 <td style="text-align:right;">
 31.404.600
 </td>
 <td style="text-align:right;">
-188.738.305
+188.738.305,4
 </td>
 <td style="text-align:right;">
 29.704,95
 </td>
 <td style="text-align:right;">
-6.354
+6.353,77
 </td>
 <td style="text-align:right;">
-6.354
+6.353,77
 </td>
 </tr>
 <tr>
@@ -2071,34 +2064,34 @@ Reserva teórica
 29.704,95
 </td>
 <td style="text-align:right;">
-7.026.571
+7.026.571,191
 </td>
 <td style="text-align:right;">
-6.148.250
+6.148.249,792
 </td>
 <td style="text-align:right;">
-878.321,4
+878.321,3988
 </td>
 <td style="text-align:right;">
-194.886.555
+194.886.555,2
 </td>
 <td style="text-align:right;">
-9.744.328
+9.744.327,762
 </td>
 <td style="text-align:right;">
 30.976.100
 </td>
 <td style="text-align:right;">
-173.654.783
+173.654.783,0
 </td>
 <td style="text-align:right;">
 26.607,34
 </td>
 <td style="text-align:right;">
-6.527
+6.526,57
 </td>
 <td style="text-align:right;">
-6.527
+6.526,57
 </td>
 </tr>
 <tr>
@@ -2106,34 +2099,34 @@ Reserva teórica
 26.607,34
 </td>
 <td style="text-align:right;">
-6.293.846
+6.293.845,595
 </td>
 <td style="text-align:right;">
-5.507.115
+5.507.114,895
 </td>
 <td style="text-align:right;">
-786.730,7
+786.730,6994
 </td>
 <td style="text-align:right;">
-179.161.898
+179.161.897,9
 </td>
 <td style="text-align:right;">
-8.958.095
+8.958.094,894
 </td>
 <td style="text-align:right;">
 30.248.900
 </td>
 <td style="text-align:right;">
-157.871.093
+157.871.092,8
 </td>
 <td style="text-align:right;">
 23.582,45
 </td>
 <td style="text-align:right;">
-6.694
+6.694,43
 </td>
 <td style="text-align:right;">
-6.694
+6.694,43
 </td>
 </tr>
 <tr>
@@ -2141,34 +2134,34 @@ Reserva teórica
 23.582,45
 </td>
 <td style="text-align:right;">
-5.578.322
+5.578.321,585
 </td>
 <td style="text-align:right;">
-4.881.031
+4.881.031,387
 </td>
 <td style="text-align:right;">
-697.290,2
+697.290,1981
 </td>
 <td style="text-align:right;">
-162.752.124
+162.752.124,2
 </td>
 <td style="text-align:right;">
-8.137.606
+8.137.606,208
 </td>
 <td style="text-align:right;">
 29.215.500
 </td>
 <td style="text-align:right;">
-141.674.230
+141.674.230,4
 </td>
 <td style="text-align:right;">
 20.660,90
 </td>
 <td style="text-align:right;">
-6.857
+6.857,12
 </td>
 <td style="text-align:right;">
-6.857
+6.857,12
 </td>
 </tr>
 <tr>
@@ -2176,34 +2169,34 @@ Reserva teórica
 20.660,90
 </td>
 <td style="text-align:right;">
-4.887.242
+4.887.242,184
 </td>
 <td style="text-align:right;">
-4.276.337
+4.276.336,911
 </td>
 <td style="text-align:right;">
-610.905,3
+610.905,2730
 </td>
 <td style="text-align:right;">
-145.950.567
+145.950.567,3
 </td>
 <td style="text-align:right;">
-7.297.528
+7.297.528,364
 </td>
 <td style="text-align:right;">
 27.879.100
 </td>
 <td style="text-align:right;">
-125.368.996
+125.368.995,7
 </td>
 <td style="text-align:right;">
 17.872,99
 </td>
 <td style="text-align:right;">
-7.014
+7.014,44
 </td>
 <td style="text-align:right;">
-7.014
+7.014,44
 </td>
 </tr>
 <tr>
@@ -2211,34 +2204,34 @@ Reserva teórica
 17.872,99
 </td>
 <td style="text-align:right;">
-4.227.775
+4.227.774,718
 </td>
 <td style="text-align:right;">
-3.699.303
+3.699.302,879
 </td>
 <td style="text-align:right;">
-528.471,8
+528.471,8398
 </td>
 <td style="text-align:right;">
-129.068.299
+129.068.298,5
 </td>
 <td style="text-align:right;">
-6.453.415
+6.453.414,927
 </td>
 <td style="text-align:right;">
 26.254.100
 </td>
 <td style="text-align:right;">
-109.267.613
+109.267.613,5
 </td>
 <td style="text-align:right;">
 15.247,58
 </td>
 <td style="text-align:right;">
-7.166
+7.166,23
 </td>
 <td style="text-align:right;">
-7.166
+7.166,23
 </td>
 </tr>
 <tr>
@@ -2246,34 +2239,34 @@ Reserva teórica
 15.247,58
 </td>
 <td style="text-align:right;">
-3.606.746
+3.606.745,891
 </td>
 <td style="text-align:right;">
-3.155.903
+3.155.902,655
 </td>
 <td style="text-align:right;">
-450.843,2
+450.843,2364
 </td>
 <td style="text-align:right;">
-112.423.516
+112.423.516,1
 </td>
 <td style="text-align:right;">
-5.621.176
+5.621.175,806
 </td>
 <td style="text-align:right;">
 24.367.500
 </td>
 <td style="text-align:right;">
-93.677.192
+93.677.191,9
 </td>
 <td style="text-align:right;">
 12.810,83
 </td>
 <td style="text-align:right;">
-7.312
+7.312,34
 </td>
 <td style="text-align:right;">
-7.312
+7.312,34
 </td>
 </tr>
 <tr>
@@ -2281,34 +2274,34 @@ Reserva teórica
 12.810,83
 </td>
 <td style="text-align:right;">
-3.030.344
+3.030.343,731
 </td>
 <td style="text-align:right;">
-2.651.551
+2.651.550,764
 </td>
 <td style="text-align:right;">
-378.793,0
+378.792,9663
 </td>
 <td style="text-align:right;">
-96.328.743
+96.328.742,7
 </td>
 <td style="text-align:right;">
-4.816.437
+4.816.437,134
 </td>
 <td style="text-align:right;">
 22.259.200
 </td>
 <td style="text-align:right;">
-78.885.980
+78.885.979,8
 </td>
 <td style="text-align:right;">
 10.584,91
 </td>
 <td style="text-align:right;">
-7.453
+7.452,68
 </td>
 <td style="text-align:right;">
-7.453
+7.452,68
 </td>
 </tr>
 <tr>
@@ -2316,34 +2309,34 @@ Reserva teórica
 10.584,91
 </td>
 <td style="text-align:right;">
-2.503.812
+2.503.812,451
 </td>
 <td style="text-align:right;">
-2.190.836
+2.190.835,894
 </td>
 <td style="text-align:right;">
-312.976,6
+312.976,5564
 </td>
 <td style="text-align:right;">
-81.076.816
+81.076.815,7
 </td>
 <td style="text-align:right;">
-4.053.841
+4.053.840,786
 </td>
 <td style="text-align:right;">
 19.981.600
 </td>
 <td style="text-align:right;">
-65.149.057
+65.149.056,5
 </td>
 <td style="text-align:right;">
 8.586,75
 </td>
 <td style="text-align:right;">
-7.587
+7.587,16
 </td>
 <td style="text-align:right;">
-7.587
+7.587,16
 </td>
 </tr>
 <tr>
@@ -2351,34 +2344,34 @@ Reserva teórica
 8.586,75
 </td>
 <td style="text-align:right;">
-2.031.157
+2.031.156,766
 </td>
 <td style="text-align:right;">
-1.777.262
+1.777.262,170
 </td>
 <td style="text-align:right;">
-253.894,6
+253.894,5957
 </td>
 <td style="text-align:right;">
-66.926.319
+66.926.318,7
 </td>
 <td style="text-align:right;">
-3.346.316
+3.346.315,933
 </td>
 <td style="text-align:right;">
 17.596.800
 </td>
 <td style="text-align:right;">
-52.675.835
+52.675.834,6
 </td>
 <td style="text-align:right;">
 6.827,07
 </td>
 <td style="text-align:right;">
-7.716
+7.715,73
 </td>
 <td style="text-align:right;">
-7.716
+7.715,73
 </td>
 </tr>
 <tr>
@@ -2386,34 +2379,34 @@ Reserva teórica
 6.827,07
 </td>
 <td style="text-align:right;">
-1.614.912
+1.614.912,443
 </td>
 <td style="text-align:right;">
-1.413.048
+1.413.048,388
 </td>
 <td style="text-align:right;">
-201.864,1
+201.864,0554
 </td>
 <td style="text-align:right;">
-54.088.883
+54.088.883,0
 </td>
 <td style="text-align:right;">
-2.704.444
+2.704.444,149
 </td>
 <td style="text-align:right;">
 15.174.900
 </td>
 <td style="text-align:right;">
-41.618.427
+41.618.427,1
 </td>
 <td style="text-align:right;">
 5.309,58
 </td>
 <td style="text-align:right;">
-7.838
+7.838,37
 </td>
 <td style="text-align:right;">
-7.838
+7.838,37
 </td>
 </tr>
 <tr>
@@ -2421,34 +2414,34 @@ Reserva teórica
 5.309,58
 </td>
 <td style="text-align:right;">
-1.255.957
+1.255.957,066
 </td>
 <td style="text-align:right;">
-1.098.962
+1.098.962,433
 </td>
 <td style="text-align:right;">
-156.994,6
+156.994,6333
 </td>
 <td style="text-align:right;">
-42.717.390
+42.717.389,6
 </td>
 <td style="text-align:right;">
-2.135.869
+2.135.869,479
 </td>
 <td style="text-align:right;">
 12.788.600
 </td>
 <td style="text-align:right;">
-32.064.659
+32.064.659,0
 </td>
 <td style="text-align:right;">
 4.030,72
 </td>
 <td style="text-align:right;">
-7.955
+7.955,07
 </td>
 <td style="text-align:right;">
-7.955
+7.955,07
 </td>
 </tr>
 <tr>
@@ -2456,34 +2449,34 @@ Reserva teórica
 4.030,72
 </td>
 <td style="text-align:right;">
-953.449
+953.448,534
 </td>
 <td style="text-align:right;">
-834.267
+834.267,467
 </td>
 <td style="text-align:right;">
-119.181,1
+119.181,0667
 </td>
 <td style="text-align:right;">
-32.898.927
+32.898.926,5
 </td>
 <td style="text-align:right;">
-1.644.946
+1.644.946,326
 </td>
 <td style="text-align:right;">
 10.509.100
 </td>
 <td style="text-align:right;">
-24.034.773
+24.034.772,8
 </td>
 <td style="text-align:right;">
 2.979,81
 </td>
 <td style="text-align:right;">
-8.066
+8.065,87
 </td>
 <td style="text-align:right;">
-8.066
+8.065,87
 </td>
 </tr>
 <tr>
@@ -2491,34 +2484,34 @@ Reserva teórica
 2.979,81
 </td>
 <td style="text-align:right;">
-704.861
+704.860,540
 </td>
 <td style="text-align:right;">
-616.753
+616.752,973
 </td>
 <td style="text-align:right;">
-88.107,6
+88.107,5675
 </td>
 <td style="text-align:right;">
-24.651.526
+24.651.525,8
 </td>
 <td style="text-align:right;">
-1.232.576
+1.232.576,291
 </td>
 <td style="text-align:right;">
 8.400.400
 </td>
 <td style="text-align:right;">
-17.483.702
+17.483.702,1
 </td>
 <td style="text-align:right;">
 2.139,77
 </td>
 <td style="text-align:right;">
-8.171
+8.170,83
 </td>
 <td style="text-align:right;">
-8.171
+8.170,83
 </td>
 </tr>
 <tr>
@@ -2526,34 +2519,34 @@ Reserva teórica
 2.139,77
 </td>
 <td style="text-align:right;">
-506.153
+506.152,888
 </td>
 <td style="text-align:right;">
-442.884
+442.883,777
 </td>
 <td style="text-align:right;">
-63.269,1
+63.269,1110
 </td>
 <td style="text-align:right;">
-17.926.586
+17.926.585,9
 </td>
 <td style="text-align:right;">
-896.329
+896.329,294
 </td>
 <td style="text-align:right;">
 6.514.500
 </td>
 <td style="text-align:right;">
-12.308.415
+12.308.415,2
 </td>
 <td style="text-align:right;">
 1.488,32
 </td>
 <td style="text-align:right;">
-8.270
+8.270,01
 </td>
 <td style="text-align:right;">
-8.270
+8.270,01
 </td>
 </tr>
 <tr>
@@ -2561,34 +2554,34 @@ Reserva teórica
 1.488,32
 </td>
 <td style="text-align:right;">
-352.055
+352.055,345
 </td>
 <td style="text-align:right;">
-308.048
+308.048,427
 </td>
 <td style="text-align:right;">
-44.006,9
+44.006,9182
 </td>
 <td style="text-align:right;">
-12.616.464
+12.616.463,6
 </td>
 <td style="text-align:right;">
-630.823
+630.823,180
 </td>
 <td style="text-align:right;">
 4.886.700
 </td>
 <td style="text-align:right;">
-8.360.587
+8.360.586,8
 </td>
 <td style="text-align:right;">
 999,65
 </td>
 <td style="text-align:right;">
-8.364
+8.363,51
 </td>
 <td style="text-align:right;">
-8.364
+8.363,51
 </td>
 </tr>
 <tr>
@@ -2596,34 +2589,34 @@ Reserva teórica
 999,65
 </td>
 <td style="text-align:right;">
-236.463
+236.462,673
 </td>
 <td style="text-align:right;">
-206.905
+206.904,839
 </td>
 <td style="text-align:right;">
-29.557,8
+29.557,8342
 </td>
 <td style="text-align:right;">
-8.567.492
+8.567.491,6
 </td>
 <td style="text-align:right;">
-428.375
+428.374,581
 </td>
 <td style="text-align:right;">
 3.534.800
 </td>
 <td style="text-align:right;">
-5.461.066
+5.461.066,2
 </td>
 <td style="text-align:right;">
 646,17
 </td>
 <td style="text-align:right;">
-8.451
+8.451,44
 </td>
 <td style="text-align:right;">
-8.451
+8.451,44
 </td>
 </tr>
 <tr>
@@ -2631,34 +2624,34 @@ Reserva teórica
 646,17
 </td>
 <td style="text-align:right;">
-152.849
+152.848,583
 </td>
 <td style="text-align:right;">
-133.743
+133.742,510
 </td>
 <td style="text-align:right;">
-19.106,1
+19.106,0728
 </td>
 <td style="text-align:right;">
-5.594.809
+5.594.808,7
 </td>
 <td style="text-align:right;">
-279.740
+279.740,436
 </td>
 <td style="text-align:right;">
 2.456.800
 </td>
 <td style="text-align:right;">
-3.417.749
+3.417.749,2
 </td>
 <td style="text-align:right;">
 400,49
 </td>
 <td style="text-align:right;">
-8.534
+8.533,92
 </td>
 <td style="text-align:right;">
-8.534
+8.533,92
 </td>
 </tr>
 <tr>
@@ -2666,34 +2659,34 @@ Reserva teórica
 400,49
 </td>
 <td style="text-align:right;">
-94.734
+94.734,093
 </td>
 <td style="text-align:right;">
-82.892
+82.892,331
 </td>
 <td style="text-align:right;">
-11.841,8
+11.841,7616
 </td>
 <td style="text-align:right;">
-3.500.641
+3.500.641,5
 </td>
 <td style="text-align:right;">
-175.032
+175.032,074
 </td>
 <td style="text-align:right;">
 1.634.400
 </td>
 <td style="text-align:right;">
-2.041.274
+2.041.273,6
 </td>
 <td style="text-align:right;">
 237,05
 </td>
 <td style="text-align:right;">
-8.611
+8.611,15
 </td>
 <td style="text-align:right;">
-8.611
+8.611,15
 </td>
 </tr>
 <tr>
@@ -2701,34 +2694,34 @@ Reserva teórica
 237,05
 </td>
 <td style="text-align:right;">
-56.073
+56.073,102
 </td>
 <td style="text-align:right;">
-49.064
+49.063,965
 </td>
 <td style="text-align:right;">
-7.009,1
+7.009,1378
 </td>
 <td style="text-align:right;">
-2.090.338
+2.090.337,5
 </td>
 <td style="text-align:right;">
-104.517
+104.516,876
 </td>
 <td style="text-align:right;">
 1.036.600
 </td>
 <td style="text-align:right;">
-1.158.254
+1.158.254,4
 </td>
 <td style="text-align:right;">
 133,39
 </td>
 <td style="text-align:right;">
-8.683
+8.683,22
 </td>
 <td style="text-align:right;">
-8.683
+8.683,22
 </td>
 </tr>
 <tr>
@@ -2736,34 +2729,34 @@ Reserva teórica
 133,39
 </td>
 <td style="text-align:right;">
-31.553
+31.552,799
 </td>
 <td style="text-align:right;">
-27.609
+27.608,700
 </td>
 <td style="text-align:right;">
-3.944,1
+3.944,0999
 </td>
 <td style="text-align:right;">
-1.185.863
+1.185.863,1
 </td>
 <td style="text-align:right;">
-59.293
+59.293,155
 </td>
 <td style="text-align:right;">
 623.800
 </td>
 <td style="text-align:right;">
-621.356
+621.356,3
 </td>
 <td style="text-align:right;">
 71,01
 </td>
 <td style="text-align:right;">
-8.750
+8.750,26
 </td>
 <td style="text-align:right;">
-8.750
+8.750,26
 </td>
 </tr>
 <tr>
@@ -2771,34 +2764,34 @@ Reserva teórica
 71,01
 </td>
 <td style="text-align:right;">
-16.797
+16.797,093
 </td>
 <td style="text-align:right;">
-14.697
+14.697,457
 </td>
 <td style="text-align:right;">
-2.099,6
+2.099,6367
 </td>
 <td style="text-align:right;">
-636.054
+636.053,7
 </td>
 <td style="text-align:right;">
-31.803
+31.802,685
 </td>
 <td style="text-align:right;">
 354.300
 </td>
 <td style="text-align:right;">
-313.556
+313.556,4
 </td>
 <td style="text-align:right;">
 35,58
 </td>
 <td style="text-align:right;">
-8.813
+8.812,71
 </td>
 <td style="text-align:right;">
-8.813
+8.812,71
 </td>
 </tr>
 <tr>
@@ -2806,34 +2799,34 @@ Reserva teórica
 35,58
 </td>
 <td style="text-align:right;">
-8.416
+8.416,288
 </td>
 <td style="text-align:right;">
-7.364
+7.364,252
 </td>
 <td style="text-align:right;">
-1.052,0
+1.052,0359
 </td>
 <td style="text-align:right;">
-320.921
+320.920,6
 </td>
 <td style="text-align:right;">
-16.046
+16.046,032
 </td>
 <td style="text-align:right;">
 189.000
 </td>
 <td style="text-align:right;">
-147.967
+147.966,7
 </td>
 <td style="text-align:right;">
 16,68
 </td>
 <td style="text-align:right;">
-8.871
+8.870,90
 </td>
 <td style="text-align:right;">
-8.871
+8.870,90
 </td>
 </tr>
 <tr>
@@ -2841,34 +2834,34 @@ Reserva teórica
 16,68
 </td>
 <td style="text-align:right;">
-3.946
+3.945,578
 </td>
 <td style="text-align:right;">
-3.452
+3.452,381
 </td>
 <td style="text-align:right;">
-493,2
+493,1973
 </td>
 <td style="text-align:right;">
-151.419
+151.419,1
 </td>
 <td style="text-align:right;">
-7.571
+7.570,953
 </td>
 <td style="text-align:right;">
 94.100
 </td>
 <td style="text-align:right;">
-64.890
+64.890,0
 </td>
 <td style="text-align:right;">
 7,27
 </td>
 <td style="text-align:right;">
-8.926
+8.925,72
 </td>
 <td style="text-align:right;">
-8.926
+8.925,72
 </td>
 </tr>
 <tr>
@@ -2876,34 +2869,34 @@ Reserva teórica
 7,27
 </td>
 <td style="text-align:right;">
-1.720
+1.719,686
 </td>
 <td style="text-align:right;">
-1.505
+1.504,725
 </td>
 <td style="text-align:right;">
-215,0
+214,9607
 </td>
 <td style="text-align:right;">
-66.395
+66.394,7
 </td>
 <td style="text-align:right;">
-3.320
+3.319,737
 </td>
 <td style="text-align:right;">
 43.500
 </td>
 <td style="text-align:right;">
-26.214
+26.214,5
 </td>
 <td style="text-align:right;">
 2,92
 </td>
 <td style="text-align:right;">
-8.978
+8.977,56
 </td>
 <td style="text-align:right;">
-8.978
+8.977,56
 </td>
 </tr>
 <tr>
@@ -2911,34 +2904,34 @@ Reserva teórica
 2,92
 </td>
 <td style="text-align:right;">
-691
+690,713
 </td>
 <td style="text-align:right;">
-604
+604,374
 </td>
 <td style="text-align:right;">
-86,3
+86,3391
 </td>
 <td style="text-align:right;">
-26.819
+26.818,8
 </td>
 <td style="text-align:right;">
-1.341
+1.340,942
 </td>
 <td style="text-align:right;">
 18.400
 </td>
 <td style="text-align:right;">
-9.760
+9.759,8
 </td>
 <td style="text-align:right;">
 1,08
 </td>
 <td style="text-align:right;">
-9.037
+9.036,84
 </td>
 <td style="text-align:right;">
-9.037
+9.036,84
 </td>
 </tr>
 <tr>
@@ -2946,34 +2939,34 @@ Reserva teórica
 1,08
 </td>
 <td style="text-align:right;">
-255
+255,469
 </td>
 <td style="text-align:right;">
-224
+223,535
 </td>
 <td style="text-align:right;">
-31,9
+31,9336
 </td>
 <td style="text-align:right;">
-9.983
+9.983,3
 </td>
 <td style="text-align:right;">
-499
+499,166
 </td>
 <td style="text-align:right;">
 7.200
 </td>
 <td style="text-align:right;">
-3.282
+3.282,5
 </td>
 <td style="text-align:right;">
 0,36
 </td>
 <td style="text-align:right;">
-9.118
+9.118,03
 </td>
 <td style="text-align:right;">
-9.118
+9.118,03
 </td>
 </tr>
 <tr>
@@ -2981,34 +2974,34 @@ Reserva teórica
 0,36
 </td>
 <td style="text-align:right;">
-85
+85,156
 </td>
 <td style="text-align:right;">
-75
+74,512
 </td>
 <td style="text-align:right;">
-10,6
+10,6446
 </td>
 <td style="text-align:right;">
-3.357
+3.357,0
 </td>
 <td style="text-align:right;">
-168
+167,850
 </td>
 <td style="text-align:right;">
 2.500
 </td>
 <td style="text-align:right;">
-1.025
+1.024,9
 </td>
 <td style="text-align:right;">
 0,11
 </td>
 <td style="text-align:right;">
-9.317
+9.316,83
 </td>
 <td style="text-align:right;">
-9.317
+9.316,83
 </td>
 </tr>
 <tr>
@@ -3016,34 +3009,34 @@ Reserva teórica
 0,11
 </td>
 <td style="text-align:right;">
-26
+26,020
 </td>
 <td style="text-align:right;">
-23
+22,767
 </td>
 <td style="text-align:right;">
-3,2
+3,2525
 </td>
 <td style="text-align:right;">
-1.048
+1.047,6
 </td>
 <td style="text-align:right;">
-52
+52,381
 </td>
 <td style="text-align:right;">
 1.100
 </td>
 <td style="text-align:right;">
-0
+0,0
 </td>
 <td style="text-align:right;">
 0,00
 </td>
 <td style="text-align:right;">
-0
+0,00
 </td>
 <td style="text-align:right;">
-0
+0,00
 </td>
 </tr>
 </tbody>
@@ -3053,15 +3046,15 @@ Reserva teórica
 <h3>Preguntas</h3>
 <ol style="list-style-type: decimal">
 <li>¿Porqué el valor de la póliza (reserva) al final de la edad 110 es
-de 9 316.83 si el monto que se espera pagar en siniestros durante el
-siguiente año son 1 100?</li>
+de 9.316,83 si el monto que se espera pagar en siniestros durante el
+siguiente año son 1.100?</li>
 </ol>
-<p>Esto se debe a que el monto original del seguro es de 10 000, sin
+<p>Esto se debe a que el monto original del seguro es de 10.000, sin
 embargo esto es por es por individuo. Al final se tiene por decirlo de
-cierta forma 0.11 individuos, a pesar de que no se le pagara 10 0000 al
+cierta forma 0.11 individuos, a pesar de que no se le pagara 10.000 al
 no ser un individuo completo, la reserva del seguro en base a este
-individuo que no es la unidad es 9 316.83 al final del año, pero solo se
-pagará 1100.</p>
+individuo que no es la unidad es 9.316,83 al final del año, pero solo se
+pagará 1.100.</p>
 <ol start="2" style="list-style-type: decimal">
 <li>Al graficar el fondo acumulado al final del año se presenta en forma
 de “campana”, ¿esto a qué se debe?.</li>
@@ -3071,10 +3064,10 @@ de “campana”, ¿esto a qué se debe?.</li>
 <strong>Figura 1: Fondos esperados </strong>
 </center>
 </caption>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(flows_2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">c</span>(age <span class="sc">-</span> <span class="dv">50</span>), <span class="at">y =</span> E_funds_e_2)) <span class="sc">+</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Fondos esperados&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Años&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(flows_2, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">c</span>(age <span class="sc">-</span> <span class="dv">50</span>), <span class="at">y =</span> E_funds_e_2)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Fondos esperados&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Años&quot;</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p>Esto se debe a que conforme se va avanzando se va obteniendo el
 dinero de las primas, y con estas se van acumulando intereses. A pesar
@@ -3095,23 +3088,23 @@ de seguros en función del año en que ocurre la pérdida.</li>
 <strong>Figura 2: Pérdida esperada según la edad de muertes</strong>
 </center>
 </caption>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="fl">1.05</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>v_acum <span class="ot">&lt;-</span> v<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">60</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(v_acum)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> v_acum <span class="sc">-</span> net_premium <span class="sc">*</span> <span class="fu">cumsum</span>(v_acum)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">60</span>, <span class="at">y =</span> L)) <span class="sc">+</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Pérdidas&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Años&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="fl">1.05</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>v_acum <span class="ot">&lt;-</span> v<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">60</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(v_acum)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="dv">10000</span> <span class="sc">*</span> v_acum <span class="sc">-</span> net_premium <span class="sc">*</span> <span class="fu">cumsum</span>(v_acum)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">60</span>, <span class="at">y =</span> L)) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Pérdidas&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Años&quot;</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="preguntas-1" class="section level3">
 <h3>Preguntas</h3>
 <ol style="list-style-type: decimal">
 <li>¿Cuál es la probabilidad de que la pérdida de la compañía sea mayor
-a 5 000? ¿A qué edad se podría asegurar que la compañía no presentará
-pérdidas mayores a 5 000 para esta póliza individual si a esa edad el
+a 5.000? ¿A qué edad se podría asegurar que la compañía no presentará
+pérdidas mayores a 5.000 para esta póliza individual si a esa edad el
 individuo sigue con vida?</li>
 </ol>
 <p>Con <span class="math inline">\(P\)</span> es la prima neta, <span class="math inline">\(S\)</span> es el beneficio. Para la primera
@@ -3122,7 +3115,7 @@ L=Sv^{K_[x]+1}-P\frac{1-v^{K_{[x]+1}}}{d}
 \]</span></p>
 <p>Entonces lo que se quiere se quiere es</p>
 <p><span class="math display">\[
-\mathbb{P}\left(5000 \geq L \right) =
+\mathbb{P}\left(5000 \leq L \right) =
 1-\mathbb{P}\left(K_{[x]}+1&gt;\underbrace{\frac{\ln\left(\frac{S+\frac{P}{d}}{5000+\frac{P}{d}}\right)}{\ln(1+i)}}_{\tau}
 \right)
 \]</span> Hay que tener presente que pueden obtener números no enteros,
@@ -3130,31 +3123,31 @@ por lo que se debe tomar <span class="math inline">\(\lfloor\tau\rfloor\)</span>
 es <span class="math inline">\(1-_ {\lfloor\tau\rfloor} p_{x}\)</span>.
 Entonces se puede programar la siguiente función, notanto que esto es la
 probabilidad de que el individuo sobreviva esa cantidad de tiempo</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>probability_loss <span class="ot">&lt;-</span> <span class="cf">function</span>(P, S, i, amount, x) {</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> i)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> v</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  numerator <span class="ot">&lt;-</span> <span class="fu">log</span>((S <span class="sc">+</span> P <span class="sc">/</span> d) <span class="sc">/</span> (amount <span class="sc">+</span> P <span class="sc">/</span> d))</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  denominator <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> i)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> <span class="fu">floor</span>(numerator <span class="sc">/</span> denominator)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">pxt</span>(life_table, <span class="at">x =</span> x, <span class="at">t =</span> t), t)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(r)</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>Con esta función entonces se puede calcular entonces que la
-probabilidad de tener pérdidas mayores a 5 000 es</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p_5000 <span class="ot">&lt;-</span> <span class="fu">probability_loss</span>(net_premium, <span class="dv">10000</span>, <span class="fl">0.05</span>, <span class="dv">5000</span>, <span class="dv">50</span>)</span></code></pre></div>
-<p>Probabilidad de tener pérdidas mayores a 5 000 es 0.06. Y la edad a
-la que se puede asegurar que se tienen pérdidas no mayores a 5000 es
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>probability_loss <span class="ot">&lt;-</span> <span class="cf">function</span>(P, S, i, amount, x) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> i)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> v</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  numerator <span class="ot">&lt;-</span> <span class="fu">log</span>((S <span class="sc">+</span> P <span class="sc">/</span> d) <span class="sc">/</span> (amount <span class="sc">+</span> P <span class="sc">/</span> d))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  denominator <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> i)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> <span class="fu">floor</span>(numerator <span class="sc">/</span> denominator)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">pxt</span>(life_table, <span class="at">x =</span> x, <span class="at">t =</span> t), t)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(r)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Con esta función se puede calcular entonces que la probabilidad de
+tener pérdidas mayores a 5.000 es</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p_5000 <span class="ot">&lt;-</span> <span class="fu">probability_loss</span>(net_premium, <span class="dv">10000</span>, <span class="fl">0.05</span>, <span class="dv">5000</span>, <span class="dv">50</span>)</span></code></pre></div>
+<p>Probabilidad de tener pérdidas mayores a 5.000 es 0,06268. Y la edad
+a la que se puede asegurar que se tienen pérdidas no mayores a 5.000 es
 58</p>
 <ol start="2" style="list-style-type: decimal">
 <li>¿Cuál es la probabilidad de qué la compañía no presente pérdida? ¿A
 qué edad se podría asegurar que la compañía no presentará pérdidas para
 esta póliza individual si a esa edad el individuo sigue con vida?</li>
 </ol>
-<p>Este caso es análogo al anterior basta cambiar 5000 por 0, y se desea
-la probabilidad de no tener pérdidas</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p_0 <span class="ot">&lt;-</span> <span class="fu">probability_loss</span>(net_premium, <span class="dv">10000</span>, <span class="fl">0.05</span>, <span class="dv">0</span>, <span class="dv">50</span>)</span></code></pre></div>
-<p>Entonces las probabilidades de tener pérdidades menores a 0 es 0.63 y
-la edad es 74.</p>
+<p>Este caso es análogo al anterior basta cambiar 5.000 por 0, y se
+desea la probabilidad de no tener pérdidas</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p_0 <span class="ot">&lt;-</span> <span class="fu">probability_loss</span>(net_premium, <span class="dv">10000</span>, <span class="fl">0.05</span>, <span class="dv">0</span>, <span class="dv">50</span>)</span></code></pre></div>
+<p>Entonces las probabilidades de tener pérdidades menores a 0 es
+0,63279 y la edad es 74.</p>
 </div>
 </div>
 </section>

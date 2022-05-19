@@ -1,0 +1,68 @@
+---
+title: "Parcial 1"
+author: "Joshua Cervantes"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "joshua.cervantes@ucr.ac.cr"
+linkedin: ""
+twitter: ""
+github: "afr063426"
+
+home: ""
+# !!! You need to provide a logo image here !!! Or just delete the field for no logo
+logo: ""
+output:
+  prettydoc::html_pretty:
+      theme: cayman
+      highlight: github
+      math: katex
+      toc: true
+      toc_depth: 2
+      code_menu: true
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, width = 60)
+## Paquetes necesarios
+library(devtools)
+library(prettydoc)
+library(rmarkdown)
+library(tidyverse)
+library(lifecontingencies)
+library(kableExtra)
+library(jcolors)
+options(scipen = 999, digits = 5, OutDec = ",")
+# Se procede a leer la tabla
+tabla <- read.csv("TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
+```
+
+
+
+# Ejercicio 1
+Una persona se presenta a las oficinas de una aseguradora para adquirir un seguro dotal a la edad de 60 años. El seguro paga 100.000 al final del año de muerte y 50.000 si sobrevive transcurrido los 20 años. Para este ejercicio se considera la tabla del Bowers que se encuentra en la plataforma virtual y una tasa de interés del 10,5%. Los pagos de primas se esperan al inicio de cada año durante 10 años, todos los años se paga la misma prima. Adicionalmente, para el cálculo de la prima comercial se considera un gasto de un 10,5% en todos lo años de pago de prima. 
+
+Con la información anterior se solicita los siguiente:
+
+a. Como actuario de la aseguradora, determine la prima de riesgo y la prima comercial a cobrar por el seguro.
+
+b. Conteste las siguiente preguntas: ¿Por qué no es posible hablar de una tsa de riesgo (neta) o comercial (bruta) a priori?, si la persoma solicita las tasas aplicables sobre el monto del beneficio por fallecimiento, ¿Cuál sería la tasa neta y bruta que debería cobrar?
+
+c. Para una única vida, conforme un vector con el valor de la pérdida esperada en caso de que el asegurado fallezca en cada uno de los años de la vigencia, así como la pérdida esperada en caso de que el asegurado sobreviva transcurridos los 20 años (escenario número 21). Muestre y grafique vector. Interprete el gráfico y la forma que presenta. 
+
+d. A partir de que edad, se puede tener certeza de que la compañía no presentará pérdida por la póliza individual si la persona se encuentre con vida en ese momento.
+
+e. Trabaje un modelo colectivo con base en la tabla de mortalidad y partiendo de un grupo de inicial $l_{40}$ que adquiere el mismo seguro dotal, conforme una tabla del flujo de efectivo esperado, en donde se incluyan las siguiente columnas: 1) Sobreviventes, 2) Primas esperadas al inicio del año, 3) Monto esperado al inicio del año, 6) Intereses generados por el fondo al inicio del año, 7) Monto pagado en indemnizaciones al final del año, 8) Fondo esperado al final del año, 9) Reserva calculada como la división del fondo final y los Sobreviventes al final y 10) El valor de la reserva al final de cada año con base en la fórmula actuarial respectiva.
+
+f. Grafique e interprete la última columna de la tabla que contine los valores de la reserva con cada anális anual.
+
+# Ejercicio 2
+Considere un modelo de vida en donde se tiene que $\mu(x)=\frac{1}{125-x}$, $0\leq x \leq 125$.
+
+a. Considere dos individuos de edades 30 y 40. Cree funciones, calcule los valores para $(t = 0,1,...,95)$ y grafique las curva para las curvas para las expresiones $_tp_{30}, _tp_{40}, _tp_{30:40}, $_tp_{\overline{30:40}}$$. Interprete las curvas. 
+
+b. Calcule el valor presente actuarial de un seguro vitalicio, que paga 1 unidad al final del año de muerte o fallo para cada modelo: 1) Individual 30 años, 2) Individual 40 años, 3) Vida conjunta 30 y 40 años, y 4) Último sobreviviente 30 y 40 años. Se debren presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a pago, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.00 simulaciones del tiempo de vida futura.
+
+c. Calcule, para cada uno de los modelos anteriores, el valor presente actuarial de una anualidad vitalia que paga 1 unidad al inicio de cada año mientras el sistema se mantenga activo (sobrevivencia). Se deben presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a paso, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de vida futura. 
+
+d. Determine la prima de riesgo respectiva al combinar los resultados de los incisos b) y c). Conforme una tabla de valores para los 4 modelos y los tres escenarios. 

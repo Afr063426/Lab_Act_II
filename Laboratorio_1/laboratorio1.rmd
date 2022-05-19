@@ -32,7 +32,7 @@ library(tidyverse)
 library(lifecontingencies)
 library(kableExtra)
 library(jcolors)
-options(scipen = 999, digits = 2)
+options(scipen = 999, digits = 5, OutDec = ",")
 # Se procede a leer la tabla
 tabla <- read.csv("TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
@@ -56,7 +56,7 @@ nax <- axn(life_table, x = 50, n = 10, i = 0.06)
 
 # Prima de riesgo
 premium <- benefit * nAx / nax
-print(premium)
+premium
 ```
 
 b. Se debe conformar una tabla con los flujos y los valores de reserva de la reserva en cada año.
@@ -117,15 +117,18 @@ gross_rate <- net_rate / 0.875
 gross_premium <- 10000 * net_rate / 0.875
 net_premium <- 10000 * net_rate
 # Print
-print(paste("La tasa neta es", net_rate, sep = " "))
-print(paste("La tasa bruta sería", gross_rate, sep = " "))
-print(paste("La prima bruta sería", gross_premium, sep = " "))
+# print(paste("La tasa neta es", net_rate, sep = " "))
+# print(paste("La tasa bruta sería", gross_rate, sep = " "))
+# print(paste("La prima bruta sería", gross_premium, sep = " "))
 
 
 ## El monto de la reserva bajo el concepto de prima bruta sería
 V_5 <- 10000 * Axn(life_table, x = 55, i = 0.05) - 0.875 * gross_premium * axn(life_table, x = 55, i = 0.05)
-print(paste("La reserva es", V_5, sep = " "))
+# print(paste("La reserva es", V_5, sep = " "))
 ```
+
+
+La la tasa neta es `r net_rate`, la tasa bruta es `r gross_rate`, la prima bruta es `r gross_premium` y la reserva en 5 años después de la emisión de la póliza es `r V_5`.
 
 b. En un segundo escenario, se calcula la prima neta considerando un 4% de interés, aunque la Compañía espera
 generar un 5% como en el escenario 1, la diferencia percibidad será destinada a cubrir los gastos de adquisición y administración.
@@ -136,17 +139,21 @@ nax_2_b <- axn(life_table, x = 50, i = 0.04)
 # Prima de riesgo
 net_rate_b <- nAx_2_b / nax_2_b
 net_premium_b <- 10000 * net_rate_b
-print(paste("La tasa neta es", net_rate_b, sep = " "))
-print(paste("La prima neta sería", net_premium_b, sep = " "))
+# print(paste("La tasa neta es", net_rate_b, sep = " "))
+# print(paste("La prima neta sería", net_premium_b, sep = " "))
 
 
 ## El monto de la reserva
 V_5_b <- 10000 * Axn(life_table, x = 55, i = 0.04) - net_premium_b * axn(life_table, x = 55, i = 0.04)
-print(paste("La reserva es", V_5_b, sep = " "))
+# print(paste("La reserva es", V_5_b, sep = " "))
 ```
 
-c. Con base en el inciso a. construir una tabla de flujos considerando que $$l_{50}$$ individuos toman el seguro con las mismas condiciones,
-así mismo calcule la reserva al final de cada periodo como la razón de flujo final entre los sobrevivients y aplicando la fórmula teórica.
+
+La la tasa neta es `r net_rate_b`, la prima neta es `r net_premium_b` y la reserva en 5 años después de la emisión de la póliza es `r V_5_b`.
+
+
+c. Con base en el inciso a. construir una tabla de flujos considerando que $l_{50}$ individuos toman el seguro con las mismas condiciones,
+así mismo calcule la reserva al final de cada periodo como la razón de flujo final entre los sobrevivientes y aplicando la fórmula teórica.
 ```{r}
 # Empleamos lo utilizado en el ejercicio 1 y la parte a del ejercicio 2
 benefit <- 10000
@@ -183,10 +190,10 @@ kable(flows_2,
 ```
 ### Preguntas
 
-1. ¿Porqué el valor de la póliza (reserva) al final de la edad 110 es de 9 316.83 si el monto
-que se espera pagar en siniestros durante el siguiente año son 1 100?
+1. ¿Porqué el valor de la póliza (reserva) al final de la edad 110 es de 9.316,83 si el monto
+que se espera pagar en siniestros durante el siguiente año son 1.100?
 
-Esto se debe a que el monto original del seguro es de 10 000, sin embargo esto es por es por individuo. Al final se tiene por decirlo de cierta forma 0.11 individuos, a pesar de que no se le pagara 10 0000 al no ser un individuo completo, la reserva del seguro en base a este individuo que no es la unidad es 9 316.83 al final del año, pero solo se pagará 1100.
+Esto se debe a que el monto original del seguro es de 10.000, sin embargo esto es por es por individuo. Al final se tiene por decirlo de cierta forma 0.11 individuos, a pesar de que no se le pagara 10.000 al no ser un individuo completo, la reserva del seguro en base a este individuo que no es la unidad es 9.316,83 al final del año, pero solo se pagará 1.100.
 
 2. Al graficar el fondo acumulado al final del año se presenta en forma de "campana", ¿esto a qué se debe?.
 
@@ -217,7 +224,7 @@ ggplot(, aes(x = 0:60, y = L)) +
 ```
 
 ### Preguntas 
-1. ¿Cuál es la probabilidad de que la pérdida de la compañía sea mayor a 5 000? ¿A qué edad se podría asegurar que la compañía no presentará pérdidas mayores a 5 000 para esta póliza individual si 
+1. ¿Cuál es la probabilidad de que la pérdida de la compañía sea mayor a 5.000? ¿A qué edad se podría asegurar que la compañía no presentará pérdidas mayores a 5.000 para esta póliza individual si 
 a esa edad el individuo sigue con vida?
 
 Con $P$ es la prima neta, $S$ es el beneficio. Para la primera pregunta se tiene que las perdidas se pueden modelar mediante la siguiente variable aleatoria.
@@ -230,7 +237,7 @@ $$
 Entonces lo que se quiere se quiere es 
 
 $$
-\mathbb{P}\left(5000 \geq L \right) = 1-\mathbb{P}\left(K_{[x]}+1>\underbrace{\frac{\ln\left(\frac{S+\frac{P}{d}}{5000+\frac{P}{d}}\right)}{\ln(1+i)}}_{\tau} \right)
+\mathbb{P}\left(5000 \leq L \right) = 1-\mathbb{P}\left(K_{[x]}+1>\underbrace{\frac{\ln\left(\frac{S+\frac{P}{d}}{5000+\frac{P}{d}}\right)}{\ln(1+i)}}_{\tau} \right)
 $$
 Hay que tener presente que pueden obtener números no enteros, por lo que se debe tomar $\lfloor\tau\rfloor$, entonces lo anterior es $1-_ {\lfloor\tau\rfloor} p_{x}$. Entonces se puede programar la siguiente función, notanto que esto es la probabilidad de que el individuo sobreviva esa cantidad de tiempo
 ```{r}
@@ -244,19 +251,19 @@ probability_loss <- function(P, S, i, amount, x) {
   return(r)
 }
 ```
-Con esta función entonces se puede calcular entonces que la probabilidad de tener pérdidas mayores a 5 000 es
+Con esta función se puede calcular entonces que la probabilidad de tener pérdidas mayores a 5.000 es
 
 ```{r}
 p_5000 <- probability_loss(net_premium, 10000, 0.05, 5000, 50)
 ```
-Probabilidad de tener pérdidas mayores a 5 000 es `r 1-p_5000[1]`. Y la edad a la que se puede asegurar que se tienen pérdidas no mayores a 5000 es `r 50+p_5000[2]`
+Probabilidad de tener pérdidas mayores a 5.000 es `r 1-p_5000[1]`. Y la edad a la que se puede asegurar que se tienen pérdidas no mayores a 5.000 es `r 50+p_5000[2]`
  
  
 2. ¿Cuál es la probabilidad de qué la compañía no presente pérdida? ¿A qué edad se podría
 asegurar que la compañía no presentará pérdidas para esta póliza individual si a esa edad el individuo
 sigue con vida?
 
-Este caso es análogo al anterior basta cambiar 5000 por 0, y se desea la probabilidad de no tener pérdidas
+Este caso es análogo al anterior basta cambiar 5.000 por 0, y se desea la probabilidad de no tener pérdidas
 ```{r}
 p_0 <- probability_loss(net_premium, 10000, 0.05, 0, 50)
 ```
