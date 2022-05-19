@@ -20,7 +20,12 @@ output:
       code_menu: true
 
 ---
+<!--
+    Instruciones
+    
 
+
+-->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, width = 60)
@@ -107,14 +112,38 @@ ggplot(, aes(x = 0:20, y = L)) +
 
 d. A partir de que edad, se puede tener certeza de que la compañía no presentará pérdida por la póliza individual si la persona se encuentre con vida en ese momento.
 
+Para este caso se puede hacer uso del vector de pérdida, encontrando el momento en el que se encuentra que la pérdida es negativa por primera vez entonces 
+```{r}
+# Tiempo que debe transcurrir
+n_losse <- which(L <= 0)[1]
+# Entonces la edad a la que ya se puede asegurar que no se tiene pérdidas es
+edad_n_losse <- n_losse + 1 + 60
+```
+La edad es `r edad_n_losse`
 e. Trabaje un modelo colectivo con base en la tabla de mortalidad y partiendo de un grupo de inicial $l_{40}$ que adquiere el mismo seguro dotal, conforme una tabla del flujo de efectivo esperado, en donde se incluyan las siguiente columnas: 1) Sobreviventes, 2) Primas esperadas al inicio del año, 3) Monto esperado al inicio del año, 6) Intereses generados por el fondo al inicio del año, 7) Monto pagado en indemnizaciones al final del año, 8) Fondo esperado al final del año, 9) Reserva calculada como la división del fondo final y los Sobreviventes al final y 10) El valor de la reserva al final de cada año con base en la fórmula actuarial respectiva.
 
-f. Grafique e interprete la última columna de la tabla que contine los valores de la reserva con cada anális anual.
+En este caso es necesario recalcular las primas.
+
+```{r}
+# Para referirse a vectores que van desde una edad hasta otra se toma lx_t donde x es la edad incial y t es la edad a la que llegan
+
+A40_1_20 <- Axn(life_table, x = 40, n = 20, i = i)
+A40_20_1 <- v^(20) * pxt(life_table, x = 40, t = 20)
+a40_20 <- axn(life_table, x = 40, n = 10, i = i, payment = "advance")
+
+# La prima por riesgo sería
+risk_p <- (100000 * A40_1_20 + 50000 * A40_20_1) / a40_20
+l40_60 <-
+    # La prima comercial
+    commercial_p <- risk_p / (1 - g)
+```
+
+f. Grafique e interprete la última columna de la tabla que contine los valores de la reserva con cada análisis anual.
 
 # Ejercicio 2
 Considere un modelo de vida en donde se tiene que $\mu(x)=\frac{1}{125-x}$, $0\leq x \leq 125$.
 
-a. Considere dos individuos de edades 30 y 40. Cree funciones, calcule los valores para $(t = 0,1,...,95)$ y grafique las curva para las curvas para las expresiones $_tp_{30}, _tp_{40}, _tp_{30:40}, $_tp_{\overline{30:40}}$$. Interprete las curvas. 
+a. Considere dos individuos de edades 30 y 40. Cree funciones, calcule los valores para $(t = 0,1,...,95)$ y grafique las curva para las curvas para las expresiones $_tp_{30}, _tp_{40}, _tp_{30:40},_tp_{\overline{30:40}}$. Interprete las curvas. 
 
 b. Calcule el valor presente actuarial de un seguro vitalicio, que paga 1 unidad al final del año de muerte o fallo para cada modelo: 1) Individual 30 años, 2) Individual 40 años, 3) Vida conjunta 30 y 40 años, y 4) Último sobreviviente 30 y 40 años. Se debren presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a pago, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.00 simulaciones del tiempo de vida futura.
 
