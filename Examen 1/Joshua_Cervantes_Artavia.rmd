@@ -34,7 +34,7 @@ library(kableExtra)
 library(jcolors)
 options(scipen = 999, digits = 5, OutDec = ",")
 # Se procede a leer la tabla
-tabla <- read.csv("TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
+tabla <- read.csv("./TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
 
 
@@ -45,10 +45,65 @@ Una persona se presenta a las oficinas de una aseguradora para adquirir un segur
 Con la información anterior se solicita los siguiente:
 
 a. Como actuario de la aseguradora, determine la prima de riesgo y la prima comercial a cobrar por el seguro.
+```{r}
+# Se estiman las probabilidades de sobrevivencia al año siguiente
+px <- tabla$lx[-1] / tabla$lx[-length(tabla$lx)]
+px[length(px) + 1] <- 0
+# Se genera una tabla de sobrevivencia a partir de las probabilidades calculadas
+life_table <- probs2lifetable(px, type = "px")
 
-b. Conteste las siguiente preguntas: ¿Por qué no es posible hablar de una tsa de riesgo (neta) o comercial (bruta) a priori?, si la persoma solicita las tasas aplicables sobre el monto del beneficio por fallecimiento, ¿Cuál sería la tasa neta y bruta que debería cobrar?
+# Tasa de interes
+i <- 0.105
+v <- 1 / (1 + i)
+
+# Gastos
+
+g <- 0.105
+
+# En este caso se tiene entonces un seguro dotal, hay que determinar el valor del seguro de vida por 20 años y un dotal puro a 20 años. En este caso:dec
+# Ax_n_1 dotal puro donde x es la edad y n el tiempo
+# Ax_1_n seguro de vida
+
+
+A60_1_20 <- Axn(life_table, x = 60, n = 20, i = i)
+A60_20_1 <- v^(20) * pxt(life_table, x = 60, t = 20)
+a60_20 <- axn(life_table, x = 60, n = 10, i = i, payment = "advance")
+
+# La prima por riesgo sería
+risk_p <- (100000 * A60_1_20 + 50000 * A60_20_1) / a60_20
+
+# La prima comercial
+commercial_p <- risk_p / (1 - g)
+```
+
+Entonces la prima por riesgo es `r risk_p` y la prima comercial `r commercial_p`.
+
+
+b. Conteste las siguiente preguntas: ¿Por qué no es posible hablar de una tasa de riesgo (neta) o comercial (bruta) a priori?, si la persoma solicita las tasas aplicables sobre el monto del beneficio por fallecimiento, ¿Cuál sería la tasa neta y bruta que debería cobrar?
+
+
+
 
 c. Para una única vida, conforme un vector con el valor de la pérdida esperada en caso de que el asegurado fallezca en cada uno de los años de la vigencia, así como la pérdida esperada en caso de que el asegurado sobreviva transcurridos los 20 años (escenario número 21). Muestre y grafique vector. Interprete el gráfico y la forma que presenta. 
+
+```{r}
+# Valores presentes
+v_acum <- v^(0:20)
+n <- length(v_acum)
+# Monto de los pagos
+amount_payments <- risk_p * cumsum(v_acum[1:10])
+L1 <- 100000 * v_acum[1:10] - amount_payments[1:10]
+L2 <- 100000 * v_acum[11:20] - amount_payments[10]
+L3 <- 50000 * v_acum[21] - amount_payments[10]
+# Ahora con esto entonces se procede a genera un único vector de pérdida
+L <- c(L1, L2, L3)
+
+ggplot(, aes(x = 0:20, y = L)) +
+    geom_line() +
+    theme_minimal() +
+    labs(y = "Pérdidas", x = "Años")
+```
+
 
 d. A partir de que edad, se puede tener certeza de que la compañía no presentará pérdida por la póliza individual si la persona se encuentre con vida en ese momento.
 
