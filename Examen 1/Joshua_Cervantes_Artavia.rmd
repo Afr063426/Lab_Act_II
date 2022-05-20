@@ -64,7 +64,9 @@ v <- 1 / (1 + i)
 # Gastos
 
 g <- 0.105
-
+# Monto
+benefit_1 <- 100000
+benefit_2 <- 50000
 # En este caso se tiene entonces un seguro dotal, hay que determinar el valor del seguro de vida por 20 años y un dotal puro a 20 años. En este caso:dec
 # Ax_n_1 dotal puro donde x es la edad y n el tiempo
 # Ax_1_n seguro de vida
@@ -75,7 +77,7 @@ A60_20_1 <- v^(20) * pxt(life_table, x = 60, t = 20)
 a60_20 <- axn(life_table, x = 60, n = 10, i = i, payment = "advance")
 
 # La prima por riesgo sería
-risk_p <- (100000 * A60_1_20 + 50000 * A60_20_1) / a60_20
+risk_p <- (benefit_1 * A60_1_20 + benefit_2 * A60_20_1) / a60_20
 
 # La prima comercial
 commercial_p <- risk_p / (1 - g)
@@ -97,10 +99,11 @@ v_acum <- v^(0:20)
 n <- length(v_acum)
 # Monto de los pagos
 amount_payments <- risk_p * cumsum(v_acum[1:10])
-L1 <- 100000 * v_acum[1:10] - amount_payments[1:10]
-L2 <- 100000 * v_acum[11:20] - amount_payments[10]
-L3 <- 50000 * v_acum[21] - amount_payments[10]
+L1 <- benefit_1 * v_acum[1:10] - amount_payments[1:10]
+L2 <- benefit_1 * v_acum[11:20] - amount_payments[10]
+L3 <- benefit_2 * v_acum[21] - amount_payments[10]
 # Ahora con esto entonces se procede a genera un único vector de pérdida
+
 L <- c(L1, L2, L3)
 
 ggplot(, aes(x = 0:20, y = L)) +
@@ -126,16 +129,58 @@ En este caso es necesario recalcular las primas.
 
 ```{r}
 # Para referirse a vectores que van desde una edad hasta otra se toma lx_t donde x es la edad incial y t es la edad a la que llegan
-
 A40_1_20 <- Axn(life_table, x = 40, n = 20, i = i)
 A40_20_1 <- v^(20) * pxt(life_table, x = 40, t = 20)
 a40_20 <- axn(life_table, x = 40, n = 10, i = i, payment = "advance")
 
 # La prima por riesgo sería
-risk_p <- (100000 * A40_1_20 + 50000 * A40_20_1) / a40_20
-l40_60 <-
-    # La prima comercial
-    commercial_p <- risk_p / (1 - g)
+risk_p <- (benefit_1 * A40_1_20 + benefit_2 * A40_20_1) / a40_20
+# La prima comercial
+commercial_p <- risk_p / (1 - g)
+```
+
+Ahora se procede crear la tabla
+```{r}
+# Se genera una tabla para los flujos
+# lx_a_6b hace referencia a un vector con los individuos en entre las edad 40 y #60
+lx40_60 <- tabla$lx[41:61]
+year <- 0:20
+E_survival <- lx40_60[-length(lx40_60)]
+E_premium <- c((E_survival[1:10] * risk_p), rep(0, 10))
+E_reclaims <- -diff(lx40_60) * benefit_1
+E_i <- E_premium[1] * 0.105
+E_funds_b <- E_premium[1]
+E_funds_e <- E_premium[1] + E_i[1] - E_reclaims[1]
+E_survival_e <- c(lx40_60[-1])
+for (i in 2:20) {
+    E_funds_b[i] <- E_funds_e[i - 1] + E_premium[i]
+    E_i[i] <- E_funds_b[i] * 0.105
+    E_funds_e[i] <- E_funds_b[i] + E_i[i] - E_reclaims[i]
+}
+# Se añade el monto que hay que pagar a aquellas personas que sobrevivieron al final y hay que pagarles
+j <- length(E_survival) + 1
+E_survival[j] <- lx40_60[length(lx40_60)]
+E_premium[j] <- 0
+E_reclaims[j] <- E_survival[j] * benefit_2
+E_i[j] <- 0
+E_funds_b[j] <- E_funds_e[j - 1]
+E_funds_e[j] <- E_funds_b[j] + E_i[j] - E_reclaims[j]
+E_survival_e[j] <- E_survival[j]
+
+# Reserva calculada como la division entre los fondos y los sobrevivientes
+reserve <- E_funds_e / E_survival_e
+flows <- data.frame(year, E_survival, E_premium, E_funds_b, E_i, E_reclaims, E_funds_e, reserve)
+kable(flows,
+    col.names = c(
+        "Año", "Sobrevientes al inicio", "Primas esperadas", "Fondos esperados al inicio",
+        "Intereses esperados", "Reclamos esprados", "Fondos esperados al final", "Reserva"
+    ),
+    caption = "Flujos", format.args = list(decimal.mark = ",", big.mark = ".")
+) %>%
+    kable_styling(full_width = F) %>%
+    kable_material() %>%
+    row_spec(0, bold = T, color = "white", background = "#159957") %>%
+    scroll_box(height = "500px", width = "100%")
 ```
 
 f. Grafique e interprete la última columna de la tabla que contine los valores de la reserva con cada análisis anual.

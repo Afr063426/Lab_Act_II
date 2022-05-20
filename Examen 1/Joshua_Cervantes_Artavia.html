@@ -15,7 +15,7 @@
 
 <meta name="author" content="Joshua Cervantes" />
 
-<meta name="date" content="2022-05-19" />
+<meta name="date" content="2022-05-20" />
 
 <title>Parcial 1</title>
 
@@ -32,6 +32,230 @@ document.addEventListener('DOMContentLoaded', function(e) {
   }
 });
 </script>
+<script>$(document).ready(function(){
+    if (typeof $('[data-toggle="tooltip"]').tooltip === 'function') {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+    if ($('[data-toggle="popover"]').popover === 'function') {
+        $('[data-toggle="popover"]').popover();
+    }
+});
+</script>
+<style type="text/css">
+.lightable-minimal {
+border-collapse: separate;
+border-spacing: 16px 1px;
+width: 100%;
+margin-bottom: 10px;
+}
+.lightable-minimal td {
+margin-left: 5px;
+margin-right: 5px;
+}
+.lightable-minimal th {
+margin-left: 5px;
+margin-right: 5px;
+}
+.lightable-minimal thead tr:last-child th {
+border-bottom: 2px solid #00000050;
+empty-cells: hide;
+}
+.lightable-minimal tbody tr:first-child td {
+padding-top: 0.5em;
+}
+.lightable-minimal.lightable-hover tbody tr:hover {
+background-color: #f5f5f5;
+}
+.lightable-minimal.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-classic {
+border-top: 0.16em solid #111111;
+border-bottom: 0.16em solid #111111;
+width: 100%;
+margin-bottom: 10px;
+margin: 10px 5px;
+}
+.lightable-classic tfoot tr td {
+border: 0;
+}
+.lightable-classic tfoot tr:first-child td {
+border-top: 0.14em solid #111111;
+}
+.lightable-classic caption {
+color: #222222;
+}
+.lightable-classic td {
+padding-left: 5px;
+padding-right: 5px;
+color: #222222;
+}
+.lightable-classic th {
+padding-left: 5px;
+padding-right: 5px;
+font-weight: normal;
+color: #222222;
+}
+.lightable-classic thead tr:last-child th {
+border-bottom: 0.10em solid #111111;
+}
+.lightable-classic.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-classic.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-classic-2 {
+border-top: 3px double #111111;
+border-bottom: 3px double #111111;
+width: 100%;
+margin-bottom: 10px;
+}
+.lightable-classic-2 tfoot tr td {
+border: 0;
+}
+.lightable-classic-2 tfoot tr:first-child td {
+border-top: 3px double #111111;
+}
+.lightable-classic-2 caption {
+color: #222222;
+}
+.lightable-classic-2 td {
+padding-left: 5px;
+padding-right: 5px;
+color: #222222;
+}
+.lightable-classic-2 th {
+padding-left: 5px;
+padding-right: 5px;
+font-weight: normal;
+color: #222222;
+}
+.lightable-classic-2 tbody tr:last-child td {
+border-bottom: 3px double #111111;
+}
+.lightable-classic-2 thead tr:last-child th {
+border-bottom: 1px solid #111111;
+}
+.lightable-classic-2.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-classic-2.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-material {
+min-width: 100%;
+white-space: nowrap;
+table-layout: fixed;
+font-family: Roboto, sans-serif;
+border: 1px solid #EEE;
+border-collapse: collapse;
+margin-bottom: 10px;
+}
+.lightable-material tfoot tr td {
+border: 0;
+}
+.lightable-material tfoot tr:first-child td {
+border-top: 1px solid #EEE;
+}
+.lightable-material th {
+height: 56px;
+padding-left: 16px;
+padding-right: 16px;
+}
+.lightable-material td {
+height: 52px;
+padding-left: 16px;
+padding-right: 16px;
+border-top: 1px solid #eeeeee;
+}
+.lightable-material.lightable-hover tbody tr:hover {
+background-color: #f5f5f5;
+}
+.lightable-material.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-material.lightable-striped tbody td {
+border: 0;
+}
+.lightable-material.lightable-striped thead tr:last-child th {
+border-bottom: 1px solid #ddd;
+}
+.lightable-material-dark {
+min-width: 100%;
+white-space: nowrap;
+table-layout: fixed;
+font-family: Roboto, sans-serif;
+border: 1px solid #FFFFFF12;
+border-collapse: collapse;
+margin-bottom: 10px;
+background-color: #363640;
+}
+.lightable-material-dark tfoot tr td {
+border: 0;
+}
+.lightable-material-dark tfoot tr:first-child td {
+border-top: 1px solid #FFFFFF12;
+}
+.lightable-material-dark th {
+height: 56px;
+padding-left: 16px;
+padding-right: 16px;
+color: #FFFFFF60;
+}
+.lightable-material-dark td {
+height: 52px;
+padding-left: 16px;
+padding-right: 16px;
+color: #FFFFFF;
+border-top: 1px solid #FFFFFF12;
+}
+.lightable-material-dark.lightable-hover tbody tr:hover {
+background-color: #FFFFFF12;
+}
+.lightable-material-dark.lightable-striped tbody tr:nth-child(even) {
+background-color: #FFFFFF12;
+}
+.lightable-material-dark.lightable-striped tbody td {
+border: 0;
+}
+.lightable-material-dark.lightable-striped thead tr:last-child th {
+border-bottom: 1px solid #FFFFFF12;
+}
+.lightable-paper {
+width: 100%;
+margin-bottom: 10px;
+color: #444;
+}
+.lightable-paper tfoot tr td {
+border: 0;
+}
+.lightable-paper tfoot tr:first-child td {
+border-top: 1px solid #00000020;
+}
+.lightable-paper thead tr:last-child th {
+color: #666;
+vertical-align: bottom;
+border-bottom: 1px solid #00000020;
+line-height: 1.15em;
+padding: 10px 5px;
+}
+.lightable-paper td {
+vertical-align: middle;
+border-bottom: 1px solid #00000010;
+line-height: 1.15em;
+padding: 7px 5px;
+}
+.lightable-paper.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-paper.lightable-striped tbody tr:nth-child(even) {
+background-color: #00000008;
+}
+.lightable-paper.lightable-striped tbody td {
+border: 0;
+}
+</style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -171,7 +395,7 @@ code span.ot { color: #007020; }
 <section class="page-header">
 <h1 class="title toc-ignore project-name">Parcial 1</h1>
 <h4 class="author project-author">Joshua Cervantes</h4>
-<h4 class="date project-date">19 May 2022</h4>
+<h4 class="date project-date">20 May 2022</h4>
 </section>
 
 
@@ -185,6 +409,12 @@ code span.ot { color: #007020; }
 </div>
 
 <section class="main-content">
+<!--
+    Instruciones
+    
+
+
+-->
 <div id="ejercicio-1" class="section level1">
 <h1>Ejercicio 1</h1>
 <p>Una persona se presenta a las oficinas de una aseguradora para
@@ -214,21 +444,23 @@ prima comercial a cobrar por el seguro.</li>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gastos</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fl">0.105</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># En este caso se tiene entonces un seguro dotal, hay que determinar el valor del seguro de vida por 20 años y un dotal puro a 20 años. En este caso:dec</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Ax_n_1 dotal puro donde x es la edad y n el tiempo</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Ax_1_n seguro de vida</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>A60_1_20 <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">i =</span> i)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>A60_20_1 <span class="ot">&lt;-</span> v<span class="sc">^</span>(<span class="dv">20</span>) <span class="sc">*</span> <span class="fu">pxt</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">t =</span> <span class="dv">20</span>)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>a60_20 <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">i =</span> i, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># La prima por riesgo sería</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>risk_p <span class="ot">&lt;-</span> (<span class="dv">100000</span> <span class="sc">*</span> A60_1_20 <span class="sc">+</span> <span class="dv">50000</span> <span class="sc">*</span> A60_20_1) <span class="sc">/</span> a60_20</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># La prima comercial</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>commercial_p <span class="ot">&lt;-</span> risk_p <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> g)</span></code></pre></div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Monto</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>benefit_1 <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>benefit_2 <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># En este caso se tiene entonces un seguro dotal, hay que determinar el valor del seguro de vida por 20 años y un dotal puro a 20 años. En este caso:dec</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Ax_n_1 dotal puro donde x es la edad y n el tiempo</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Ax_1_n seguro de vida</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>A60_1_20 <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">i =</span> i)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>A60_20_1 <span class="ot">&lt;-</span> v<span class="sc">^</span>(<span class="dv">20</span>) <span class="sc">*</span> <span class="fu">pxt</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">t =</span> <span class="dv">20</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>a60_20 <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">i =</span> i, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># La prima por riesgo sería</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>risk_p <span class="ot">&lt;-</span> (benefit_1 <span class="sc">*</span> A60_1_20 <span class="sc">+</span> benefit_2 <span class="sc">*</span> A60_20_1) <span class="sc">/</span> a60_20</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># La prima comercial</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>commercial_p <span class="ot">&lt;-</span> risk_p <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> g)</span></code></pre></div>
 <p>Entonces la prima por riesgo es 3405,12282 y la prima comercial
 3804,6065.</p>
 <ol start="2" style="list-style-type: lower-alpha">
@@ -249,23 +481,32 @@ presenta.</p></li>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(v_acum)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Monto de los pagos</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>amount_payments <span class="ot">&lt;-</span> risk_p <span class="sc">*</span> <span class="fu">cumsum</span>(v_acum[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>L1 <span class="ot">&lt;-</span> <span class="dv">100000</span> <span class="sc">*</span> v_acum[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">-</span> amount_payments[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>L2 <span class="ot">&lt;-</span> <span class="dv">100000</span> <span class="sc">*</span> v_acum[<span class="dv">11</span><span class="sc">:</span><span class="dv">20</span>] <span class="sc">-</span> amount_payments[<span class="dv">10</span>]</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>L3 <span class="ot">&lt;-</span> <span class="dv">50000</span> <span class="sc">*</span> v_acum[<span class="dv">21</span>] <span class="sc">-</span> amount_payments[<span class="dv">10</span>]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>L1 <span class="ot">&lt;-</span> benefit_1 <span class="sc">*</span> v_acum[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">-</span> amount_payments[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>L2 <span class="ot">&lt;-</span> benefit_1 <span class="sc">*</span> v_acum[<span class="dv">11</span><span class="sc">:</span><span class="dv">20</span>] <span class="sc">-</span> amount_payments[<span class="dv">10</span>]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>L3 <span class="ot">&lt;-</span> benefit_2 <span class="sc">*</span> v_acum[<span class="dv">21</span>] <span class="sc">-</span> amount_payments[<span class="dv">10</span>]</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Ahora con esto entonces se procede a genera un único vector de pérdida</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">c</span>(L1, L2, L3)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">y =</span> L)) <span class="sc">+</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Pérdidas&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Años&quot;</span>)</span></code></pre></div>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">c</span>(L1, L2, L3)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">y =</span> L)) <span class="sc">+</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Pérdidas&quot;</span>, <span class="at">x =</span> <span class="st">&quot;Años&quot;</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <ol start="4" style="list-style-type: lower-alpha">
-<li><p>A partir de que edad, se puede tener certeza de que la compañía
-no presentará pérdida por la póliza individual si la persona se
-encuentre con vida en ese momento.</p></li>
-<li><p>Trabaje un modelo colectivo con base en la tabla de mortalidad y
-partiendo de un grupo de inicial <span class="math inline">\(l_{40}\)</span> que adquiere el mismo seguro
+<li>A partir de que edad, se puede tener certeza de que la compañía no
+presentará pérdida por la póliza individual si la persona se encuentre
+con vida en ese momento.</li>
+</ol>
+<p>Para este caso se puede hacer uso del vector de pérdida, encontrando
+el momento en el que se encuentra que la pérdida es negativa por primera
+vez entonces</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tiempo que debe transcurrir</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n_losse <span class="ot">&lt;-</span> <span class="fu">which</span>(L <span class="sc">&lt;=</span> <span class="dv">0</span>)[<span class="dv">1</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Entonces la edad a la que ya se puede asegurar que no se tiene pérdidas es</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>edad_n_losse <span class="ot">&lt;-</span> n_losse <span class="sc">+</span> <span class="dv">1</span> <span class="sc">+</span> <span class="dv">60</span></span></code></pre></div>
+<p>La edad es 77 e. Trabaje un modelo colectivo con base en la tabla de
+mortalidad y partiendo de un grupo de inicial <span class="math inline">\(l_{40}\)</span> que adquiere el mismo seguro
 dotal, conforme una tabla del flujo de efectivo esperado, en donde se
 incluyan las siguiente columnas: 1) Sobreviventes, 2) Primas esperadas
 al inicio del año, 3) Monto esperado al inicio del año, 6) Intereses
@@ -273,9 +514,644 @@ generados por el fondo al inicio del año, 7) Monto pagado en
 indemnizaciones al final del año, 8) Fondo esperado al final del año, 9)
 Reserva calculada como la división del fondo final y los Sobreviventes
 al final y 10) El valor de la reserva al final de cada año con base en
-la fórmula actuarial respectiva.</p></li>
-<li><p>Grafique e interprete la última columna de la tabla que contine
-los valores de la reserva con cada anális anual.</p></li>
+la fórmula actuarial respectiva.</p>
+<p>En este caso es necesario recalcular las primas.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para referirse a vectores que van desde una edad hasta otra se toma lx_t donde x es la edad incial y t es la edad a la que llegan</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>A40_1_20 <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">40</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">i =</span> i)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>A40_20_1 <span class="ot">&lt;-</span> v<span class="sc">^</span>(<span class="dv">20</span>) <span class="sc">*</span> <span class="fu">pxt</span>(life_table, <span class="at">x =</span> <span class="dv">40</span>, <span class="at">t =</span> <span class="dv">20</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>a40_20 <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">40</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">i =</span> i, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># La prima por riesgo sería</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>risk_p <span class="ot">&lt;-</span> (benefit_1 <span class="sc">*</span> A40_1_20 <span class="sc">+</span> benefit_2 <span class="sc">*</span> A40_20_1) <span class="sc">/</span> a40_20</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># La prima comercial</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>commercial_p <span class="ot">&lt;-</span> risk_p <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> g)</span></code></pre></div>
+<p>Ahora se procede crear la tabla</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Se genera una tabla para los flujos</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># lx_a_6b hace referencia a un vector con los individuos en entre las edad 40 y #60</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>lx40_60 <span class="ot">&lt;-</span> tabla<span class="sc">$</span>lx[<span class="dv">41</span><span class="sc">:</span><span class="dv">61</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>E_survival <span class="ot">&lt;-</span> lx40_60[<span class="sc">-</span><span class="fu">length</span>(lx40_60)]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>E_premium <span class="ot">&lt;-</span> <span class="fu">c</span>((E_survival[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">*</span> risk_p), <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>E_reclaims <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fu">diff</span>(lx40_60) <span class="sc">*</span> benefit_1</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>E_i <span class="ot">&lt;-</span> E_premium[<span class="dv">1</span>] <span class="sc">*</span> <span class="fl">0.105</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>E_funds_b <span class="ot">&lt;-</span> E_premium[<span class="dv">1</span>]</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>E_funds_e <span class="ot">&lt;-</span> E_premium[<span class="dv">1</span>] <span class="sc">+</span> E_i[<span class="dv">1</span>] <span class="sc">-</span> E_reclaims[<span class="dv">1</span>]</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>E_survival_e <span class="ot">&lt;-</span> <span class="fu">c</span>(lx40_60[<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">20</span>) {</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    E_funds_b[i] <span class="ot">&lt;-</span> E_funds_e[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">+</span> E_premium[i]</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    E_i[i] <span class="ot">&lt;-</span> E_funds_b[i] <span class="sc">*</span> <span class="fl">0.105</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    E_funds_e[i] <span class="ot">&lt;-</span> E_funds_b[i] <span class="sc">+</span> E_i[i] <span class="sc">-</span> E_reclaims[i]</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Se añade el monto que hay que pagar a aquellas personas que sobrevivieron al final y hay que pagarles</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>j <span class="ot">&lt;-</span> <span class="fu">length</span>(E_survival) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>E_survival[j] <span class="ot">&lt;-</span> lx40_60[<span class="fu">length</span>(lx40_60)]</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>E_premium[j] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>E_reclaims[j] <span class="ot">&lt;-</span> E_survival[j] <span class="sc">*</span> benefit_2</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>E_i[j] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>E_funds_b[j] <span class="ot">&lt;-</span> E_funds_e[j <span class="sc">-</span> <span class="dv">1</span>]</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>E_funds_e[j] <span class="ot">&lt;-</span> E_funds_b[j] <span class="sc">+</span> E_i[j] <span class="sc">-</span> E_reclaims[j]</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>E_survival_e[j] <span class="ot">&lt;-</span> E_survival[j]</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Reserva calculada como la division entre los fondos y los sobrevivientes</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>reserve <span class="ot">&lt;-</span> E_funds_e <span class="sc">/</span> E_survival_e</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>flows <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(year, E_survival, E_premium, E_funds_b, E_i, E_reclaims, E_funds_e, reserve)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(flows,</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Año&quot;</span>, <span class="st">&quot;Sobrevientes al inicio&quot;</span>, <span class="st">&quot;Primas esperadas&quot;</span>, <span class="st">&quot;Fondos esperados al inicio&quot;</span>,</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Intereses esperados&quot;</span>, <span class="st">&quot;Reclamos esprados&quot;</span>, <span class="st">&quot;Fondos esperados al final&quot;</span>, <span class="st">&quot;Reserva&quot;</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
+<table class="table lightable-material" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<caption>
+Flujos
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Año
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Sobrevientes al inicio
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Primas esperadas
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Fondos esperados al inicio
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Intereses esperados
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Reclamos esprados
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Fondos esperados al final
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Reserva
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+93.132
+</td>
+<td style="text-align:right;">
+140.175.128
+</td>
+<td style="text-align:right;">
+140.175.128
+</td>
+<td style="text-align:right;">
+14.718.388
+</td>
+<td style="text-align:right;">
+25.902.000
+</td>
+<td style="text-align:right;">
+128.991.516,38894
+</td>
+<td style="text-align:right;">
+1.388,9
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+92.873
+</td>
+<td style="text-align:right;">
+139.785.269
+</td>
+<td style="text-align:right;">
+268.776.786
+</td>
+<td style="text-align:right;">
+28.221.563
+</td>
+<td style="text-align:right;">
+27.692.000
+</td>
+<td style="text-align:right;">
+269.306.348,35421
+</td>
+<td style="text-align:right;">
+2.908,4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+92.596
+</td>
+<td style="text-align:right;">
+139.368.469
+</td>
+<td style="text-align:right;">
+408.674.817
+</td>
+<td style="text-align:right;">
+42.910.856
+</td>
+<td style="text-align:right;">
+29.647.000
+</td>
+<td style="text-align:right;">
+421.938.673,33316
+</td>
+<td style="text-align:right;">
+4.571,4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+92.299
+</td>
+<td style="text-align:right;">
+138.922.244
+</td>
+<td style="text-align:right;">
+560.860.917
+</td>
+<td style="text-align:right;">
+58.890.396
+</td>
+<td style="text-align:right;">
+31.776.000
+</td>
+<td style="text-align:right;">
+587.975.313,16771
+</td>
+<td style="text-align:right;">
+6.392,3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+91.981
+</td>
+<td style="text-align:right;">
+138.443.974
+</td>
+<td style="text-align:right;">
+726.419.287
+</td>
+<td style="text-align:right;">
+76.274.025
+</td>
+<td style="text-align:right;">
+34.097.000
+</td>
+<td style="text-align:right;">
+768.596.312,08172
+</td>
+<td style="text-align:right;">
+8.387,1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+91.641
+</td>
+<td style="text-align:right;">
+137.930.770
+</td>
+<td style="text-align:right;">
+906.527.082
+</td>
+<td style="text-align:right;">
+95.185.344
+</td>
+<td style="text-align:right;">
+36.625.000
+</td>
+<td style="text-align:right;">
+965.087.425,66099
+</td>
+<td style="text-align:right;">
+10.573,5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+91.274
+</td>
+<td style="text-align:right;">
+137.379.516
+</td>
+<td style="text-align:right;">
+1.102.466.942
+</td>
+<td style="text-align:right;">
+115.759.029
+</td>
+<td style="text-align:right;">
+39.377.000
+</td>
+<td style="text-align:right;">
+1.178.848.971,07110
+</td>
+<td style="text-align:right;">
+12.971,4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+90.880
+</td>
+<td style="text-align:right;">
+136.786.842
+</td>
+<td style="text-align:right;">
+1.315.635.813
+</td>
+<td style="text-align:right;">
+138.141.760
+</td>
+<td style="text-align:right;">
+42.370.000
+</td>
+<td style="text-align:right;">
+1.411.407.573,28483
+</td>
+<td style="text-align:right;">
+15.603,1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+90.457
+</td>
+<td style="text-align:right;">
+136.149.119
+</td>
+<td style="text-align:right;">
+1.547.556.692
+</td>
+<td style="text-align:right;">
+162.493.453
+</td>
+<td style="text-align:right;">
+45.623.000
+</td>
+<td style="text-align:right;">
+1.664.427.144,66344
+</td>
+<td style="text-align:right;">
+18.493,5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+90.001
+</td>
+<td style="text-align:right;">
+135.462.434
+</td>
+<td style="text-align:right;">
+1.799.889.578
+</td>
+<td style="text-align:right;">
+188.988.406
+</td>
+<td style="text-align:right;">
+49.155.000
+</td>
+<td style="text-align:right;">
+1.939.722.984,13063
+</td>
+<td style="text-align:right;">
+21.670,7
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+89.509
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.939.722.984
+</td>
+<td style="text-align:right;">
+203.670.913
+</td>
+<td style="text-align:right;">
+52.989.000
+</td>
+<td style="text-align:right;">
+2.090.404.897,46435
+</td>
+<td style="text-align:right;">
+23.493,2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+88.979
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2.090.404.897
+</td>
+<td style="text-align:right;">
+219.492.514
+</td>
+<td style="text-align:right;">
+57.143.000
+</td>
+<td style="text-align:right;">
+2.252.754.411,69810
+</td>
+<td style="text-align:right;">
+25.481,4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+88.408
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2.252.754.412
+</td>
+<td style="text-align:right;">
+236.539.213
+</td>
+<td style="text-align:right;">
+61.642.000
+</td>
+<td style="text-align:right;">
+2.427.651.624,92640
+</td>
+<td style="text-align:right;">
+27.652,5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+87.791
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2.427.651.625
+</td>
+<td style="text-align:right;">
+254.903.421
+</td>
+<td style="text-align:right;">
+66.506.000
+</td>
+<td style="text-align:right;">
+2.616.049.045,54368
+</td>
+<td style="text-align:right;">
+30.026,0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+87.126
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2.616.049.046
+</td>
+<td style="text-align:right;">
+274.685.150
+</td>
+<td style="text-align:right;">
+71.760.000
+</td>
+<td style="text-align:right;">
+2.818.974.195,32576
+</td>
+<td style="text-align:right;">
+32.623,8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+86.409
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2.818.974.195
+</td>
+<td style="text-align:right;">
+295.992.291
+</td>
+<td style="text-align:right;">
+77.427.000
+</td>
+<td style="text-align:right;">
+3.037.539.485,83497
+</td>
+<td style="text-align:right;">
+35.471,0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+85.634
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3.037.539.486
+</td>
+<td style="text-align:right;">
+318.941.646
+</td>
+<td style="text-align:right;">
+83.526.000
+</td>
+<td style="text-align:right;">
+3.272.955.131,84764
+</td>
+<td style="text-align:right;">
+38.596,6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+84.799
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3.272.955.132
+</td>
+<td style="text-align:right;">
+343.660.289
+</td>
+<td style="text-align:right;">
+90.082.000
+</td>
+<td style="text-align:right;">
+3.526.533.420,69164
+</td>
+<td style="text-align:right;">
+42.033,5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+83.898
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3.526.533.421
+</td>
+<td style="text-align:right;">
+370.286.009
+</td>
+<td style="text-align:right;">
+97.114.000
+</td>
+<td style="text-align:right;">
+3.799.705.429,86426
+</td>
+<td style="text-align:right;">
+45.819,8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+82.927
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3.799.705.430
+</td>
+<td style="text-align:right;">
+398.969.070
+</td>
+<td style="text-align:right;">
+104.638.000
+</td>
+<td style="text-align:right;">
+4.094.036.500,00001
+</td>
+<td style="text-align:right;">
+50.000,0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+81.881
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4.094.036.500
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+4.094.036.500
+</td>
+<td style="text-align:right;">
+0,00001
+</td>
+<td style="text-align:right;">
+0,0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ol start="6" style="list-style-type: lower-alpha">
+<li>Grafique e interprete la última columna de la tabla que contine los
+valores de la reserva con cada análisis anual.</li>
 </ol>
 </div>
 <div id="ejercicio-2" class="section level1">
