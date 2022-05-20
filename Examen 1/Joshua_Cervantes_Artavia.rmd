@@ -37,6 +37,7 @@ library(tidyverse)
 library(lifecontingencies)
 library(kableExtra)
 library(jcolors)
+library(latex2exp)
 options(scipen = 999, digits = 5, OutDec = ",")
 # Se procede a leer la tabla
 tabla <- read.csv("./TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
@@ -169,6 +170,13 @@ E_survival_e[j] <- E_survival[j]
 
 # Reserva calculada como la division entre los fondos y los sobrevivientes
 reserve <- E_funds_e / E_survival_e
+
+# Reserva calculada de forma teorica
+t <- 1:10
+# Sumar 9
+# benefit_1 * Axn(life_table, x = 42, i = i, n = 18) + benefit_2 * v^(18) * pxt(life_table, x = 42, t = 18) - risk_p * axn(life_table, n = 8, x = 42, i = i, payment = "advance")
+reserve_t_1 <- benefit_1 * Axn(life_table, x = 40 + t, i = 0.105, n = 9 + rev(t)) + benefit_2 * v^(9 + rev(t)) * pxt(life_table, x = 40 + t, t = 9 + rev(t)) - risk_p * axn(life_table, n = rev(t), x = 40 + t, i = 0.105, payment = "advance")
+##
 flows <- data.frame(year, E_survival, E_premium, E_funds_b, E_i, E_reclaims, E_funds_e, reserve)
 kable(flows,
     col.names = c(
@@ -190,7 +198,89 @@ Considere un modelo de vida en donde se tiene que $\mu(x)=\frac{1}{125-x}$, $0\l
 
 a. Considere dos individuos de edades 30 y 40. Cree funciones, calcule los valores para $(t = 0,1,...,95)$ y grafique las curva para las curvas para las expresiones $_tp_{30}, _tp_{40}, _tp_{30:40},_tp_{\overline{30:40}}$. Interprete las curvas. 
 
-b. Calcule el valor presente actuarial de un seguro vitalicio, que paga 1 unidad al final del año de muerte o fallo para cada modelo: 1) Individual 30 años, 2) Individual 40 años, 3) Vida conjunta 30 y 40 años, y 4) Último sobreviviente 30 y 40 años. Se debren presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a pago, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.00 simulaciones del tiempo de vida futura.
+Primero se debe encontrar la función de sobrevivencia de cada individuo para ello se hace uso de la fuerza de mortalidad teniendose
+$$
+_tp_x=\exp\left{-\int_{0}^{t}\mu_x(s)\,ds\\right}=\exp\left{-\int_{0}^t\frac{1}{125-x-s}\,ds\right}=\frac{125-x-t}{125-x}
+$$
+Y se recuerda que si se suponen las vidas independientes
+$$
+_tp_{xy}=_tp_{x}_tp_{y}\qquad _tp_{\overline{xy}}=_tp_{x}+_tp_{y}-_tp_{x}_tp_{y}
+$$
+Entonces se procede a programar las funciones haciendo uso de lo anterior
+```{r}
+## Se denotara t como el tiempo de sobrevivencia, x y y las edades
+# tpxy sera el de vida conjunta y tp_xy el de ultimo sobreviviente
+# mux sera la fuerza de mortalidad el limite de 0<=x<= 125
+
+
+tpx <- function(x, t) {
+    if (x < 125) {
+        return(max((125 - x - t) / (125 - x), 0))
+    } else {
+        return(0)
+    }
+}
+tpxy <- function(x, y, t) {
+    return(tpx(x, t) * tpx(y, t))
+}
+tp_xy <- function(x, y, t) {
+    return(tpx(x, t) + tpx(y, t) - tpxy(x, y, t))
+}
+```
+
+
+
+Ahora se procede a generar el gráfico
+```{r}
+# Tiempo
+t_2 <- 0:95
+# Edades
+x <- 30
+y <- 40
+# Probabilidades de sobrevivencia del status
+tp30 <- unlist(lapply(FUN = tpx, x = x, X = t_2))
+tp40 <- unlist(lapply(FUN = tpx, x = y, X = t_2))
+
+
+# Vida conjunta
+tp30_40 <- unlist(lapply(FUN = tpxy, x = x, y = y, X = t_2))
+# Ultimo sobreviviente
+tp_30_40 <- unlist(lapply(FUN = tp_xy, x = x, y = y, X = t_2))
+
+# Se genera un dataframe con todos los status
+status <- data.frame("Tiempo" = t_2, "tp30" = tp30, "tp40" = tp40, "tp30_40" = tp30_40, "tp_30_40" = tp_30_40)
+status <- status %>% gather("Status", "Probabilidad", 2:(ncol(status)))
+# Se genera el grafico
+status %>% ggplot(aes(x = Tiempo, y = Probabilidad, color = Status)) +
+    geom_line(size = 1) +
+    scale_color_jcolors(palette = "pal2", labels = unname(TeX(c("$_tp_{30}$", "$_tp_{40}$", "$_tp_{30/40}$", "$_tp_{\\bar{30/40}}$")))) +
+    theme_minimal()
+```
+
+
+
+
+b. Calcule el valor presente actuarial de un seguro vitalicio, que paga 1 unidad al final del año de muerte o fallo para cada modelo: 1) Individual 30 años, 2) Individual 40 años, 3) Vida conjunta 30 y 40 años, y 4) Último sobreviviente 30 y 40 años. Se deben presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a pago, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de vida futura.
+
+Para este ejercicio se emplearán las siguientes igualdades
+
+$$
+A_{\overline{xy}}=\sum_{k=0}^{\infty}v^{k+1}(_kp_{x}q_{x+k}+_kp_{y}q_{x+k}-_kp_{xy}q_{x+k:y+k})\qquad A_{x:y}=A_{x}+A_{y}-A_{\overline{xy}}
+$$
+
+## Propia
+```{r}
+w <- 125
+limit <- max(w - x, w - y)
+k <- 0:limit
+v_2 <- 1 / (1 + i)
+# Seguro vida 30 años
+Ax <- sum(v_2^k * unlist(lapply(FUN = tpx, x = x, X = k)) * (1 - unlist(lapply(FUN = tpx, X = k + x, t = 1))))
+
+Ay <- sum(v_2^k * unlist(lapply(FUN = tpx, x = y, X = k)) * (1 - unlist(lapply(FUN = tpx, X = k + y, t = 1))))
+```
+
+
 
 c. Calcule, para cada uno de los modelos anteriores, el valor presente actuarial de una anualidad vitalia que paga 1 unidad al inicio de cada año mientras el sistema se mantenga activo (sobrevivencia). Se deben presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a paso, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de vida futura. 
 
