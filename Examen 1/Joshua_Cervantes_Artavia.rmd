@@ -38,7 +38,7 @@ library(lifecontingencies)
 library(kableExtra)
 library(jcolors)
 library(latex2exp)
-options(scipen = 999, digits = 5, OutDec = ",")
+options(scipen = 999, digits = 5, OutDec = ",", big.mark = ".")
 # Se procede a leer la tabla
 tabla <- read.csv("TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
@@ -96,13 +96,17 @@ b. Conteste las siguiente preguntas: ¿Por qué no es posible hablar de una tasa
 **Respuesta**
 
 
-No se puede hablar de una tasa de riesgo al tenerse que el riesgo de que el individuo sobreviva o el que muera debido a los montos no están representados en igual proporción.
+No se puede hablar de una tasa de riesgo al tenerse que el riesgo de que el individuo sobreviva o el que muera debido a los montos no están representados en igual proporción. Teniéndose que de quererse dividir entre un monto para obtener las tasa, alguna de los riesgos no va estar representado en su totalidad.
 
 
 ```{r}
 # Estimacion de tas neta sobre el beneficio de fallecimiento
+# Tasa neta
 risk_n <- A60_1_20 / a60_20
+# Tasa bruta
 risk_b <- risk_n / (1 - g)
+
+
 risk_n
 risk_b
 ```
@@ -119,8 +123,8 @@ v_acum <- v^(0:20)
 n <- length(v_acum)
 # Monto de los pagos
 amount_payments <- risk_p * cumsum(v_acum[1:10])
-L1 <- benefit_1 * v_acum[1:10] - amount_payments[1:10]
-L2 <- benefit_1 * v_acum[11:21] - amount_payments[10]
+L1 <- benefit_1 * v_acum[1:10] * v - amount_payments[1:10]
+L2 <- benefit_1 * v_acum[11:20] * v - amount_payments[10]
 L3 <- benefit_2 * v_acum[21] - amount_payments[10]
 # Ahora con esto entonces se procede a genera un único vector de pérdida
 
@@ -128,14 +132,26 @@ L <- c(L1, L2, L3)
 
 ggplot(, aes(x = 0:20, y = L)) +
     geom_line() +
+    geom_point(aes(x = 20, y = L[length(L)])) +
+    geom_label(
+        aes(
+            label = "Sobrevive",
+            x = 18,
+            y = L[length(L)]
+        ),
+        label.padding = unit(0.3, "lines"), # Rectangle size around label
+        label.size = 0.1,
+        color = "black",
+        fill = "#69b3a2"
+    ) +
     theme_minimal() +
     labs(y = "Pérdidas", x = "Años")
 ```
 
+**Análisis**
 
-**Análisis** 
+Se puede observar como las pérdidas van disminuyendo conforme va avanzando el tiempo, esto se debe a que conforme el tiempo avanza se van obteniendo mayor cantidad de primas por lo menos hasta inicios del año 9 cuando se recibe la último. No obstante, mientras el individuo se encuentra con vida se siguen acumulando intereses sobre las primas recibidas, por lo que se tienen más fondos para hacer frente a la obligación en caso de que el inidividuo muera o sobreviva los 20 años. Se puede observar un quiebre que es el caso en que el individuo muera en el año 19 o sobreviva los 20 años. Teniendo que si se sobrevive los 20 años, el monto a pagar a inicios del año 20 es menor que si muere en el año 19.
 
-Se puede observar como los fondos van aumentando y hay un quiebre cerca de los 9 años, esto se debe a que a partir de este momento se dejan de pagar primas. Sin embargo, los fondos siguen aumentando ya que se acumulan las primas que se habían recibido anteriormente y los intereses que se acumlan sobre estas al tenerse que no todas las personas han muerto, y se espera que no lo hagan tenerse que no alcanzan la edad límite del modelo. Sin embargo, los fondos al llegar al final del año 19 caen abruptamente al tenerse que se deberán pagar todos beneficios de 50.000 a las personas que sobrevivieron los años, inmeditamente los fondos caen, sin embargo aquí se ha mostrado como a final del año 20, pero es inmediato al alcanzarse el inicio del año 20. 
 
 d. A partir de que edad, se puede tener certeza de que la compañía no presentará pérdida por la póliza individual si la persona se encuentre con vida en ese momento.
 
@@ -154,6 +170,7 @@ La edad es `r edad_n_losse`.
 
 
 e. Trabaje un modelo colectivo con base en la tabla de mortalidad y partiendo de un grupo de inicial $l_{40}$ que adquiere el mismo seguro dotal, conforme una tabla del flujo de efectivo esperado, en donde se incluyan las siguiente columnas: 1) Sobreviventes, 2) Primas esperadas al inicio del año, 3) Monto para prima de riesgo al inicio de año, 4) Gastos administrativos, 5) Fondo esperado al inicio de año, 6) Intereses generados por el fondo al inicio del año, 7) Monto pagado en indemnizaciones al final del año, 8) Fondo esperado al final del año, 9) Reserva calculada como la división del fondo final y los Sobreviventes al final y 10) El valor de la reserva al final de cada año con base en la fórmula actuarial respectiva.
+
 
 En este caso es necesario recalcular las primas.
 
@@ -238,7 +255,7 @@ kable(flows,
 
 f. Grafique e interprete la última columna de la tabla que contine los valores de la reserva con cada análisis anual.
 
-<caption><center><strong>Figura 2: Fondos esperado final de año </strong></center></caption>
+<caption><center><strong>Figura 2: Reserva al final de año </strong></center></caption>
 ```{r,fig.align="center"}
 # Se procede a construir el gráfico
 flows %>% ggplot(aes(x = year, y = reserve)) +
@@ -246,6 +263,10 @@ flows %>% ggplot(aes(x = year, y = reserve)) +
     theme_minimal() +
     labs(x = "Año", y = "Fondos")
 ```
+
+**Análisis** 
+
+Se puede observar como los fondos van aumentando y hay un quiebre cerca de los 9 años, esto se debe a que a partir de este momento se dejan de pagar primas. Sin embargo, los fondos siguen aumentando ya que se acumulan las primas que se habían recibido anteriormente y los intereses que se acumlan sobre estas al tenerse que no todas las personas han muerto, y se espera que no lo hagan tenerse que no alcanzan la edad límite del modelo. Sin embargo, los fondos al llegar al final del año 19 caen abruptamente al tenerse que se deberán pagar todos beneficios de 50.000 a las personas que sobrevivieron los años, inmeditamente los fondos caen, sin embargo aquí se ha mostrado como a final del año 20, pero es inmediato al alcanzarse el inicio del año 20. 
 
 # Ejercicio 2
 Considere un modelo de vida en donde se tiene que $\mu(x)=\frac{1}{125-x}$, $0\leq x \leq 125$.
@@ -258,11 +279,11 @@ $$
 _tp_x=\exp\left\{-\int_{0}^{t}\mu_x(s)\,ds\right\}=\exp\left\{-\int_{0}^t\frac{1}{125-x-s}\,ds\right\}=\frac{125-x-t}{125-x}
 $$
 
-Ahora suponiendo vidas independientes
+Ahora suponiendo vidas independientes se puede asegurar
 
-$$
-_tp_{xy}=_tp_x_tp_y \qquad _tp_{\overline{xy}}=_tp_x+_tp_y+_tp_{xy}
-$$
+$$_tp_{xy}= \,_tp_x\, _tp_y$$
+
+$$_tp_{\overline{xy}}=_tp_x+_tp_y+_tp_{xy}$$
 
 Entonces se procede a programar las funciones haciendo uso de lo anterior
 ```{r}
@@ -317,10 +338,10 @@ status %>% ggplot(aes(x = Tiempo, y = Probabilidad, color = Status)) +
     geom_line(size = 1) +
     scale_color_jcolors(palette = "pal2") +
     theme_minimal()
-# labels = unname(TeX(c("$_tp_{30}$", "$_tp_{40}$", "$_tp_{30/40}$", "$_tp_{\\bar{30/40}}$")))
 ```
 
 **Análisis**
+
 Primero se puede notar que de las cuatro curvas la que tiene un comportamiento más suave es la de (30), esta persona podría vivir los 95 años al tenerse como edad límite 125. Y al ser más joven tiene mayores probabilidades de sobrevivencia que la persona de (40). Esto posiciona la curva de (30) por encima de la de (40). La persona de (40) muere antes de que se cumplan los 95 años, al no poder superar los 125 años bajo este modelo. 
 Se puede notar que la curva del status de vida conjunta se encuentra por debajo de todas las demás, al ser menos probable el poder aseguarar que dos personas sobrevivan. Situación que no sucede en la de último sobreviviente donde se posiciona sobre todas las demás hasta cierto periodo de tiempo, esto debido a que solo importa que una de las personas se encuentre con vida por lo que hay una mayor probabilidad de el status se mantenga vigente, no obstante interseca a la curva de (30) y sigue el mismo comportamiento de esta después de un tiempo, ya que la única persona que puede seguir viva despúes de que (40) está por alcanzar los 125 años es (30) al tenerse como límite máximo los 125 años.
 
@@ -418,11 +439,15 @@ A_xy_s
 
 
 
-c. Calcule, para cada uno de los modelos anteriores, el valor presente actuarial de una anualidad vitalia que paga 1 unidad al inicio de cada año mientras el sistema se mantenga activo (sobrevivencia). Se deben presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a paso, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de vida futura. 
+c. Calcule para cada uno de los modelos anteriores, el valor presente actuarial de una anualidad vitalia que paga 1 unidad al inicio de cada año mientras el sistema se mantenga activo (sobrevivencia). Se deben presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a paso, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de vida futura. 
 
 Para este ejercicio se va utilizar lo siguiente
 $$
-\"a_{xy}=\sum_{k=0}^{\infty}v^k_kp_{xy}\qquad \"a_{\overline{xy}} =\"a_x+\"a_y-\"a_{xy}
+\ddot{a}_{xy}=\sum_{k=0}^{\infty}v^k_kp_{xy}
+$$
+
+$$
+\ddot{a}_{\overline{xy}} =\ddot{a}_x+\ddot{a}_y-\ddot{a}_{xy}
 $$
 
 ## Construcción paso a paso
@@ -514,10 +539,10 @@ kable(t_ejercicio_2,
         "$A_{40}$",
         "$A_{30:40}$",
         "$A_{\\overline{30:40}}$",
-        "$a_30$",
-        "$a_40$",
-        "$a_{30:40}$",
-        "$a_{\\overline{30:40}}$",
+        "$\\ddot{a}_{30}$",
+        "$\\ddot{a}_{40}$",
+        "$\\ddot{a}_{30:40}$",
+        "$\\ddot{a}_{\\overline{30:40}}$",
         "Prima $A_x$",
         "Prima $A_y$",
         "Prima $A_{x:y}$",
