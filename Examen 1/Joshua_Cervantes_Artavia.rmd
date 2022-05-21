@@ -59,8 +59,8 @@ px[length(px) + 1] <- 0
 life_table <- probs2lifetable(px, type = "px")
 
 # Tasa de interes
-i <- 0.105
-v <- 1 / (1 + i)
+interest <- 0.105
+v <- 1 / (1 + interest)
 
 # Gastos
 
@@ -73,9 +73,9 @@ benefit_2 <- 50000
 # Ax_1_n seguro de vida
 
 
-A60_1_20 <- Axn(life_table, x = 60, n = 20, i = i)
+A60_1_20 <- Axn(life_table, x = 60, n = 20, i = interest)
 A60_20_1 <- v^(20) * pxt(life_table, x = 60, t = 20)
-a60_20 <- axn(life_table, x = 60, n = 10, i = i, payment = "advance")
+a60_20 <- axn(life_table, x = 60, n = 10, i = interest, payment = "advance")
 
 # La prima por riesgo sería
 risk_p <- (benefit_1 * A60_1_20 + benefit_2 * A60_20_1) / a60_20
@@ -130,9 +130,9 @@ En este caso es necesario recalcular las primas.
 
 ```{r}
 # Para referirse a vectores que van desde una edad hasta otra se toma lx_t donde x es la edad incial y t es la edad a la que llegan
-A40_1_20 <- Axn(life_table, x = 40, n = 20, i = i)
+A40_1_20 <- Axn(life_table, x = 40, n = 20, i = interest)
 A40_20_1 <- v^(20) * pxt(life_table, x = 40, t = 20)
-a40_20 <- axn(life_table, x = 40, n = 10, i = i, payment = "advance")
+a40_20 <- axn(life_table, x = 40, n = 10, i = interest, payment = "advance")
 
 # La prima por riesgo sería
 risk_p <- (benefit_1 * A40_1_20 + benefit_2 * A40_20_1) / a40_20
@@ -175,7 +175,7 @@ reserve <- E_funds_e / E_survival_e
 t <- 1:10
 # Sumar 9
 # benefit_1 * Axn(life_table, x = 42, i = i, n = 18) + benefit_2 * v^(18) * pxt(life_table, x = 42, t = 18) - risk_p * axn(life_table, n = 8, x = 42, i = i, payment = "advance")
-reserve_t_1 <- benefit_1 * Axn(life_table, x = 40 + t, i = 0.105, n = 9 + rev(t)) + benefit_2 * v^(9 + rev(t)) * pxt(life_table, x = 40 + t, t = 9 + rev(t)) - risk_p * axn(life_table, n = rev(t), x = 40 + t, i = 0.105, payment = "advance")
+reserve_t_1 <- benefit_1 * Axn(life_table, x = 40 + t, i = 0.105, n = 9 + rev(t)) + benefit_2 * v^(9 + rev(t)) * pxt(life_table, x = 40 + t, t = 9 + rev(t)) - risk_p * axn(life_table, n = rev(t), x = 40 + t, i = interest, payment = "advance")
 ##
 flows <- data.frame(year, E_survival, E_premium, E_funds_b, E_i, E_reclaims, E_funds_e, reserve)
 kable(flows,
@@ -265,23 +265,208 @@ b. Calcule el valor presente actuarial de un seguro vitalicio, que paga 1 unidad
 Para este ejercicio se emplearán las siguientes igualdades
 
 $$
-A_{\overline{xy}}=\sum_{k=0}^{\infty}v^{k+1}(_kp_{x}q_{x+k}+_kp_{y}q_{x+k}-_kp_{xy}q_{x+k:y+k})\qquad A_{x:y}=A_{x}+A_{y}-A_{\overline{xy}}
+A_{xy}=\sum_{k=0}^{\infty}v^{k+1}(_kp_{xy}q_{x+k:y+k})\qquad A_{\overline{xy}}=A_{x}+A_{y}-A_{xy}
 $$
 
-## Propia
+## Construcción paso a paso
 ```{r}
 w <- 125
 limit <- max(w - x, w - y)
 k <- 0:limit
-v_2 <- 1 / (1 + i)
 # Seguro vida 30 años
-Ax <- sum(v_2^k * unlist(lapply(FUN = tpx, x = x, X = k)) * (1 - unlist(lapply(FUN = tpx, X = k + x, t = 1))))
+Ax <- sum(v^(k + 1) * unlist(lapply(FUN = tpx, x = x, X = k)) * (1 - unlist(lapply(FUN = tpx, X = k + x, t = 1))))
+# Seguro de vida 40 años
+Ay <- sum(v^(k + 1) * unlist(lapply(FUN = tpx, x = y, X = k)) * (1 - unlist(lapply(FUN = tpx, X = k + y, t = 1))))
 
-Ay <- sum(v_2^k * unlist(lapply(FUN = tpx, x = y, X = k)) * (1 - unlist(lapply(FUN = tpx, X = k + y, t = 1))))
+# Seguro ultimo sobreviviente
+
+
+# Probabilidad que sobrevivan ambos a k y alguno de los dos muera
+k_1qxy <- unlist(lapply(FUN = tpxy, x = x, y = y, X = k)) * (1 - unlist(mapply(FUN = tpxy, x + k, y + k, t = 1)))
+
+Axy <- sum(v^(k + 1) * (k_1qxy))
+
+# Seguro vida conjunta
+A_xy <- Ax + Ay - Axy
+
+
+# Imprimimos
+Ax
+Ay
+Axy
+A_xy
+```
+
+Entonces se cumple lo siguiente con lo desarrollado por nosotros
+$$
+A_{30}=`r Ax`\qquad A_{40}=`r Ay` \qquad A_{30:40}=`r Axy`\qquad A_{\overline{xy}}=`r A_xy`
+$$
+
+## Lifecontingencies
+
+```{r}
+# Probabilidades
+px_2 <- unlist(lapply(FUN = tpx, X = 0:124, t = 1))
+
+# Tabla de contingencias
+life_table_2 <- probs2lifetable(px_2, type = "px")
+
+# Modelos cada individuo
+Ax_l <- Axn(life_table_2, x = x, i = interest)
+Ay_l <- Axn(life_table_2, x = y, i = interest)
+
+# Modelo vida conjunta y ultimo sobreviviente
+life_table_j <- list(life_table_2, life_table_2)
+Axy_l <- Axyzn(life_table_j, x = c(x, y), status = "joint", i = interest)
+A_xy_l <- Axyzn(life_table_j, x = c(x, y), status = "last", i = interest)
+
+
+# Imprimimos
+Ax_l
+Ay_l
+Axy_l
+A_xy_l
+```
+
+## Estocástico
+
+```{r}
+simulaciones <- 50000
+# Modelos cada individuo
+Tx <- rLife(simulaciones, life_table_2, x = x) + 0.5
+Ty <- rLife(simulaciones, life_table_2, x = y) + 0.5
+
+Ax_s <- sum(v^(Tx)) / simulaciones
+Ay_s <- sum(v^(Ty)) / simulaciones
+
+# Modelos multiples vidas
+Txy <- unlist(mapply(FUN = min, Tx, Ty))
+T_xy <- unlist(mapply(FUN = max, Tx, Ty))
+
+# Conjunta
+Axy_s <- sum(v^Txy) / simulaciones
+# Ultimo sobreviviente
+A_xy_s <- sum(v^T_xy) / simulaciones
+
+# Imprimimos
+# Imprimimos
+Ax_s
+Ay_s
+Axy_s
+A_xy_s
 ```
 
 
 
 c. Calcule, para cada uno de los modelos anteriores, el valor presente actuarial de una anualidad vitalia que paga 1 unidad al inicio de cada año mientras el sistema se mantenga activo (sobrevivencia). Se deben presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a paso, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de vida futura. 
 
+Para este ejercicio se va utilizar lo siguiente
+$$
+\"a_{xy}=\sum_{k=0}^{\infty}v^k_kp_{xy}\qquad \"a_{\overline{xy}} =\"a_x+\"a_y-\"a_{xy}
+$$
+
+## Construcción paso a paso
+```{r}
+# Vida individual
+ax <- sum(v^k * unlist(lapply(FUN = tpx, X = k, x = x)))
+ay <- sum(v^k * unlist(lapply(FUN = tpx, X = k, x = y)))
+
+# Vida conjunta
+axy <- sum(v^k * unlist(lapply(FUN = tpxy, X = k, x = x, y = y)))
+
+# Ultimo sobreviviente
+a_xy <- ax + ay - axy
+
+
+# Imprimimos
+ax
+ay
+axy
+a_xy
+```
+
+
+## Lifecontingencies
+```{r}
+# Vida individual
+ax_l <- axn(life_table_2, x = x, i = interest)
+ay_l <- axn(life_table_2, x = y, i = interest)
+
+# Vida conjunta
+axy_l <- axyzn(life_table_j, x = c(x, y), status = "joint", i = interest)
+
+# Ultimo sobreviviente
+a_xy_l <- axyzn(life_table_j, x = c(x, y), status = "last", i = interest)
+
+
+# Imprimimos
+ax_l
+ay_l
+axy_l
+a_xy_l
+```
+
+## Estocástico
+```{r}
+# Vida individual
+ax_s <- sum((1 - v^Tx)) / (1 - v) / simulaciones
+ay_s <- sum((1 - v^Ty)) / (1 - v) / simulaciones
+
+
+# Vida conjunta
+axy_s <- sum((1 - v^Txy)) / (1 - v) / simulaciones
+
+# Ultimo sobreviviente
+a_xy_s <- sum((1 - v^T_xy)) / (1 - v) / simulaciones
+
+# Imprimimos
+ax_s
+ay_s
+axy_s
+a_xy_s
+```
+
 d. Determine la prima de riesgo respectiva al combinar los resultados de los incisos b) y c). Conforme una tabla de valores para los 4 modelos y los tres escenarios. 
+```{r}
+# En este caso lo que haremos es formar un dataframe y hacer un mutate para obtener las primas
+# Se crean las columnas del data frames
+Ax_t <- c(Ax, Ax_l, Ax_s)
+Ay_t <- c(Ay, Ay_l, Ay_s)
+Axy_t <- c(Axy, Axy_l, Axy_s)
+A_xy_t <- c(A_xy, A_xy_l, A_xy_s)
+ax_t <- c(ax, ax_l, ax_s)
+ay_t <- c(ay, ay_l, ay_s)
+axy_t <- c(axy, axy_l, axy_s)
+a_xy_t <- c(a_xy, a_xy_l, a_xy_s)
+t_ejercicio_2 <- data.frame(Ax = Ax_t, Ay = Axy_t, Axy = Axy_t, A_xy = A_xy_t, ax = ax_t, ay = ay_t, axy = axy_t, a_xy = a_xy_t)
+rownames(t_ejercicio_2) <- c("Construido", "Lifecontingencies", "Estocástico")
+t_ejercicio_2 <- t_ejercicio_2 %>% mutate(
+    "Prima Ax" = Ax / ax, "Prima Ay" = Ax / ax,
+    "Prima Axy" = Axy / axy, "Prima A_xy" = A_xy / a_xy
+)
+```
+
+
+```{r}
+kable(t_ejercicio_2,
+    col.names = c(
+        "$A_{30}$",
+        "$A_{40}$",
+        "$A_{30:40}$",
+        "$A_{\\overline{30:40}}$",
+        "$a_30$",
+        "$a_40$",
+        "$a_{30:40}$",
+        "$a_{\\overline{30:40}}$",
+        "Prima $A_x$",
+        "Prima $A_y$",
+        "Prima $A_{x:y}$",
+        "Prima $A_{\\overline{x:y}}$"
+    ),
+    caption = "Resumen", format.args = list(decimal.mark = ",", big.mark = "."), escape = FALSE
+) %>%
+    kable_styling(full_width = F) %>%
+    kable_material() %>%
+    row_spec(0, bold = T, color = "white", background = "#159957") %>%
+    scroll_box(height = "300px", width = "100%")
+```

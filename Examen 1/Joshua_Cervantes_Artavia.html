@@ -403,7 +403,15 @@ code span.ot { color: #007020; }
 <div class="toc-box">
 <ul>
 <li><a href="#ejercicio-1" id="toc-ejercicio-1">Ejercicio 1</a></li>
-<li><a href="#ejercicio-2" id="toc-ejercicio-2">Ejercicio 2</a></li>
+<li><a href="#ejercicio-2" id="toc-ejercicio-2">Ejercicio 2</a>
+<ul>
+<li><a href="#construcción-paso-a-paso" id="toc-construcción-paso-a-paso">Construcción paso a paso</a></li>
+<li><a href="#lifecontingencies" id="toc-lifecontingencies">Lifecontingencies</a></li>
+<li><a href="#estocástico" id="toc-estocástico">Estocástico</a></li>
+<li><a href="#construcción-paso-a-paso-1" id="toc-construcción-paso-a-paso-1">Construcción paso a paso</a></li>
+<li><a href="#lifecontingencies-1" id="toc-lifecontingencies-1">Lifecontingencies</a></li>
+<li><a href="#estocástico-1" id="toc-estocástico-1">Estocástico</a></li>
+</ul></li>
 </ul>
 </div>
 </div>
@@ -438,8 +446,8 @@ prima comercial a cobrar por el seguro.</li>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>life_table <span class="ot">&lt;-</span> <span class="fu">probs2lifetable</span>(px, <span class="at">type =</span> <span class="st">&quot;px&quot;</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Tasa de interes</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fl">0.105</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> i)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>interest <span class="ot">&lt;-</span> <span class="fl">0.105</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> interest)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Gastos</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
@@ -452,9 +460,9 @@ prima comercial a cobrar por el seguro.</li>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Ax_1_n seguro de vida</span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>A60_1_20 <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">i =</span> i)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>A60_1_20 <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">i =</span> interest)</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>A60_20_1 <span class="ot">&lt;-</span> v<span class="sc">^</span>(<span class="dv">20</span>) <span class="sc">*</span> <span class="fu">pxt</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">t =</span> <span class="dv">20</span>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>a60_20 <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">i =</span> i, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>a60_20 <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">60</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">i =</span> interest, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># La prima por riesgo sería</span></span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>risk_p <span class="ot">&lt;-</span> (benefit_1 <span class="sc">*</span> A60_1_20 <span class="sc">+</span> benefit_2 <span class="sc">*</span> A60_20_1) <span class="sc">/</span> a60_20</span>
@@ -517,9 +525,9 @@ al final y 10) El valor de la reserva al final de cada año con base en
 la fórmula actuarial respectiva.</p>
 <p>En este caso es necesario recalcular las primas.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para referirse a vectores que van desde una edad hasta otra se toma lx_t donde x es la edad incial y t es la edad a la que llegan</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>A40_1_20 <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">40</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">i =</span> i)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>A40_1_20 <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">40</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">i =</span> interest)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>A40_20_1 <span class="ot">&lt;-</span> v<span class="sc">^</span>(<span class="dv">20</span>) <span class="sc">*</span> <span class="fu">pxt</span>(life_table, <span class="at">x =</span> <span class="dv">40</span>, <span class="at">t =</span> <span class="dv">20</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>a40_20 <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">40</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">i =</span> i, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>a40_20 <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">40</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">i =</span> interest, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># La prima por riesgo sería</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>risk_p <span class="ot">&lt;-</span> (benefit_1 <span class="sc">*</span> A40_1_20 <span class="sc">+</span> benefit_2 <span class="sc">*</span> A40_20_1) <span class="sc">/</span> a40_20</span>
@@ -559,7 +567,7 @@ la fórmula actuarial respectiva.</p>
 <span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
 <span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Sumar 9</span></span>
 <span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co"># benefit_1 * Axn(life_table, x = 42, i = i, n = 18) + benefit_2 * v^(18) * pxt(life_table, x = 42, t = 18) - risk_p * axn(life_table, n = 8, x = 42, i = i, payment = &quot;advance&quot;)</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>reserve_t_1 <span class="ot">&lt;-</span> benefit_1 <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">40</span> <span class="sc">+</span> t, <span class="at">i =</span> <span class="fl">0.105</span>, <span class="at">n =</span> <span class="dv">9</span> <span class="sc">+</span> <span class="fu">rev</span>(t)) <span class="sc">+</span> benefit_2 <span class="sc">*</span> v<span class="sc">^</span>(<span class="dv">9</span> <span class="sc">+</span> <span class="fu">rev</span>(t)) <span class="sc">*</span> <span class="fu">pxt</span>(life_table, <span class="at">x =</span> <span class="dv">40</span> <span class="sc">+</span> t, <span class="at">t =</span> <span class="dv">9</span> <span class="sc">+</span> <span class="fu">rev</span>(t)) <span class="sc">-</span> risk_p <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">n =</span> <span class="fu">rev</span>(t), <span class="at">x =</span> <span class="dv">40</span> <span class="sc">+</span> t, <span class="at">i =</span> <span class="fl">0.105</span>, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>reserve_t_1 <span class="ot">&lt;-</span> benefit_1 <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">40</span> <span class="sc">+</span> t, <span class="at">i =</span> <span class="fl">0.105</span>, <span class="at">n =</span> <span class="dv">9</span> <span class="sc">+</span> <span class="fu">rev</span>(t)) <span class="sc">+</span> benefit_2 <span class="sc">*</span> v<span class="sc">^</span>(<span class="dv">9</span> <span class="sc">+</span> <span class="fu">rev</span>(t)) <span class="sc">*</span> <span class="fu">pxt</span>(life_table, <span class="at">x =</span> <span class="dv">40</span> <span class="sc">+</span> t, <span class="at">t =</span> <span class="dv">9</span> <span class="sc">+</span> <span class="fu">rev</span>(t)) <span class="sc">-</span> risk_p <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">n =</span> <span class="fu">rev</span>(t), <span class="at">x =</span> <span class="dv">40</span> <span class="sc">+</span> t, <span class="at">i =</span> interest, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
 <span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
 <span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>flows <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(year, E_survival, E_premium, E_funds_b, E_i, E_reclaims, E_funds_e, reserve)</span>
 <span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(flows,</span>
@@ -1223,25 +1231,413 @@ lo anterior</p>
 <span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li><p>Calcule el valor presente actuarial de un seguro vitalicio, que
-paga 1 unidad al final del año de muerte o fallo para cada modelo: 1)
+<li>Calcule el valor presente actuarial de un seguro vitalicio, que paga
+1 unidad al final del año de muerte o fallo para cada modelo: 1)
 Individual 30 años, 2) Individual 40 años, 3) Vida conjunta 30 y 40
-años, y 4) Último sobreviviente 30 y 40 años. Se debren presentar 3
+años, y 4) Último sobreviviente 30 y 40 años. Se deben presentar 3
 escenarios, uno en donde se construya la fórmula del seguro paso a pago,
 otro con la función del paquete “lifecontingencies” y otro con el método
-aleatorio (estocástico) utilizando 50.00 simulaciones del tiempo de vida
-futura.</p></li>
-<li><p>Calcule, para cada uno de los modelos anteriores, el valor
-presente actuarial de una anualidad vitalia que paga 1 unidad al inicio
-de cada año mientras el sistema se mantenga activo (sobrevivencia). Se
-deben presentar 3 escenarios, uno en donde se construya la fórmula del
-seguro paso a paso, otro con la función del paquete “lifecontingencies”
-y otro con el método aleatorio (estocástico) utilizando 50.000
-simulaciones del tiempo de vida futura.</p></li>
-<li><p>Determine la prima de riesgo respectiva al combinar los
-resultados de los incisos b) y c). Conforme una tabla de valores para
-los 4 modelos y los tres escenarios.</p></li>
+aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de
+vida futura.</li>
 </ol>
+<p>Para este ejercicio se emplearán las siguientes igualdades</p>
+<p><span class="math display">\[
+A_{xy}=\sum_{k=0}^{\infty}v^{k+1}(_kp_{xy}q_{x+k:y+k})\qquad
+A_{\overline{xy}}=A_{x}+A_{y}-A_{xy}
+\]</span></p>
+<div id="construcción-paso-a-paso" class="section level2">
+<h2>Construcción paso a paso</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="dv">125</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>limit <span class="ot">&lt;-</span> <span class="fu">max</span>(w <span class="sc">-</span> x, w <span class="sc">-</span> y)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>limit</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro vida 30 años</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Ax <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(k <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">x =</span> x, <span class="at">X =</span> k)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">X =</span> k <span class="sc">+</span> x, <span class="at">t =</span> <span class="dv">1</span>))))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro de vida 40 años</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>Ay <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(k <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">x =</span> y, <span class="at">X =</span> k)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">X =</span> k <span class="sc">+</span> y, <span class="at">t =</span> <span class="dv">1</span>))))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro ultimo sobreviviente</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidad que sobrevivan ambos a k y alguno de los dos muera</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>k_1qxy <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpxy, <span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">X =</span> k)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">unlist</span>(<span class="fu">mapply</span>(<span class="at">FUN =</span> tpxy, x <span class="sc">+</span> k, y <span class="sc">+</span> k, <span class="at">t =</span> <span class="dv">1</span>)))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>Axy <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(k <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> (k_1qxy))</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro vida conjunta</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>A_xy <span class="ot">&lt;-</span> Ax <span class="sc">+</span> Ay <span class="sc">-</span> Axy</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>Ax</span></code></pre></div>
+<pre><code>## [1] 0,10024</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Ay</span></code></pre></div>
+<pre><code>## [1] 0,11202</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Axy</span></code></pre></div>
+<pre><code>## [1] 0,18865</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>A_xy</span></code></pre></div>
+<pre><code>## [1] 0,023611</code></pre>
+<p>Entonces se cumple lo siguiente con lo desarrollado por nosotros
+<span class="math display">\[
+A_{30}=0,10024\qquad A_{40}=0,11202 \qquad A_{30:40}=0,18865\qquad
+A_{\overline{xy}}=0,02361
+\]</span></p>
+</div>
+<div id="lifecontingencies" class="section level2">
+<h2>Lifecontingencies</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidades</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>px_2 <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">X =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">124</span>, <span class="at">t =</span> <span class="dv">1</span>))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabla de contingencias</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>life_table_2 <span class="ot">&lt;-</span> <span class="fu">probs2lifetable</span>(px_2, <span class="at">type =</span> <span class="st">&quot;px&quot;</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelos cada individuo</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>Ax_l <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table_2, <span class="at">x =</span> x, <span class="at">i =</span> interest)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>Ay_l <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table_2, <span class="at">x =</span> y, <span class="at">i =</span> interest)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo vida conjunta y ultimo sobreviviente</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>life_table_j <span class="ot">&lt;-</span> <span class="fu">list</span>(life_table_2, life_table_2)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>Axy_l <span class="ot">&lt;-</span> <span class="fu">Axyzn</span>(life_table_j, <span class="at">x =</span> <span class="fu">c</span>(x, y), <span class="at">status =</span> <span class="st">&quot;joint&quot;</span>, <span class="at">i =</span> interest)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>A_xy_l <span class="ot">&lt;-</span> <span class="fu">Axyzn</span>(life_table_j, <span class="at">x =</span> <span class="fu">c</span>(x, y), <span class="at">status =</span> <span class="st">&quot;last&quot;</span>, <span class="at">i =</span> interest)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>Ax_l</span></code></pre></div>
+<pre><code>## [1] 0,10024</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Ay_l</span></code></pre></div>
+<pre><code>## [1] 0,11202</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>Axy_l</span></code></pre></div>
+<pre><code>## [1] 0,18865</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>A_xy_l</span></code></pre></div>
+<pre><code>## [1] 0,02361</code></pre>
+</div>
+<div id="estocástico" class="section level2">
+<h2>Estocástico</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>simulaciones <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelos cada individuo</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>Tx <span class="ot">&lt;-</span> <span class="fu">rLife</span>(simulaciones, life_table_2, <span class="at">x =</span> x) <span class="sc">+</span> <span class="fl">0.5</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>Ty <span class="ot">&lt;-</span> <span class="fu">rLife</span>(simulaciones, life_table_2, <span class="at">x =</span> y) <span class="sc">+</span> <span class="fl">0.5</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>Ax_s <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(Tx)) <span class="sc">/</span> simulaciones</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>Ay_s <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(Ty)) <span class="sc">/</span> simulaciones</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelos multiples vidas</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>Txy <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">mapply</span>(<span class="at">FUN =</span> min, Tx, Ty))</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>T_xy <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">mapply</span>(<span class="at">FUN =</span> max, Tx, Ty))</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Conjunta</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>Axy_s <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>Txy) <span class="sc">/</span> simulaciones</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Ultimo sobreviviente</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>A_xy_s <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>T_xy) <span class="sc">/</span> simulaciones</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>Ax_s</span></code></pre></div>
+<pre><code>## [1] 0,099927</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Ay_s</span></code></pre></div>
+<pre><code>## [1] 0,1117</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Axy_s</span></code></pre></div>
+<pre><code>## [1] 0,18823</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>A_xy_s</span></code></pre></div>
+<pre><code>## [1] 0,023401</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Calcule, para cada uno de los modelos anteriores, el valor presente
+actuarial de una anualidad vitalia que paga 1 unidad al inicio de cada
+año mientras el sistema se mantenga activo (sobrevivencia). Se deben
+presentar 3 escenarios, uno en donde se construya la fórmula del seguro
+paso a paso, otro con la función del paquete “lifecontingencies” y otro
+con el método aleatorio (estocástico) utilizando 50.000 simulaciones del
+tiempo de vida futura.</li>
+</ol>
+<p>Para este ejercicio se va utilizar lo siguiente <span class="math display">\[
+\&quot;a_{xy}=\sum_{k=0}^{\infty}v^k_kp_{xy}\qquad
+\&quot;a_{\overline{xy}} =\&quot;a_x+\&quot;a_y-\&quot;a_{xy}
+\]</span></p>
+</div>
+<div id="construcción-paso-a-paso-1" class="section level2">
+<h2>Construcción paso a paso</h2>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vida individual</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>ax <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>k <span class="sc">*</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">X =</span> k, <span class="at">x =</span> x)))</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>ay <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>k <span class="sc">*</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">X =</span> k, <span class="at">x =</span> y)))</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Vida conjunta</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>axy <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>k <span class="sc">*</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpxy, <span class="at">X =</span> k, <span class="at">x =</span> x, <span class="at">y =</span> y)))</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ultimo sobreviviente</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>a_xy <span class="ot">&lt;-</span> ax <span class="sc">+</span> ay <span class="sc">-</span> axy</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>ax</span></code></pre></div>
+<pre><code>## [1] 9,4689</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ay</span></code></pre></div>
+<pre><code>## [1] 9,3449</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>axy</span></code></pre></div>
+<pre><code>## [1] 8,5385</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>a_xy</span></code></pre></div>
+<pre><code>## [1] 10,275</code></pre>
+</div>
+<div id="lifecontingencies-1" class="section level2">
+<h2>Lifecontingencies</h2>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vida individual</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>ax_l <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table_2, <span class="at">x =</span> x, <span class="at">i =</span> interest)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>ay_l <span class="ot">&lt;-</span> <span class="fu">axn</span>(life_table_2, <span class="at">x =</span> y, <span class="at">i =</span> interest)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Vida conjunta</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>axy_l <span class="ot">&lt;-</span> <span class="fu">axyzn</span>(life_table_j, <span class="at">x =</span> <span class="fu">c</span>(x, y), <span class="at">status =</span> <span class="st">&quot;joint&quot;</span>, <span class="at">i =</span> interest)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ultimo sobreviviente</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>a_xy_l <span class="ot">&lt;-</span> <span class="fu">axyzn</span>(life_table_j, <span class="at">x =</span> <span class="fu">c</span>(x, y), <span class="at">status =</span> <span class="st">&quot;last&quot;</span>, <span class="at">i =</span> interest)</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>ax_l</span></code></pre></div>
+<pre><code>## [1] 9,4689</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>ay_l</span></code></pre></div>
+<pre><code>## [1] 9,3449</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>axy_l</span></code></pre></div>
+<pre><code>## [1] 8,5385</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>a_xy_l</span></code></pre></div>
+<pre><code>## [1] 10,275</code></pre>
+</div>
+<div id="estocástico-1" class="section level2">
+<h2>Estocástico</h2>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vida individual</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>ax_s <span class="ot">&lt;-</span> <span class="fu">sum</span>((<span class="dv">1</span> <span class="sc">-</span> v<span class="sc">^</span>Tx)) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v) <span class="sc">/</span> simulaciones</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>ay_s <span class="ot">&lt;-</span> <span class="fu">sum</span>((<span class="dv">1</span> <span class="sc">-</span> v<span class="sc">^</span>Ty)) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v) <span class="sc">/</span> simulaciones</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Vida conjunta</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>axy_s <span class="ot">&lt;-</span> <span class="fu">sum</span>((<span class="dv">1</span> <span class="sc">-</span> v<span class="sc">^</span>Txy)) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v) <span class="sc">/</span> simulaciones</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Ultimo sobreviviente</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>a_xy_s <span class="ot">&lt;-</span> <span class="fu">sum</span>((<span class="dv">1</span> <span class="sc">-</span> v<span class="sc">^</span>T_xy)) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v) <span class="sc">/</span> simulaciones</span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>ax_s</span></code></pre></div>
+<pre><code>## [1] 9,4722</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>ay_s</span></code></pre></div>
+<pre><code>## [1] 9,3483</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>axy_s</span></code></pre></div>
+<pre><code>## [1] 8,543</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>a_xy_s</span></code></pre></div>
+<pre><code>## [1] 10,278</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Determine la prima de riesgo respectiva al combinar los resultados
+de los incisos b) y c). Conforme una tabla de valores para los 4 modelos
+y los tres escenarios.</li>
+</ol>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En este caso lo que haremos es formar un dataframe y hacer un mutate para obtener las primas</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Se crean las columnas del data frames</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>Ax_t <span class="ot">&lt;-</span> <span class="fu">c</span>(Ax, Ax_l, Ax_s)</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>Ay_t <span class="ot">&lt;-</span> <span class="fu">c</span>(Ay, Ay_l, Ay_s)</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>Axy_t <span class="ot">&lt;-</span> <span class="fu">c</span>(Axy, Axy_l, Axy_s)</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>A_xy_t <span class="ot">&lt;-</span> <span class="fu">c</span>(A_xy, A_xy_l, A_xy_s)</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>ax_t <span class="ot">&lt;-</span> <span class="fu">c</span>(ax, ax_l, ax_s)</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>ay_t <span class="ot">&lt;-</span> <span class="fu">c</span>(ay, ay_l, ay_s)</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>axy_t <span class="ot">&lt;-</span> <span class="fu">c</span>(axy, axy_l, axy_s)</span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>a_xy_t <span class="ot">&lt;-</span> <span class="fu">c</span>(a_xy, a_xy_l, a_xy_s)</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>t_ejercicio_2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Ax =</span> Ax_t, <span class="at">Ay =</span> Axy_t, <span class="at">Axy =</span> Axy_t, <span class="at">A_xy =</span> A_xy_t, <span class="at">ax =</span> ax_t, <span class="at">ay =</span> ay_t, <span class="at">axy =</span> axy_t, <span class="at">a_xy =</span> a_xy_t)</span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(t_ejercicio_2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Construido&quot;</span>, <span class="st">&quot;Lifecontingencies&quot;</span>, <span class="st">&quot;Estocástico&quot;</span>)</span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>t_ejercicio_2 <span class="ot">&lt;-</span> t_ejercicio_2 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Prima Ax&quot;</span> <span class="ot">=</span> Ax <span class="sc">/</span> ax, <span class="st">&quot;Prima Ay&quot;</span> <span class="ot">=</span> Ax <span class="sc">/</span> ax,</span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Prima Axy&quot;</span> <span class="ot">=</span> Axy <span class="sc">/</span> axy, <span class="st">&quot;Prima A_xy&quot;</span> <span class="ot">=</span> A_xy <span class="sc">/</span> a_xy</span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(t_ejercicio_2,</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{30}$&quot;</span>,</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{40}$&quot;</span>,</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{30:40}$&quot;</span>,</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{</span><span class="sc">\\</span><span class="st">overline{30:40}}$&quot;</span>,</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$a_30$&quot;</span>,</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$a_40$&quot;</span>,</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$a_{30:40}$&quot;</span>,</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$a_{</span><span class="sc">\\</span><span class="st">overline{30:40}}$&quot;</span>,</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_x$&quot;</span>,</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_y$&quot;</span>,</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_{x:y}$&quot;</span>,</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_{</span><span class="sc">\\</span><span class="st">overline{x:y}}$&quot;</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Resumen&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>), <span class="at">escape =</span> <span class="cn">FALSE</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
+<table class="table lightable-material" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<caption>
+Resumen
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+<span class="math inline">\(A_{30}\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+<span class="math inline">\(A_{40}\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+<span class="math inline">\(A_{30:40}\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+<span class="math inline">\(A_{\overline{30:40}}\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+<span class="math inline">\(a_30\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+<span class="math inline">\(a_40\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+<span class="math inline">\(a_{30:40}\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+<span class="math inline">\(a_{\overline{30:40}}\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Prima <span class="math inline">\(A_x\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Prima <span class="math inline">\(A_y\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Prima <span class="math inline">\(A_{x:y}\)</span>
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Prima <span class="math inline">\(A_{\overline{x:y}}\)</span>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Construido
+</td>
+<td style="text-align:right;">
+0,10024
+</td>
+<td style="text-align:right;">
+0,18865
+</td>
+<td style="text-align:right;">
+0,18865
+</td>
+<td style="text-align:right;">
+0,02361
+</td>
+<td style="text-align:right;">
+9,4689
+</td>
+<td style="text-align:right;">
+9,3449
+</td>
+<td style="text-align:right;">
+8,5385
+</td>
+<td style="text-align:right;">
+10,275
+</td>
+<td style="text-align:right;">
+0,01059
+</td>
+<td style="text-align:right;">
+0,01059
+</td>
+<td style="text-align:right;">
+0,02209
+</td>
+<td style="text-align:right;">
+0,00230
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lifecontingencies
+</td>
+<td style="text-align:right;">
+0,10024
+</td>
+<td style="text-align:right;">
+0,18865
+</td>
+<td style="text-align:right;">
+0,18865
+</td>
+<td style="text-align:right;">
+0,02361
+</td>
+<td style="text-align:right;">
+9,4689
+</td>
+<td style="text-align:right;">
+9,3449
+</td>
+<td style="text-align:right;">
+8,5385
+</td>
+<td style="text-align:right;">
+10,275
+</td>
+<td style="text-align:right;">
+0,01059
+</td>
+<td style="text-align:right;">
+0,01059
+</td>
+<td style="text-align:right;">
+0,02209
+</td>
+<td style="text-align:right;">
+0,00230
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estocástico
+</td>
+<td style="text-align:right;">
+0,09993
+</td>
+<td style="text-align:right;">
+0,18823
+</td>
+<td style="text-align:right;">
+0,18823
+</td>
+<td style="text-align:right;">
+0,02340
+</td>
+<td style="text-align:right;">
+9,4722
+</td>
+<td style="text-align:right;">
+9,3483
+</td>
+<td style="text-align:right;">
+8,5429
+</td>
+<td style="text-align:right;">
+10,278
+</td>
+<td style="text-align:right;">
+0,01055
+</td>
+<td style="text-align:right;">
+0,01055
+</td>
+<td style="text-align:right;">
+0,02203
+</td>
+<td style="text-align:right;">
+0,00228
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </section>
 
