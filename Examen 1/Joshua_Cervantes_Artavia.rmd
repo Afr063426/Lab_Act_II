@@ -200,7 +200,7 @@ a. Considere dos individuos de edades 30 y 40. Cree funciones, calcule los valor
 
 Primero se debe encontrar la función de sobrevivencia de cada individuo para ello se hace uso de la fuerza de mortalidad teniendose
 $$
-_tp_x=\exp\left{-\int_{0}^{t}\mu_x(s)\,ds\\right}=\exp\left{-\int_{0}^t\frac{1}{125-x-s}\,ds\right}=\frac{125-x-t}{125-x}
+_tp_x=\exp\left{-\int_{0}^{t}\mu_x(s)\,ds\right}=\exp\left{-\int_{0}^t\frac{1}{125-x-s}\,ds\right}=\frac{125-x-t}{125-x}
 $$
 Y se recuerda que si se suponen las vidas independientes
 $$
@@ -250,15 +250,21 @@ tp_30_40 <- unlist(lapply(FUN = tp_xy, x = x, y = y, X = t_2))
 # Se genera un dataframe con todos los status
 status <- data.frame("Tiempo" = t_2, "tp30" = tp30, "tp40" = tp40, "tp30_40" = tp30_40, "tp_30_40" = tp_30_40)
 status <- status %>% gather("Status", "Probabilidad", 2:(ncol(status)))
+```
+
+<caption><center><strong>Figura 2: Probabilidades de sobrevivencia </strong></center></caption>
+```{r}
 # Se genera el grafico
 status %>% ggplot(aes(x = Tiempo, y = Probabilidad, color = Status)) +
     geom_line(size = 1) +
-    scale_color_jcolors(palette = "pal2", labels = unname(TeX(c("$_tp_{30}$", "$_tp_{40}$", "$_tp_{30/40}$", "$_tp_{\\bar{30/40}}$")))) +
+    scale_color_jcolors(palette = "pal2") +
     theme_minimal()
+# labels = unname(TeX(c("$_tp_{30}$", "$_tp_{40}$", "$_tp_{30/40}$", "$_tp_{\\bar{30/40}}$")))
 ```
 
-
-
+**Análisis**
+Primero se puede notar que de las cuatro curvas la que tiene un comportamiento más suave es la de (30), esta persona podría vivir los 95 años al tenerse como edad límite 125. Y al ser más joven tiene mayores probabilidades de sobrevivencia que la persona de (40). Esto posiciona la curva de (30) por encima de la de (40). La persona de (40) muere antes de que se cumplan los 95 años, al no poder superar los 125 años bajo este modelo. 
+Se puede notar que la curva del status de vida conjunta se encuentra por debajo de todas las demás, al ser menos probable el poder aseguarar que dos personas sobrevivan. Situación que no sucede en la de último sobreviviente donde se posiciona sobre todas las demás hasta cierto periodo de tiempo, esto debido a que solo importa que una de las personas se encuentre con vida por lo que hay una mayor probabilidad de el status se mantenga vigente, no obstante interseca a la curva de (30) y sigue el mismo comportamiento de esta después de un tiempo, ya que la única persona que puede seguir viva despúes de que (40) está por alcanzar los 125 años es (30) al tenerse como límite máximo los 125 años.
 
 b. Calcule el valor presente actuarial de un seguro vitalicio, que paga 1 unidad al final del año de muerte o fallo para cada modelo: 1) Individual 30 años, 2) Individual 40 años, 3) Vida conjunta 30 y 40 años, y 4) Último sobreviviente 30 y 40 años. Se deben presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a pago, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de vida futura.
 
