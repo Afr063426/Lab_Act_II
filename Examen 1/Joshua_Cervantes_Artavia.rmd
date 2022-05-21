@@ -84,16 +84,35 @@ risk_p <- (benefit_1 * A60_1_20 + benefit_2 * A60_20_1) / a60_20
 commercial_p <- risk_p / (1 - g)
 ```
 
+
+**Respuesta**
+
 Entonces la prima por riesgo es `r risk_p` y la prima comercial `r commercial_p`.
 
 
 b. Conteste las siguiente preguntas: ¿Por qué no es posible hablar de una tasa de riesgo (neta) o comercial (bruta) a priori?, si la persoma solicita las tasas aplicables sobre el monto del beneficio por fallecimiento, ¿Cuál sería la tasa neta y bruta que debería cobrar?
 
 
+**Respuesta**
+
+
+No se puede hablar de una tasa de riesgo al tenerse que el riesgo de que el individuo sobreviva o el que muera debido a los montos no están representados en igual proporción.
+
+
+```{r}
+# Estimacion de tas neta sobre el beneficio de fallecimiento
+risk_n <- A60_1_20 / a60_20
+risk_b <- risk_n / (1 - g)
+risk_n
+risk_b
+```
+
+
 
 
 c. Para una única vida, conforme un vector con el valor de la pérdida esperada en caso de que el asegurado fallezca en cada uno de los años de la vigencia, así como la pérdida esperada en caso de que el asegurado sobreviva transcurridos los 20 años (escenario número 21). Muestre y grafique vector. Interprete el gráfico y la forma que presenta. 
 
+<caption><center><strong>Figura 1: Pérdida esperada </strong></center></caption>
 ```{r, fig.align='center'}
 # Valores presentes
 v_acum <- v^(0:20)
@@ -101,7 +120,7 @@ n <- length(v_acum)
 # Monto de los pagos
 amount_payments <- risk_p * cumsum(v_acum[1:10])
 L1 <- benefit_1 * v_acum[1:10] - amount_payments[1:10]
-L2 <- benefit_1 * v_acum[11:20] - amount_payments[10]
+L2 <- benefit_1 * v_acum[11:21] - amount_payments[10]
 L3 <- benefit_2 * v_acum[21] - amount_payments[10]
 # Ahora con esto entonces se procede a genera un único vector de pérdida
 
@@ -114,16 +133,26 @@ ggplot(, aes(x = 0:20, y = L)) +
 ```
 
 
+**Análisis** 
+
+Se puede observar como los fondos van aumentando y hay un quiebre cerca de los 9 años, esto se debe a que a partir de este momento se dejan de pagar primas. Sin embargo, los fondos siguen aumentando ya que se acumulan las primas que se habían recibido anteriormente y los intereses que se acumlan sobre estas al tenerse que no todas las personas han muerto, y se espera que no lo hagan tenerse que no alcanzan la edad límite del modelo. Sin embargo, los fondos al llegar al final del año 19 caen abruptamente al tenerse que se deberán pagar todos beneficios de 50.000 a las personas que sobrevivieron los años, inmeditamente los fondos caen, sin embargo aquí se ha mostrado como a final del año 20, pero es inmediato al alcanzarse el inicio del año 20. 
+
 d. A partir de que edad, se puede tener certeza de que la compañía no presentará pérdida por la póliza individual si la persona se encuentre con vida en ese momento.
 
 Para este caso se puede hacer uso del vector de pérdida, encontrando el momento en el que se encuentra que la pérdida es negativa por primera vez entonces 
 ```{r}
 # Tiempo que debe transcurrir
-n_losse <- which(L <= 0)[1]
+n_losse <- which(L <= 0)[1] - 2
 # Entonces la edad a la que ya se puede asegurar que no se tiene pérdidas es
-edad_n_losse <- n_losse + 1 + 60
+edad_n_losse <- n_losse + 60
 ```
-La edad es `r edad_n_losse`
+
+**Respuesta** 
+
+La edad es `r edad_n_losse`.
+
+
+
 e. Trabaje un modelo colectivo con base en la tabla de mortalidad y partiendo de un grupo de inicial $l_{40}$ que adquiere el mismo seguro dotal, conforme una tabla del flujo de efectivo esperado, en donde se incluyan las siguiente columnas: 1) Sobreviventes, 2) Primas esperadas al inicio del año, 3) Monto para prima de riesgo al inicio de año, 4) Gastos administrativos, 5) Fondo esperado al inicio de año, 6) Intereses generados por el fondo al inicio del año, 7) Monto pagado en indemnizaciones al final del año, 8) Fondo esperado al final del año, 9) Reserva calculada como la división del fondo final y los Sobreviventes al final y 10) El valor de la reserva al final de cada año con base en la fórmula actuarial respectiva.
 
 En este caso es necesario recalcular las primas.
@@ -209,6 +238,15 @@ kable(flows,
 
 f. Grafique e interprete la última columna de la tabla que contine los valores de la reserva con cada análisis anual.
 
+<caption><center><strong>Figura 2: Fondos esperado final de año </strong></center></caption>
+```{r,fig.align="center"}
+# Se procede a construir el gráfico
+flows %>% ggplot(aes(x = year, y = reserve)) +
+    geom_line() +
+    theme_minimal() +
+    labs(x = "Año", y = "Fondos")
+```
+
 # Ejercicio 2
 Considere un modelo de vida en donde se tiene que $\mu(x)=\frac{1}{125-x}$, $0\leq x \leq 125$.
 
@@ -272,7 +310,7 @@ status <- data.frame("Tiempo" = t_2, "tp30" = tp30, "tp40" = tp40, "tp30_40" = t
 status <- status %>% gather("Status", "Probabilidad", 2:(ncol(status)))
 ```
 
-<caption><center><strong>Figura 2: Probabilidades de sobrevivencia </strong></center></caption>
+<caption><center><strong>Figura 3: Probabilidades de sobrevivencia </strong></center></caption>
 ```{r, fig.align='center'}
 # Se genera el grafico
 status %>% ggplot(aes(x = Tiempo, y = Probabilidad, color = Status)) +
