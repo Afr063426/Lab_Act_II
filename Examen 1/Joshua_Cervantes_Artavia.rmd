@@ -303,10 +303,6 @@ Axy
 A_xy
 ```
 
-Entonces se cumple lo siguiente con lo desarrollado por nosotros
-$$
-A_{30}=`r Ax`\qquad A_{40}=`r Ay` \qquad A_{30:40}=`r Axy`\qquad A_{\overline{xy}}=`r A_xy`
-$$
 
 ## Lifecontingencies
 
