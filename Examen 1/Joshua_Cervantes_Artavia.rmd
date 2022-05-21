@@ -40,7 +40,7 @@ library(jcolors)
 library(latex2exp)
 options(scipen = 999, digits = 5, OutDec = ",")
 # Se procede a leer la tabla
-tabla <- read.csv("./TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
+tabla <- read.csv("TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
 
 
@@ -94,7 +94,7 @@ b. Conteste las siguiente preguntas: ¿Por qué no es posible hablar de una tasa
 
 c. Para una única vida, conforme un vector con el valor de la pérdida esperada en caso de que el asegurado fallezca en cada uno de los años de la vigencia, así como la pérdida esperada en caso de que el asegurado sobreviva transcurridos los 20 años (escenario número 21). Muestre y grafique vector. Interprete el gráfico y la forma que presenta. 
 
-```{r}
+```{r, fig.align='center'}
 # Valores presentes
 v_acum <- v^(0:20)
 n <- length(v_acum)
@@ -124,7 +124,7 @@ n_losse <- which(L <= 0)[1]
 edad_n_losse <- n_losse + 1 + 60
 ```
 La edad es `r edad_n_losse`
-e. Trabaje un modelo colectivo con base en la tabla de mortalidad y partiendo de un grupo de inicial $l_{40}$ que adquiere el mismo seguro dotal, conforme una tabla del flujo de efectivo esperado, en donde se incluyan las siguiente columnas: 1) Sobreviventes, 2) Primas esperadas al inicio del año, 3) Monto esperado al inicio del año, 6) Intereses generados por el fondo al inicio del año, 7) Monto pagado en indemnizaciones al final del año, 8) Fondo esperado al final del año, 9) Reserva calculada como la división del fondo final y los Sobreviventes al final y 10) El valor de la reserva al final de cada año con base en la fórmula actuarial respectiva.
+e. Trabaje un modelo colectivo con base en la tabla de mortalidad y partiendo de un grupo de inicial $l_{40}$ que adquiere el mismo seguro dotal, conforme una tabla del flujo de efectivo esperado, en donde se incluyan las siguiente columnas: 1) Sobreviventes, 2) Primas esperadas al inicio del año, 3) Monto para prima de riesgo al inicio de año, 4) Gastos administrativos, 5) Fondo esperado al inicio de año, 6) Intereses generados por el fondo al inicio del año, 7) Monto pagado en indemnizaciones al final del año, 8) Fondo esperado al final del año, 9) Reserva calculada como la división del fondo final y los Sobreviventes al final y 10) El valor de la reserva al final de cada año con base en la fórmula actuarial respectiva.
 
 En este caso es necesario recalcular las primas.
 
@@ -147,21 +147,25 @@ Ahora se procede crear la tabla
 lx40_60 <- tabla$lx[41:61]
 year <- 0:20
 E_survival <- lx40_60[-length(lx40_60)]
-E_premium <- c((E_survival[1:10] * risk_p), rep(0, 10))
+E_premium_risk <- c((E_survival[1:10] * risk_p), rep(0, 10))
+E_premium <- E_premium_risk / (1 - g)
+E_spends <- E_premium - E_premium_risk
 E_reclaims <- -diff(lx40_60) * benefit_1
-E_i <- E_premium[1] * 0.105
-E_funds_b <- E_premium[1]
-E_funds_e <- E_premium[1] + E_i[1] - E_reclaims[1]
+E_i <- E_premium_risk[1] * 0.105
+E_funds_b <- E_premium_risk[1]
+E_funds_e <- E_premium_risk[1] + E_i[1] - E_reclaims[1]
 E_survival_e <- c(lx40_60[-1])
 for (i in 2:20) {
-    E_funds_b[i] <- E_funds_e[i - 1] + E_premium[i]
+    E_funds_b[i] <- E_funds_e[i - 1] + E_premium_risk[i]
     E_i[i] <- E_funds_b[i] * 0.105
     E_funds_e[i] <- E_funds_b[i] + E_i[i] - E_reclaims[i]
 }
 # Se añade el monto que hay que pagar a aquellas personas que sobrevivieron al final y hay que pagarles
 j <- length(E_survival) + 1
 E_survival[j] <- lx40_60[length(lx40_60)]
+E_premium_risk[j] <- 0
 E_premium[j] <- 0
+E_spends[j] <- 0
 E_reclaims[j] <- E_survival[j] * benefit_2
 E_i[j] <- 0
 E_funds_b[j] <- E_funds_e[j - 1]
@@ -170,20 +174,32 @@ E_survival_e[j] <- E_survival[j]
 
 # Reserva calculada como la division entre los fondos y los sobrevivientes
 reserve <- E_funds_e / E_survival_e
+```
 
+
+```{r}
 # Reserva calculada de forma teorica
-t <- 1:10
-# Sumar 9
-# benefit_1 * Axn(life_table, x = 42, i = i, n = 18) + benefit_2 * v^(18) * pxt(life_table, x = 42, t = 18) - risk_p * axn(life_table, n = 8, x = 42, i = i, payment = "advance")
-reserve_t_1 <- benefit_1 * Axn(life_table, x = 40 + t, i = 0.105, n = 9 + rev(t)) + benefit_2 * v^(9 + rev(t)) * pxt(life_table, x = 40 + t, t = 9 + rev(t)) - risk_p * axn(life_table, n = rev(t), x = 40 + t, i = interest, payment = "advance")
+# Se emplea un for al tenerse que
+# vectorizado da valores distintos
+V_t_n <- numeric()
+for (i in 1:21) {
+    V_t_n[i] <- benefit_1 * Axn(life_table, i = interest, x = 40 + i, n = max(20 - i, 0)) + benefit_2 * v^(20 - i) * pxt(life_table, x = 40 + i, t = max(20 - i, 0)) * (!(i == 21)) - risk_p * axn(life_table, x = 40 + i, n = max(10 - i, 0), i = interest, payment = "advance")
+}
+```
+
+
+```{r}
 ##
-flows <- data.frame(year, E_survival, E_premium, E_funds_b, E_i, E_reclaims, E_funds_e, reserve)
+flows <- data.frame(
+    year, E_survival, E_premium, E_premium_risk, E_spends,
+    E_funds_b, E_i, E_reclaims, E_funds_e, reserve, V_t_n
+)
 kable(flows,
     col.names = c(
-        "Año", "Sobrevientes al inicio", "Primas esperadas", "Fondos esperados al inicio",
-        "Intereses esperados", "Reclamos esprados", "Fondos esperados al final", "Reserva"
+        "Año", "Sobrevientes al inicio", "Primas", "Primas por riesgo", "Gastos administrativos", "Fondos al inicio",
+        "Intereses", "Reclamos", "Fondos esperados al final", "Reserva", "Reserva teórica"
     ),
-    caption = "Flujos", format.args = list(decimal.mark = ",", big.mark = ".")
+    caption = "Flujos esperados", format.args = list(decimal.mark = ",", big.mark = ".")
 ) %>%
     kable_styling(full_width = F) %>%
     kable_material() %>%
@@ -199,13 +215,17 @@ Considere un modelo de vida en donde se tiene que $\mu(x)=\frac{1}{125-x}$, $0\l
 a. Considere dos individuos de edades 30 y 40. Cree funciones, calcule los valores para $(t = 0,1,...,95)$ y grafique las curva para las curvas para las expresiones $_tp_{30}, _tp_{40}, _tp_{30:40},_tp_{\overline{30:40}}$. Interprete las curvas. 
 
 Primero se debe encontrar la función de sobrevivencia de cada individuo para ello se hace uso de la fuerza de mortalidad teniendose
+
 $$
-_tp_x=\exp\left{-\int_{0}^{t}\mu_x(s)\,ds\right}=\exp\left{-\int_{0}^t\frac{1}{125-x-s}\,ds\right}=\frac{125-x-t}{125-x}
+_tp_x=\exp\left\{-\int_{0}^{t}\mu_x(s)\,ds\right\}=\exp\left\{-\int_{0}^t\frac{1}{125-x-s}\,ds\right\}=\frac{125-x-t}{125-x}
 $$
-Y se recuerda que si se suponen las vidas independientes
+
+Ahora suponiendo vidas independientes
+
 $$
-_tp_{xy}=_tp_{x}_tp_{y}\qquad _tp_{\overline{xy}}=_tp_{x}+_tp_{y}-_tp_{x}_tp_{y}
+_tp_{xy}=_tp_x_tp_y \qquad _tp_{\overline{xy}}=_tp_x+_tp_y+_tp_{xy}
 $$
+
 Entonces se procede a programar las funciones haciendo uso de lo anterior
 ```{r}
 ## Se denotara t como el tiempo de sobrevivencia, x y y las edades
@@ -253,7 +273,7 @@ status <- status %>% gather("Status", "Probabilidad", 2:(ncol(status)))
 ```
 
 <caption><center><strong>Figura 2: Probabilidades de sobrevivencia </strong></center></caption>
-```{r}
+```{r, fig.align='center'}
 # Se genera el grafico
 status %>% ggplot(aes(x = Tiempo, y = Probabilidad, color = Status)) +
     geom_line(size = 1) +
