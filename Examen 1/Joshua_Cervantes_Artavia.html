@@ -15,7 +15,7 @@
 
 <meta name="author" content="Joshua Cervantes" />
 
-<meta name="date" content="2022-05-21" />
+<meta name="date" content="2022-05-22" />
 
 <title>Parcial 1</title>
 
@@ -395,7 +395,7 @@ code span.ot { color: #007020; }
 <section class="page-header">
 <h1 class="title toc-ignore project-name">Parcial 1</h1>
 <h4 class="author project-author">Joshua Cervantes</h4>
-<h4 class="date project-date">21 May 2022</h4>
+<h4 class="date project-date">22 May 2022</h4>
 </section>
 
 
@@ -474,7 +474,7 @@ prima comercial a cobrar por el seguro.</li>
 3804,6065.</p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Conteste las siguiente preguntas: ¿Por qué no es posible hablar de
-una tasa de riesgo (neta) o comercial (bruta) a priori?, si la persoma
+una tasa de riesgo (neta) o comercial (bruta) a priori?, si la persona
 solicita las tasas aplicables sobre el monto del beneficio por
 fallecimiento, ¿Cuál sería la tasa neta y bruta que debería cobrar?</li>
 </ol>
@@ -515,8 +515,8 @@ grafique vector. Interprete el gráfico y la forma que presenta.</li>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>L1 <span class="ot">&lt;-</span> benefit_1 <span class="sc">*</span> v_acum[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">*</span> v <span class="sc">-</span> amount_payments[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>L2 <span class="ot">&lt;-</span> benefit_1 <span class="sc">*</span> v_acum[<span class="dv">11</span><span class="sc">:</span><span class="dv">20</span>] <span class="sc">*</span> v <span class="sc">-</span> amount_payments[<span class="dv">10</span>]</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>L3 <span class="ot">&lt;-</span> benefit_2 <span class="sc">*</span> v_acum[<span class="dv">21</span>] <span class="sc">-</span> amount_payments[<span class="dv">10</span>]</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Ahora con esto entonces se procede a genera un único vector de pérdida</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Ahora con esto entonces se procede a genera un único vector de pérdida</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">c</span>(L1, L2, L3)</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(, <span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">y =</span> L)) <span class="sc">+</span></span>
@@ -540,7 +540,7 @@ grafique vector. Interprete el gráfico y la forma que presenta.</li>
 <p>Se puede observar como las pérdidas van disminuyendo conforme va
 avanzando el tiempo, esto se debe a que conforme el tiempo avanza se van
 obteniendo mayor cantidad de primas por lo menos hasta inicios del año 9
-cuando se recibe la último. No obstante, mientras el individuo se
+cuando se recibe la última. No obstante, mientras el individuo se
 encuentra con vida se siguen acumulando intereses sobre las primas
 recibidas, por lo que se tienen más fondos para hacer frente a la
 obligación en caso de que el inidividuo muera o sobreviva los 20 años.
@@ -553,15 +553,16 @@ año 19.</p>
 presentará pérdida por la póliza individual si la persona se encuentre
 con vida en ese momento.</li>
 </ol>
+<p><strong>Repuesta</strong></p>
 <p>Para este caso se puede hacer uso del vector de pérdida, encontrando
 el momento en el que se encuentra que la pérdida es negativa por primera
 vez entonces</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tiempo que debe transcurrir</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>n_losse <span class="ot">&lt;-</span> <span class="fu">which</span>(L <span class="sc">&lt;=</span> <span class="dv">0</span>)[<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">2</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Entonces la edad a la que ya se puede asegurar que no se tiene pérdidas es</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>edad_n_losse <span class="ot">&lt;-</span> n_losse <span class="sc">+</span> <span class="dv">60</span></span></code></pre></div>
-<p><strong>Respuesta</strong></p>
-<p>La edad es 73.</p>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>n_losse <span class="ot">&lt;-</span> <span class="fu">which</span>(L <span class="sc">&lt;=</span> <span class="dv">0</span>)[<span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># n_losse &lt;- log(((1 - v) * benefit_1) / (risk_p * (1 - v^10))) / log(1 + interest)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Entonces la edad a la que ya se puede asegurar que no se tiene pérdidas es</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>edad_n_losse <span class="ot">&lt;-</span> n_losse <span class="sc">+</span> <span class="dv">60</span></span></code></pre></div>
+<p>La edad es 74.</p>
 <ol start="5" style="list-style-type: lower-alpha">
 <li>Trabaje un modelo colectivo con base en la tabla de mortalidad y
 partiendo de un grupo de inicial <span class="math inline">\(l_{40}\)</span> que adquiere el mismo seguro
@@ -575,6 +576,7 @@ Reserva calculada como la división del fondo final y los Sobreviventes
 al final y 10) El valor de la reserva al final de cada año con base en
 la fórmula actuarial respectiva.</li>
 </ol>
+<p><strong>Repuesta</strong></p>
 <p>En este caso es necesario recalcular las primas.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para referirse a vectores que van desde una edad hasta otra se toma lx_t donde x es la edad incial y t es la edad a la que llegan</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>A40_1_20 <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table, <span class="at">x =</span> <span class="dv">40</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">i =</span> interest)</span>
@@ -625,7 +627,7 @@ la fórmula actuarial respectiva.</li>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">21</span>) {</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    V_t_n[i] <span class="ot">&lt;-</span> benefit_1 <span class="sc">*</span> <span class="fu">Axn</span>(life_table, <span class="at">i =</span> interest, <span class="at">x =</span> <span class="dv">40</span> <span class="sc">+</span> i, <span class="at">n =</span> <span class="fu">max</span>(<span class="dv">20</span> <span class="sc">-</span> i, <span class="dv">0</span>)) <span class="sc">+</span> benefit_2 <span class="sc">*</span> v<span class="sc">^</span>(<span class="dv">20</span> <span class="sc">-</span> i) <span class="sc">*</span> <span class="fu">pxt</span>(life_table, <span class="at">x =</span> <span class="dv">40</span> <span class="sc">+</span> i, <span class="at">t =</span> <span class="fu">max</span>(<span class="dv">20</span> <span class="sc">-</span> i, <span class="dv">0</span>)) <span class="sc">*</span> (<span class="sc">!</span>(i <span class="sc">==</span> <span class="dv">21</span>)) <span class="sc">-</span> risk_p <span class="sc">*</span> <span class="fu">axn</span>(life_table, <span class="at">x =</span> <span class="dv">40</span> <span class="sc">+</span> i, <span class="at">n =</span> <span class="fu">max</span>(<span class="dv">10</span> <span class="sc">-</span> i, <span class="dv">0</span>), <span class="at">i =</span> interest, <span class="at">payment =</span> <span class="st">&quot;advance&quot;</span>)</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Tabla</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>flows <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    year, E_survival, E_premium, E_premium_risk, E_spends,</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    E_funds_b, E_i, E_reclaims, E_funds_e, reserve, V_t_n</span>
@@ -1457,9 +1459,10 @@ final del año 20, pero es inmediato al alcanzarse el inicio del año
 <ol style="list-style-type: lower-alpha">
 <li>Considere dos individuos de edades 30 y 40. Cree funciones, calcule
 los valores para <span class="math inline">\((t = 0,1,...,95)\)</span> y
-grafique las curva para las curvas para las expresiones <span class="math inline">\(_tp_{30}, _tp_{40},
+grafique las curvas para las expresiones <span class="math inline">\(_tp_{30}, _tp_{40},
 _tp_{30:40},_tp_{\overline{30:40}}\)</span>. Interprete las curvas.</li>
 </ol>
+<p><strong>Respuesta</strong></p>
 <p>Primero se debe encontrar la función de sobrevivencia de cada
 individuo para ello se hace uso de la fuerza de mortalidad
 teniendose</p>
@@ -1483,12 +1486,16 @@ anterior</p>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(<span class="dv">0</span>)</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>tpxy <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, t) {</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">tpx</span>(x, t) <span class="sc">*</span> <span class="fu">tpx</span>(y, t))</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>tp_xy <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, t) {</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">tpx</span>(x, t) <span class="sc">+</span> <span class="fu">tpx</span>(y, t) <span class="sc">-</span> <span class="fu">tpxy</span>(x, y, t))</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Vida conjunta</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>tpxy <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, t) {</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">tpx</span>(x, t) <span class="sc">*</span> <span class="fu">tpx</span>(y, t))</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Ultimo sobreviviente</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>tp_xy <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y, t) {</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">tpx</span>(x, t) <span class="sc">+</span> <span class="fu">tpx</span>(y, t) <span class="sc">-</span> <span class="fu">tpxy</span>(x, y, t))</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>Ahora se procede a generar el gráfico</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tiempo</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>t_2 <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">95</span></span>
@@ -1522,21 +1529,21 @@ anterior</p>
 <p><strong>Análisis</strong></p>
 <p>Primero se puede notar que de las cuatro curvas la que tiene un
 comportamiento más suave es la de (30), esta persona podría vivir los 95
-años al tenerse como edad límite 125. Y al ser más joven tiene mayores
-probabilidades de sobrevivencia que la persona de (40). Esto posiciona
-la curva de (30) por encima de la de (40). La persona de (40) muere
-antes de que se cumplan los 95 años, al no poder superar los 125 años
-bajo este modelo. Se puede notar que la curva del status de vida
-conjunta se encuentra por debajo de todas las demás, al ser menos
-probable el poder aseguarar que dos personas sobrevivan. Situación que
-no sucede en la de último sobreviviente donde se posiciona sobre todas
-las demás hasta cierto periodo de tiempo, esto debido a que solo importa
-que una de las personas se encuentre con vida por lo que hay una mayor
-probabilidad de el status se mantenga vigente, no obstante interseca a
-la curva de (30) y sigue el mismo comportamiento de esta después de un
-tiempo, ya que la única persona que puede seguir viva despúes de que
-(40) está por alcanzar los 125 años es (30) al tenerse como límite
-máximo los 125 años.</p>
+años pero inmeditamente muere al tenerse como edad límite 125. Y al ser
+más joven tiene mayores probabilidades de sobrevivencia que la persona
+de (40). Esto posiciona la curva de (30) por encima de la de (40). La
+persona de (40) muere antes de que se cumplan los 95 años, al no poder
+superar los 125 años bajo este modelo. Se puede notar que la curva del
+status de vida conjunta se encuentra por debajo de todas las demás, al
+ser menos probable el poder asegurar que dos personas sobrevivan.
+Situación que no sucede en la de último sobreviviente donde se posiciona
+sobre todas las demás hasta cierto periodo de tiempo, esto debido a que
+solo importa que una de las personas se encuentre con vida por lo que
+hay una mayor probabilidad de el status se mantenga vigente, no obstante
+interseca a la curva de (30) y sigue el mismo comportamiento de esta
+después de un tiempo, ya que la única persona que puede seguir viva
+despúes de que (40) está por alcanzar los 125 años es (30) al tenerse
+como límite máximo los 125 años.</p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Calcule el valor presente actuarial de un seguro vitalicio, que paga
 1 unidad al final del año de muerte o fallo para cada modelo: 1)
@@ -1547,6 +1554,7 @@ otro con la función del paquete “lifecontingencies” y otro con el método
 aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de
 vida futura.</li>
 </ol>
+<p><strong>Respuesta</strong></p>
 <p>Para este ejercicio se emplearán las siguientes igualdades</p>
 <p><span class="math display">\[
 A_{xy}=\sum_{k=0}^{\infty}v^{k+1}(_kp_{xy}q_{x+k:y+k})\qquad
@@ -1554,28 +1562,32 @@ A_{\overline{xy}}=A_{x}+A_{y}-A_{xy}
 \]</span></p>
 <div id="construcción-paso-a-paso" class="section level2">
 <h2>Construcción paso a paso</h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="dv">125</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>limit <span class="ot">&lt;-</span> <span class="fu">max</span>(w <span class="sc">-</span> x, w <span class="sc">-</span> y)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>limit</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro vida 30 años</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>Ax <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(k <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">x =</span> x, <span class="at">X =</span> k)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">X =</span> k <span class="sc">+</span> x, <span class="at">t =</span> <span class="dv">1</span>))))</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro de vida 40 años</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>Ay <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(k <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">x =</span> y, <span class="at">X =</span> k)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">X =</span> k <span class="sc">+</span> y, <span class="at">t =</span> <span class="dv">1</span>))))</span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Edad limite</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="dv">125</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>limit <span class="ot">&lt;-</span> <span class="fu">max</span>(w <span class="sc">-</span> x, w <span class="sc">-</span> y)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>limit</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro vida 30 años</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>Ax <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(k <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">x =</span> x, <span class="at">X =</span> k)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">X =</span> k <span class="sc">+</span> x, <span class="at">t =</span> <span class="dv">1</span>))))</span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro ultimo sobreviviente</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro de vida 40 años</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>Ay <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(k <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">x =</span> y, <span class="at">X =</span> k)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpx, <span class="at">X =</span> k <span class="sc">+</span> y, <span class="at">t =</span> <span class="dv">1</span>))))</span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidad que sobrevivan ambos a k y alguno de los dos muera</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>k_1qxy <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpxy, <span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">X =</span> k)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">unlist</span>(<span class="fu">mapply</span>(<span class="at">FUN =</span> tpxy, x <span class="sc">+</span> k, y <span class="sc">+</span> k, <span class="at">t =</span> <span class="dv">1</span>)))</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>Axy <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(k <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> (k_1qxy))</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro vida conjunta</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>A_xy <span class="ot">&lt;-</span> Ax <span class="sc">+</span> Ay <span class="sc">-</span> Axy</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Probabilidad que sobrevivan ambos a k y alguno de los dos muera</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>k_1qxy <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> tpxy, <span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">X =</span> k)) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">unlist</span>(<span class="fu">mapply</span>(<span class="at">FUN =</span> tpxy, x <span class="sc">+</span> k, y <span class="sc">+</span> k, <span class="at">t =</span> <span class="dv">1</span>)))</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Seguro vida conjunta</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>Axy <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(k <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> (k_1qxy))</span>
 <span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>Ax</span></code></pre></div>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Ultimo sobreviviente</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>A_xy <span class="ot">&lt;-</span> Ax <span class="sc">+</span> Ay <span class="sc">-</span> Axy</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>Ax</span></code></pre></div>
 <pre><code>## [1] 0,10024</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Ay</span></code></pre></div>
 <pre><code>## [1] 0,11202</code></pre>
@@ -1596,14 +1608,15 @@ A_{\overline{xy}}=A_{x}+A_{y}-A_{xy}
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>Ax_l <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table_2, <span class="at">x =</span> x, <span class="at">i =</span> interest)</span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>Ay_l <span class="ot">&lt;-</span> <span class="fu">Axn</span>(life_table_2, <span class="at">x =</span> y, <span class="at">i =</span> interest)</span>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo vida conjunta y ultimo sobreviviente</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>life_table_j <span class="ot">&lt;-</span> <span class="fu">list</span>(life_table_2, life_table_2)</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>Axy_l <span class="ot">&lt;-</span> <span class="fu">Axyzn</span>(life_table_j, <span class="at">x =</span> <span class="fu">c</span>(x, y), <span class="at">status =</span> <span class="st">&quot;joint&quot;</span>, <span class="at">i =</span> interest)</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>A_xy_l <span class="ot">&lt;-</span> <span class="fu">Axyzn</span>(life_table_j, <span class="at">x =</span> <span class="fu">c</span>(x, y), <span class="at">status =</span> <span class="st">&quot;last&quot;</span>, <span class="at">i =</span> interest)</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo vida conjunta</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Ultimo sobreviviente</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>life_table_j <span class="ot">&lt;-</span> <span class="fu">list</span>(life_table_2, life_table_2)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>Axy_l <span class="ot">&lt;-</span> <span class="fu">Axyzn</span>(life_table_j, <span class="at">x =</span> <span class="fu">c</span>(x, y), <span class="at">status =</span> <span class="st">&quot;joint&quot;</span>, <span class="at">i =</span> interest)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>A_xy_l <span class="ot">&lt;-</span> <span class="fu">Axyzn</span>(life_table_j, <span class="at">x =</span> <span class="fu">c</span>(x, y), <span class="at">status =</span> <span class="st">&quot;last&quot;</span>, <span class="at">i =</span> interest)</span>
 <span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>Ax_l</span></code></pre></div>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>Ax_l</span></code></pre></div>
 <pre><code>## [1] 0,10024</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Ay_l</span></code></pre></div>
 <pre><code>## [1] 0,11202</code></pre>
@@ -1634,13 +1647,13 @@ A_{\overline{xy}}=A_{x}+A_{y}-A_{xy}
 <span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
 <span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
 <span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>Ax_s</span></code></pre></div>
-<pre><code>## [1] 0,099016</code></pre>
+<pre><code>## [1] 0,1005</code></pre>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Ay_s</span></code></pre></div>
-<pre><code>## [1] 0,11336</code></pre>
+<pre><code>## [1] 0,11295</code></pre>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Axy_s</span></code></pre></div>
-<pre><code>## [1] 0,18866</code></pre>
+<pre><code>## [1] 0,18973</code></pre>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>A_xy_s</span></code></pre></div>
-<pre><code>## [1] 0,023717</code></pre>
+<pre><code>## [1] 0,023716</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Calcule para cada uno de los modelos anteriores, el valor presente
 actuarial de una anualidad vitalia que paga 1 unidad al inicio de cada
@@ -1650,6 +1663,7 @@ paso a paso, otro con la función del paquete “lifecontingencies” y otro
 con el método aleatorio (estocástico) utilizando 50.000 simulaciones del
 tiempo de vida futura.</li>
 </ol>
+<p><strong>Respuesta</strong></p>
 <p>Para este ejercicio se va utilizar lo siguiente <span class="math display">\[
 \ddot{a}_{xy}=\sum_{k=0}^{\infty}v^k_kp_{xy}
 \]</span></p>
@@ -1718,11 +1732,11 @@ tiempo de vida futura.</li>
 <span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Imprimimos</span></span>
 <span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>ax_s</span></code></pre></div>
-<pre><code>## [1] 9,4818</code></pre>
+<pre><code>## [1] 9,4662</code></pre>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>ay_s</span></code></pre></div>
-<pre><code>## [1] 9,3308</code></pre>
+<pre><code>## [1] 9,3351</code></pre>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>axy_s</span></code></pre></div>
-<pre><code>## [1] 8,5384</code></pre>
+<pre><code>## [1] 8,5271</code></pre>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>a_xy_s</span></code></pre></div>
 <pre><code>## [1] 10,274</code></pre>
 <ol start="4" style="list-style-type: lower-alpha">
@@ -1746,27 +1760,28 @@ y los tres escenarios.</li>
 <span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Prima Ax&quot;</span> <span class="ot">=</span> Ax <span class="sc">/</span> ax, <span class="st">&quot;Prima Ay&quot;</span> <span class="ot">=</span> Ax <span class="sc">/</span> ax,</span>
 <span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Prima Axy&quot;</span> <span class="ot">=</span> Axy <span class="sc">/</span> axy, <span class="st">&quot;Prima A_xy&quot;</span> <span class="ot">=</span> A_xy <span class="sc">/</span> a_xy</span>
 <span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(t_ejercicio_2,</span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{30}$&quot;</span>,</span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{40}$&quot;</span>,</span>
-<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{30:40}$&quot;</span>,</span>
-<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{</span><span class="sc">\\</span><span class="st">overline{30:40}}$&quot;</span>,</span>
-<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">ddot{a}_{30}$&quot;</span>,</span>
-<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">ddot{a}_{40}$&quot;</span>,</span>
-<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">ddot{a}_{30:40}$&quot;</span>,</span>
-<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">ddot{a}_{</span><span class="sc">\\</span><span class="st">overline{30:40}}$&quot;</span>,</span>
-<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_x$&quot;</span>,</span>
-<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_y$&quot;</span>,</span>
-<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_{x:y}$&quot;</span>,</span>
-<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_{</span><span class="sc">\\</span><span class="st">overline{x:y}}$&quot;</span></span>
-<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Resumen&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>), <span class="at">escape =</span> <span class="cn">FALSE</span></span>
-<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
-<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;300px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Se genera la tabla</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(t_ejercicio_2,</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{30}$&quot;</span>,</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{40}$&quot;</span>,</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{30:40}$&quot;</span>,</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$A_{</span><span class="sc">\\</span><span class="st">overline{30:40}}$&quot;</span>,</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">ddot{a}_{30}$&quot;</span>,</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">ddot{a}_{40}$&quot;</span>,</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">ddot{a}_{30:40}$&quot;</span>,</span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;$</span><span class="sc">\\</span><span class="st">ddot{a}_{</span><span class="sc">\\</span><span class="st">overline{30:40}}$&quot;</span>,</span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_x$&quot;</span>,</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_y$&quot;</span>,</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_{x:y}$&quot;</span>,</span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Prima $A_{</span><span class="sc">\\</span><span class="st">overline{x:y}}$&quot;</span></span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Resumen&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>), <span class="at">escape =</span> <span class="cn">FALSE</span></span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;300px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:300px; overflow-x: scroll; width:100%; ">
 <table class="table lightable-material" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
 <caption>
@@ -1902,37 +1917,37 @@ Lifecontingencies
 Estocástico
 </td>
 <td style="text-align:right;">
-0,09902
+0,10050
 </td>
 <td style="text-align:right;">
-0,18866
+0,18973
 </td>
 <td style="text-align:right;">
-0,18866
+0,18973
 </td>
 <td style="text-align:right;">
 0,02372
 </td>
 <td style="text-align:right;">
-9,4818
+9,4662
 </td>
 <td style="text-align:right;">
-9,3308
+9,3351
 </td>
 <td style="text-align:right;">
-8,5384
+8,5271
 </td>
 <td style="text-align:right;">
 10,274
 </td>
 <td style="text-align:right;">
-0,01044
+0,01062
 </td>
 <td style="text-align:right;">
-0,01044
+0,01062
 </td>
 <td style="text-align:right;">
-0,02210
+0,02225
 </td>
 <td style="text-align:right;">
 0,00231

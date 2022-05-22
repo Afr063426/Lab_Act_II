@@ -90,7 +90,7 @@ commercial_p <- risk_p / (1 - g)
 Entonces la prima por riesgo es `r risk_p` y la prima comercial `r commercial_p`.
 
 
-b. Conteste las siguiente preguntas: ¿Por qué no es posible hablar de una tasa de riesgo (neta) o comercial (bruta) a priori?, si la persoma solicita las tasas aplicables sobre el monto del beneficio por fallecimiento, ¿Cuál sería la tasa neta y bruta que debería cobrar?
+b. Conteste las siguiente preguntas: ¿Por qué no es posible hablar de una tasa de riesgo (neta) o comercial (bruta) a priori?, si la persona solicita las tasas aplicables sobre el monto del beneficio por fallecimiento, ¿Cuál sería la tasa neta y bruta que debería cobrar?
 
 
 **Respuesta**
@@ -126,8 +126,8 @@ amount_payments <- risk_p * cumsum(v_acum[1:10])
 L1 <- benefit_1 * v_acum[1:10] * v - amount_payments[1:10]
 L2 <- benefit_1 * v_acum[11:20] * v - amount_payments[10]
 L3 <- benefit_2 * v_acum[21] - amount_payments[10]
-# Ahora con esto entonces se procede a genera un único vector de pérdida
 
+# Ahora con esto entonces se procede a genera un único vector de pérdida
 L <- c(L1, L2, L3)
 
 ggplot(, aes(x = 0:20, y = L)) +
@@ -150,20 +150,22 @@ ggplot(, aes(x = 0:20, y = L)) +
 
 **Análisis**
 
-Se puede observar como las pérdidas van disminuyendo conforme va avanzando el tiempo, esto se debe a que conforme el tiempo avanza se van obteniendo mayor cantidad de primas por lo menos hasta inicios del año 9 cuando se recibe la último. No obstante, mientras el individuo se encuentra con vida se siguen acumulando intereses sobre las primas recibidas, por lo que se tienen más fondos para hacer frente a la obligación en caso de que el inidividuo muera o sobreviva los 20 años. Se puede observar un quiebre que es el caso en que el individuo muera en el año 19 o sobreviva los 20 años. Teniendo que si se sobrevive los 20 años, el monto a pagar a inicios del año 20 es menor que si muere en el año 19.
+Se puede observar como las pérdidas van disminuyendo conforme va avanzando el tiempo, esto se debe a que conforme el tiempo avanza se van obteniendo mayor cantidad de primas por lo menos hasta inicios del año 9 cuando se recibe la última. No obstante, mientras el individuo se encuentra con vida se siguen acumulando intereses sobre las primas recibidas, por lo que se tienen más fondos para hacer frente a la obligación en caso de que el inidividuo muera o sobreviva los 20 años. Se puede observar un quiebre que es el caso en que el individuo muera en el año 19 o sobreviva los 20 años. Teniendo que si se sobrevive los 20 años, el monto a pagar a inicios del año 20 es menor que si muere en el año 19.
 
 
 d. A partir de que edad, se puede tener certeza de que la compañía no presentará pérdida por la póliza individual si la persona se encuentre con vida en ese momento.
 
+**Repuesta**
+
 Para este caso se puede hacer uso del vector de pérdida, encontrando el momento en el que se encuentra que la pérdida es negativa por primera vez entonces 
 ```{r}
 # Tiempo que debe transcurrir
-n_losse <- which(L <= 0)[1] - 2
+n_losse <- which(L <= 0)[1] - 1
+# n_losse <- log(((1 - v) * benefit_1) / (risk_p * (1 - v^10))) / log(1 + interest)
 # Entonces la edad a la que ya se puede asegurar que no se tiene pérdidas es
 edad_n_losse <- n_losse + 60
 ```
 
-**Respuesta** 
 
 La edad es `r edad_n_losse`.
 
@@ -171,6 +173,7 @@ La edad es `r edad_n_losse`.
 
 e. Trabaje un modelo colectivo con base en la tabla de mortalidad y partiendo de un grupo de inicial $l_{40}$ que adquiere el mismo seguro dotal, conforme una tabla del flujo de efectivo esperado, en donde se incluyan las siguiente columnas: 1) Sobreviventes, 2) Primas esperadas al inicio del año, 3) Monto para prima de riesgo al inicio de año, 4) Gastos administrativos, 5) Fondo esperado al inicio de año, 6) Intereses generados por el fondo al inicio del año, 7) Monto pagado en indemnizaciones al final del año, 8) Fondo esperado al final del año, 9) Reserva calculada como la división del fondo final y los Sobreviventes al final y 10) El valor de la reserva al final de cada año con base en la fórmula actuarial respectiva.
 
+**Repuesta**
 
 En este caso es necesario recalcular las primas.
 
@@ -235,7 +238,7 @@ for (i in 1:21) {
 
 
 ```{r}
-##
+## Tabla
 flows <- data.frame(
     year, E_survival, E_premium, E_premium_risk, E_spends,
     E_funds_b, E_i, E_reclaims, E_funds_e, reserve, V_t_n
@@ -252,6 +255,7 @@ kable(flows,
     row_spec(0, bold = T, color = "white", background = "#159957") %>%
     scroll_box(height = "500px", width = "100%")
 ```
+
 
 f. Grafique e interprete la última columna de la tabla que contine los valores de la reserva con cada análisis anual.
 
@@ -271,7 +275,9 @@ Se puede observar como los fondos van aumentando y hay un quiebre cerca de los 9
 # Ejercicio 2
 Considere un modelo de vida en donde se tiene que $\mu(x)=\frac{1}{125-x}$, $0\leq x \leq 125$.
 
-a. Considere dos individuos de edades 30 y 40. Cree funciones, calcule los valores para $(t = 0,1,...,95)$ y grafique las curva para las curvas para las expresiones $_tp_{30}, _tp_{40}, _tp_{30:40},_tp_{\overline{30:40}}$. Interprete las curvas. 
+a. Considere dos individuos de edades 30 y 40. Cree funciones, calcule los valores para $(t = 0,1,...,95)$ y grafique las curvas para las expresiones $_tp_{30}, _tp_{40}, _tp_{30:40},_tp_{\overline{30:40}}$. Interprete las curvas. 
+
+**Respuesta**
 
 Primero se debe encontrar la función de sobrevivencia de cada individuo para ello se hace uso de la fuerza de mortalidad teniendose
 
@@ -299,9 +305,13 @@ tpx <- function(x, t) {
         return(0)
     }
 }
+
+# Vida conjunta
 tpxy <- function(x, y, t) {
     return(tpx(x, t) * tpx(y, t))
 }
+
+# Ultimo sobreviviente
 tp_xy <- function(x, y, t) {
     return(tpx(x, t) + tpx(y, t) - tpxy(x, y, t))
 }
@@ -342,10 +352,13 @@ status %>% ggplot(aes(x = Tiempo, y = Probabilidad, color = Status)) +
 
 **Análisis**
 
-Primero se puede notar que de las cuatro curvas la que tiene un comportamiento más suave es la de (30), esta persona podría vivir los 95 años al tenerse como edad límite 125. Y al ser más joven tiene mayores probabilidades de sobrevivencia que la persona de (40). Esto posiciona la curva de (30) por encima de la de (40). La persona de (40) muere antes de que se cumplan los 95 años, al no poder superar los 125 años bajo este modelo. 
-Se puede notar que la curva del status de vida conjunta se encuentra por debajo de todas las demás, al ser menos probable el poder aseguarar que dos personas sobrevivan. Situación que no sucede en la de último sobreviviente donde se posiciona sobre todas las demás hasta cierto periodo de tiempo, esto debido a que solo importa que una de las personas se encuentre con vida por lo que hay una mayor probabilidad de el status se mantenga vigente, no obstante interseca a la curva de (30) y sigue el mismo comportamiento de esta después de un tiempo, ya que la única persona que puede seguir viva despúes de que (40) está por alcanzar los 125 años es (30) al tenerse como límite máximo los 125 años.
+Primero se puede notar que de las cuatro curvas la que tiene un comportamiento más suave es la de (30), esta persona podría vivir los 95 años pero inmeditamente muere al tenerse como edad límite 125. Y al ser más joven tiene mayores probabilidades de sobrevivencia que la persona de (40). Esto posiciona la curva de (30) por encima de la de (40). La persona de (40) muere antes de que se cumplan los 95 años, al no poder superar los 125 años bajo este modelo. 
+Se puede notar que la curva del status de vida conjunta se encuentra por debajo de todas las demás, al ser menos probable el poder asegurar que dos personas sobrevivan. Situación que no sucede en la de último sobreviviente donde se posiciona sobre todas las demás hasta cierto periodo de tiempo, esto debido a que solo importa que una de las personas se encuentre con vida por lo que hay una mayor probabilidad de el status se mantenga vigente, no obstante interseca a la curva de (30) y sigue el mismo comportamiento de esta después de un tiempo, ya que la única persona que puede seguir viva despúes de que (40) está por alcanzar los 125 años es (30) al tenerse como límite máximo los 125 años.
 
 b. Calcule el valor presente actuarial de un seguro vitalicio, que paga 1 unidad al final del año de muerte o fallo para cada modelo: 1) Individual 30 años, 2) Individual 40 años, 3) Vida conjunta 30 y 40 años, y 4) Último sobreviviente 30 y 40 años. Se deben presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a pago, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de vida futura.
+
+
+**Respuesta**
 
 Para este ejercicio se emplearán las siguientes igualdades
 
@@ -355,23 +368,27 @@ $$
 
 ## Construcción paso a paso
 ```{r}
+# Edad limite
 w <- 125
 limit <- max(w - x, w - y)
 k <- 0:limit
+
 # Seguro vida 30 años
 Ax <- sum(v^(k + 1) * unlist(lapply(FUN = tpx, x = x, X = k)) * (1 - unlist(lapply(FUN = tpx, X = k + x, t = 1))))
+
 # Seguro de vida 40 años
 Ay <- sum(v^(k + 1) * unlist(lapply(FUN = tpx, x = y, X = k)) * (1 - unlist(lapply(FUN = tpx, X = k + y, t = 1))))
 
-# Seguro ultimo sobreviviente
+
 
 
 # Probabilidad que sobrevivan ambos a k y alguno de los dos muera
 k_1qxy <- unlist(lapply(FUN = tpxy, x = x, y = y, X = k)) * (1 - unlist(mapply(FUN = tpxy, x + k, y + k, t = 1)))
 
+# Seguro vida conjunta
 Axy <- sum(v^(k + 1) * (k_1qxy))
 
-# Seguro vida conjunta
+# Ultimo sobreviviente
 A_xy <- Ax + Ay - Axy
 
 
@@ -396,7 +413,8 @@ life_table_2 <- probs2lifetable(px_2, type = "px")
 Ax_l <- Axn(life_table_2, x = x, i = interest)
 Ay_l <- Axn(life_table_2, x = y, i = interest)
 
-# Modelo vida conjunta y ultimo sobreviviente
+# Modelo vida conjunta
+# Ultimo sobreviviente
 life_table_j <- list(life_table_2, life_table_2)
 Axy_l <- Axyzn(life_table_j, x = c(x, y), status = "joint", i = interest)
 A_xy_l <- Axyzn(life_table_j, x = c(x, y), status = "last", i = interest)
@@ -440,6 +458,8 @@ A_xy_s
 
 
 c. Calcule para cada uno de los modelos anteriores, el valor presente actuarial de una anualidad vitalia que paga 1 unidad al inicio de cada año mientras el sistema se mantenga activo (sobrevivencia). Se deben presentar 3 escenarios, uno en donde se construya la fórmula del seguro paso a paso, otro con la función del paquete "lifecontingencies" y otro con el método aleatorio (estocástico) utilizando 50.000 simulaciones del tiempo de vida futura. 
+
+**Respuesta**
 
 Para este ejercicio se va utilizar lo siguiente
 $$
@@ -533,6 +553,7 @@ t_ejercicio_2 <- t_ejercicio_2 %>% mutate(
 
 
 ```{r}
+# Se genera la tabla
 kable(t_ejercicio_2,
     col.names = c(
         "$A_{30}$",
