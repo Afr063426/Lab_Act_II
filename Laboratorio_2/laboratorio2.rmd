@@ -37,9 +37,83 @@ options(scipen = 999, digits = 5, OutDec = ",")
 tabla <- read.csv("./TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
 
-
+# Ejercicio 1
 Considere la tabla ilustrativa del Bowers utilizada en este curso, se realiza un ejercicio para calcular el valor presente actuarial de un seguro temporal que paga 1 unidad al final del año ede muerte o fallo del sistema, considerando dos vidas $x$ y $y$, y los estados de vida individuales, vida conjunta y último sobreviviente. Se utiliza una tasa de 6% anual.
 
-a. se parte de edades iniciales denotadas por $x_1=30$ $y_1=40$, y se determinan vectores con los valores del seguro temporal a $n=1,2,..,80$ años respectivamente (en algunos casos sería de vida completo).
+
+
+```{r}
+#Se va usar la misma tabla para ambos ejercicios
+px <- tabla$lx[-1] / tabla$lx[-length(tabla$lx)]
+px[length(px) + 1] <- 0
+
+
+# Se genera una tabla de sobrevivencia a partir de las probabilidades calculadas
+life_table <- probs2lifetable(px, type = "px")
+```
+
+
+a. Se parte de edades iniciales denotadas por $x_1=30$ $y_1=40$, y se determinan vectores con los valores del seguro temporal a $n=1,2,..,80$ años respectivamente (en algunos casos sería de vida completo).
+```{r}
+#Se estiman los seguros
+#nAx es seguro de una vida temporal a n edad x
+#nAx_y temporal a n conjunta
+#nA_x_y temporal a n ultimo sobreviviente
+#Tabla de vida de dos vida
+life_table_b<- list(life_table,life_table)
+
+interest<- 0.06
+n <- 1:80
+x1<-30
+x2<-40
+nA30<-numeric()
+nA40<-numeric()
+nA30_40<-numeric()
+nA_30_40<-numeric()
+for(i in n){
+  nA30[i]<-Axn(life_table,n=i,i=interest,x=x1)
+  nA40[i]<-Axn(life_table,n=i,i=interest,x=x2)
+  nA30_40[i]<-Axyzn(life_table_b,x=c(x1,x2),n=i,i=interest,status='joint')
+  nA_30_40[i]<-Axyzn(life_table_b,x=c(x1,x2),n=i,i=interest,status='last')
+}
+```
+
+
+```{r}
+#Se grafica
+insurance_n<-data.frame('n'=n,nA30,nA40,nA30_40,nA_30_40)
+insurance_n<-insurance_n%>%gather('Seguro','Valor',2:ncol(insurance_n))
+insurance_n%>%ggplot(aes(x=n,))
+
+```
 
 b. Determine el valor $A_{30:40}$ y $A_{\overline{30:40}}$ de forma determinística y estocástica. 
+
+
+```{r}
+
+
+```
+
+c. Se grafica ek histograma de las realizaciones del seguro.
+
+# Ejercicio 2
+Considere la tabla ilustrativa del Bowers utilizada en este curso, se realiza un ejercicio para calcular el valor presente actuarial de una anualidad temporal que paga 1 unidad al inicio del periodo mientras el estado permanezca activo, considerando dos vidas $x$ y $y$, y los estados de vida individuales, vida conjunta y último sobreviviente. Se utiliza una tasa del 6% anual.
+
+a. Se parte de edades iniciales denotadas por $x_1=30$ y $y_1=40$, y se determinan los vectores con valores de anualidad temporal a $n=1,2,...,80$ años respectivamente (en algunos casos sería de vida completo).
+
+b. Determine el valor $a_{30:40}$ y $a_{\overline{30:40}}$ de forma determinística y estocástica.
+
+c. Se grafica el histograma de las realizaciones de la anualidad.
+
+d. Anualidad especial
+
+Considera una anualidad vitalicia que se paga al inicio de cada año a razón de 1 unidad de prima si ambos inidividuos permanecen con vida y el otro ha fallecido ha fallecido. Se calcula el valor presente actuarial de anualidad bajo el método determinístico y el método estocástico. 
+
+e. se grafica el histograma de las realizaciones de la anualidad especial. 
+
+# Ejercicio
+
+a. Se estiman los valores de prima neta bajo el principio de equivalencia, y contemplando ambos enfoques: determinísticos y estocástico.
+
+b. Se grafica el histograma de las realizaciones de la prima.
