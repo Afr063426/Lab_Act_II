@@ -50,6 +50,98 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+/* A workaround for https://github.com/jgm/pandoc/issues/4278 */
+a.sourceLine {
+  pointer-events: auto;
+}
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -98,9 +190,81 @@ code span.ot { color: #007020; }
 </section>
 
 
+<div id="TOC" class="toc">
+<div class="toc-box">
+<ul>
+<li><a href="#ejercicio-1">Ejercicio 1</a></li>
+<li><a href="#ejercicio-2">Ejercicio 2</a></li>
+<li><a href="#ejercicio">Ejercicio</a></li>
+</ul>
+</div>
+</div>
 
 <section class="main-content">
-<p>Considere la tabla ilustrativa del Bowers utilizada en este curso, se realiza un ejercicio para calcular el valor presente actuarial de un seguro temporal que paga 1 unidad al final del año ede muerte o fallo del sistema, considerando dos vidas <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span></p>
+<div id="ejercicio-1" class="section level1">
+<h1>Ejercicio 1</h1>
+<p>Considere la tabla ilustrativa del Bowers utilizada en este curso, se realiza un ejercicio para calcular el valor presente actuarial de un seguro temporal que paga 1 unidad al final del año ede muerte o fallo del sistema, considerando dos vidas <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span>, y los estados de vida individuales, vida conjunta y último sobreviviente. Se utiliza una tasa de 6% anual.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">#Se va usar la misma tabla para ambos ejercicios</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>px &lt;-<span class="st"> </span>tabla<span class="op">$</span>lx[<span class="op">-</span><span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>tabla<span class="op">$</span>lx[<span class="op">-</span><span class="kw">length</span>(tabla<span class="op">$</span>lx)]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>px[<span class="kw">length</span>(px) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="co"># Se genera una tabla de sobrevivencia a partir de las probabilidades calculadas</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>life_table &lt;-<span class="st"> </span><span class="kw">probs2lifetable</span>(px, <span class="dt">type =</span> <span class="st">&quot;px&quot;</span>)</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Se parte de edades iniciales denotadas por <span class="math inline">\(x_1=30\)</span> <span class="math inline">\(y_1=40\)</span>, y se determinan vectores con los valores del seguro temporal a <span class="math inline">\(n=1,2,..,80\)</span> años respectivamente (en algunos casos sería de vida completo).</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co">#Se estiman los seguros</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="co">#nAx es seguro de una vida temporal a n edad x</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="co">#nAx_y temporal a n conjunta</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="co">#nA_x_y temporal a n ultimo sobreviviente</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="co">#Tabla de vida de dos vida</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>life_table_b&lt;-<span class="st"> </span><span class="kw">list</span>(life_table,life_table)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>interest&lt;-<span class="st"> </span><span class="fl">0.06</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>n &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">80</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>x1&lt;-<span class="dv">30</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>x2&lt;-<span class="dv">40</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>nA30&lt;-<span class="kw">numeric</span>()</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>nA40&lt;-<span class="kw">numeric</span>()</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>nA30_<span class="dv">40</span>&lt;-<span class="kw">numeric</span>()</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>nA_<span class="dv">30</span>_<span class="dv">40</span>&lt;-<span class="kw">numeric</span>()</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a><span class="cf">for</span>(i <span class="cf">in</span> n){</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>  nA30[i]&lt;-<span class="kw">Axn</span>(life_table,<span class="dt">n=</span>i,<span class="dt">i=</span>interest,<span class="dt">x=</span>x1)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>  nA40[i]&lt;-<span class="kw">Axn</span>(life_table,<span class="dt">n=</span>i,<span class="dt">i=</span>interest,<span class="dt">x=</span>x2)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>  nA30_<span class="dv">40</span>[i]&lt;-<span class="kw">Axyzn</span>(life_table_b,<span class="dt">x=</span><span class="kw">c</span>(x1,x2),<span class="dt">n=</span>i,<span class="dt">i=</span>interest,<span class="dt">status=</span><span class="st">&#39;joint&#39;</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a>  nA_<span class="dv">30</span>_<span class="dv">40</span>[i]&lt;-<span class="kw">Axyzn</span>(life_table_b,<span class="dt">x=</span><span class="kw">c</span>(x1,x2),<span class="dt">n=</span>i,<span class="dt">i=</span>interest,<span class="dt">status=</span><span class="st">&#39;last&#39;</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co">#Se grafica</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>insurance_n&lt;-<span class="kw">data.frame</span>(<span class="st">&#39;n&#39;</span>=n,nA30,nA40,nA30_<span class="dv">40</span>,nA_<span class="dv">30</span>_<span class="dv">40</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>insurance_n&lt;-insurance_n<span class="op">%&gt;%</span><span class="kw">gather</span>(<span class="st">&#39;Seguro&#39;</span>,<span class="st">&#39;Valor&#39;</span>,<span class="dv">2</span><span class="op">:</span><span class="kw">ncol</span>(insurance_n))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a><span class="co">#insurance_n%&gt;%ggplot(aes(x=n,))</span></span></code></pre></div>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>Determine el valor <span class="math inline">\(A_{30:40}\)</span> y <span class="math inline">\(A_{\overline{30:40}}\)</span> de forma determinística y estocástica.</p></li>
+<li><p>Se grafica ek histograma de las realizaciones del seguro.</p></li>
+</ol>
+</div>
+<div id="ejercicio-2" class="section level1">
+<h1>Ejercicio 2</h1>
+<p>Considere la tabla ilustrativa del Bowers utilizada en este curso, se realiza un ejercicio para calcular el valor presente actuarial de una anualidad temporal que paga 1 unidad al inicio del periodo mientras el estado permanezca activo, considerando dos vidas <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span>, y los estados de vida individuales, vida conjunta y último sobreviviente. Se utiliza una tasa del 6% anual.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Se parte de edades iniciales denotadas por <span class="math inline">\(x_1=30\)</span> y <span class="math inline">\(y_1=40\)</span>, y se determinan los vectores con valores de anualidad temporal a <span class="math inline">\(n=1,2,...,80\)</span> años respectivamente (en algunos casos sería de vida completo).</p></li>
+<li><p>Determine el valor <span class="math inline">\(a_{30:40}\)</span> y <span class="math inline">\(a_{\overline{30:40}}\)</span> de forma determinística y estocástica.</p></li>
+<li><p>Se grafica el histograma de las realizaciones de la anualidad.</p></li>
+<li><p>Anualidad especial</p></li>
+</ol>
+<p>Considera una anualidad vitalicia que se paga al inicio de cada año a razón de 1 unidad de prima si ambos inidividuos permanecen con vida y el otro ha fallecido ha fallecido. Se calcula el valor presente actuarial de anualidad bajo el método determinístico y el método estocástico.</p>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>se grafica el histograma de las realizaciones de la anualidad especial.</li>
+</ol>
+</div>
+<div id="ejercicio" class="section level1">
+<h1>Ejercicio</h1>
+<ol style="list-style-type: lower-alpha">
+<li><p>Se estiman los valores de prima neta bajo el principio de equivalencia, y contemplando ambos enfoques: determinísticos y estocástico.</p></li>
+<li><p>Se grafica el histograma de las realizaciones de la prima.</p></li>
+</ol>
+</div>
 </section>
 
 

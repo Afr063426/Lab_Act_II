@@ -83,7 +83,7 @@ for(i in n){
 #Se grafica
 insurance_n<-data.frame('n'=n,nA30,nA40,nA30_40,nA_30_40)
 insurance_n<-insurance_n%>%gather('Seguro','Valor',2:ncol(insurance_n))
-insurance_n%>%ggplot(aes(x=n,))
+#insurance_n%>%ggplot(aes(x=n,))
 
 ```
 
