@@ -1,5 +1,5 @@
 ---
-title: "Laboratorio 1"
+title: "Laboratorio 2"
 author: "Joshua Cervantes"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "joshua.cervantes@ucr.ac.cr"
@@ -83,19 +83,67 @@ for(i in n){
 #Se grafica
 insurance_n<-data.frame('n'=n,nA30,nA40,nA30_40,nA_30_40)
 insurance_n<-insurance_n%>%gather('Seguro','Valor',2:ncol(insurance_n))
-#insurance_n%>%ggplot(aes(x=n,))
+insurance_n%>%ggplot(aes(x=n,y=Valor,color=Seguro))+geom_line(size = 1) +
+    scale_color_jcolors(palette = "pal2") +
+    theme_minimal()
 
 ```
 
 b. Determine el valor $A_{30:40}$ y $A_{\overline{30:40}}$ de forma determinística y estocástica. 
 
-
+**Deterministico**
 ```{r}
+#Se procede a determinar el valor de los seguro pero vitalicios
 
+#Deterministico
+
+#Vida conjunta
+A30_40<-Axyzn(life_table_b,x=c(x1,x2),i=interest,status='joint')
+
+#Ultimo sobreviviente
+A_30_40<-Axyzn(life_table_b,x=c(x1,x2),i=interest,status='last')
 
 ```
 
-c. Se grafica ek histograma de las realizaciones del seguro.
+El valor de los reguros es
+$$
+A_{30:40}=`r A30_40` \qquad A_{\overline{30:40}}=`r A_30_40`
+$$
+
+**Estocástico**
+```{r}
+##Simulaciones
+simulations<-50000
+
+#Tiempo de vida cada individuo
+T30<-rLife(simulations,life_table,x=30)+0.5
+T40<-rLife(simulations,life_table,x=40)+0.5
+
+
+#Tiempo vida conjunta
+T30_40<-unlist(mapply(FUN=min,T30,T40))
+
+#Tiempo de vida ultimo sobreviviente
+T_30_40<-unlist(mapply(FUN=max,T30,T40))
+
+#Se procede a calcular el valor de lo seguros
+v<-1/(1+interest)
+d<-1-v
+
+A30_40_s<- sum(v^T30_40/simulations)
+A_30_40_s<- sum(v^T30_40/simulations)
+```
+
+Entonces se obtiene
+$$
+A_{30:40}=`r A30_40_s` \qquad A_{\overline{30:40}}=`r A_30_40_s`
+$$
+c. Se grafica el histograma de las realizaciones del seguro.
+```{r}
+#En este caso se procede  grafica
+
+
+```
 
 # Ejercicio 2
 Considere la tabla ilustrativa del Bowers utilizada en este curso, se realiza un ejercicio para calcular el valor presente actuarial de una anualidad temporal que paga 1 unidad al inicio del periodo mientras el estado permanezca activo, considerando dos vidas $x$ y $y$, y los estados de vida individuales, vida conjunta y último sobreviviente. Se utiliza una tasa del 6% anual.
@@ -112,8 +160,17 @@ Considera una anualidad vitalicia que se paga al inicio de cada año a razón de
 
 e. se grafica el histograma de las realizaciones de la anualidad especial. 
 
-# Ejercicio
+# Ejercicio 3
 
 a. Se estiman los valores de prima neta bajo el principio de equivalencia, y contemplando ambos enfoques: determinísticos y estocástico.
 
 b. Se grafica el histograma de las realizaciones de la prima.
+
+# Preguntas
+* Suponga que la aseguradora espera una reducción en la mortalidad debido a que asegura una población con poder adquisitivo más alto que la media poblacional, por lo que considera la reducción en el riesgo en el percentil 45% de la distribución de beneficios futuros bajo el enfoque estocástico, ¿Cúal sería el valor de la nueva prima neta (de riesgo)?
+
+* Con base en el enfoque estocástico, ¿Cuál es la probabilidad de que el valor presente de las primas efectivamente pagadas sea menor a la mitad del valor presente acturial de la anualidad?, esto para cada modelo de múltiples vidas.
+
+* ¿Cuál debería ser la prima neta pagadas en la anualidad respectiva si se desea un nivel de confianza del 85%, 90% y 95%, respectivamente?, conforme una tabla de valores.
+
+2. Realice el ejercicio 3 (sin las preguntas adicionales) considerando para las anualidades los mismos vectores Txs y Txy utilizados para los seguros, es decir, no generar unos nuevos para las anualidades. Detalle que sucede con las primas bajos los enfoques determinístico y estocástico en ambos modelo de múltiples vidas. ¿Porqué sucede lo observado?.
