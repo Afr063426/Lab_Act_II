@@ -1,0 +1,45 @@
+---
+title: "Laboratorio 1"
+author: "Joshua Cervantes"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "joshua.cervantes@ucr.ac.cr"
+linkedin: ""
+twitter: ""
+github: "afr063426"
+
+home: ""
+# !!! You need to provide a logo image here !!! Or just delete the field for no logo
+logo: ""
+output:
+  prettydoc::html_pretty:
+      theme: cayman
+      highlight: github
+      math: katex
+      toc: true
+      toc_depth: 2
+      code_menu: true
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, width = 60)
+## Paquetes necesarios
+library(devtools)
+library(prettydoc)
+library(rmarkdown)
+library(tidyverse)
+library(lifecontingencies)
+library(kableExtra)
+library(jcolors)
+options(scipen = 999, digits = 5, OutDec = ",")
+# Se procede a leer la tabla
+tabla <- read.csv("./TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
+```
+
+
+Considere la tabla ilustrativa del Bowers utilizada en este curso, se realiza un ejercicio para calcular el valor presente actuarial de un seguro temporal que paga 1 unidad al final del año ede muerte o fallo del sistema, considerando dos vidas $x$ y $y$, y los estados de vida individuales, vida conjunta y último sobreviviente. Se utiliza una tasa de 6% anual.
+
+a. se parte de edades iniciales denotadas por $x_1=30$ $y_1=40$, y se determinan vectores con los valores del seguro temporal a $n=1,2,..,80$ años respectivamente (en algunos casos sería de vida completo).
+
+b. Determine el valor $A_{30:40}$ y $A_{\overline{30:40}}$ de forma determinística y estocástica. 
