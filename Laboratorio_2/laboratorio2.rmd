@@ -129,9 +129,17 @@ T_30_40<-unlist(mapply(FUN=max,T30,T40))
 #Se procede a calcular el valor de lo seguros
 v<-1/(1+interest)
 d<-1-v
+#Primero se crean los valores presentes de las simulaciones
+vT30_s<-v^{T30}
+vT40_s<-v^{T40}
+vT30_40_s<-v^{T30_40}
+vT_30_40_s<-v^{T_30_40}
 
-A30_40_s<- sum(v^T30_40/simulations)
-A_30_40_s<- sum(v^T30_40/simulations)
+
+A30_s<-sum(vT30_s/simulations)
+A40_s<-sum(vT40_s/simulations)
+A30_40_s<- sum(vT30_40_s/simulations)
+A_30_40_s<- sum(vT_30_40_s/simulations)
 ```
 
 Entonces se obtiene
@@ -141,8 +149,10 @@ $$
 c. Se grafica el histograma de las realizaciones del seguro.
 ```{r}
 #En este caso se procede  grafica
-
-
+distribution<-data.frame(vT30_s,vT40_s,vT30_40_s,vT_30_40_s)
+distribution<-distribution%>%gather('Seguro','Valor_de_las_simulaciones',1:ncol(distribution))
+distribution%>%ggplot(aes(x=Valor_de_las_simulaciones,fill=Seguro))+geom_histogram(bins=100)+facet_wrap(~Seguro,scales='free')+scale_fill_jcolors(palette = "pal2") +
+    theme_minimal()
 ```
 
 # Ejercicio 2
