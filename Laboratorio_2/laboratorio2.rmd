@@ -159,14 +159,75 @@ distribution%>%ggplot(aes(x=Valor_de_las_simulaciones,fill=Seguro))+geom_histogr
 Considere la tabla ilustrativa del Bowers utilizada en este curso, se realiza un ejercicio para calcular el valor presente actuarial de una anualidad temporal que paga 1 unidad al inicio del periodo mientras el estado permanezca activo, considerando dos vidas $x$ y $y$, y los estados de vida individuales, vida conjunta y último sobreviviente. Se utiliza una tasa del 6% anual.
 
 a. Se parte de edades iniciales denotadas por $x_1=30$ y $y_1=40$, y se determinan los vectores con valores de anualidad temporal a $n=1,2,...,80$ años respectivamente (en algunos casos sería de vida completo).
+```{r}
+#Se prococede a estimar cada uno de los valores para los seguros de acuerdo a cada temporalidad
+a30<-numeric()
+a40<-numeric()
+a30_40<-numeric()
+a_30_40<-numeric()
+
+for(i in 1:80){
+  a30[i]<-axn(life_table,x=30,n=i,i=interest)
+  a40[i]<-axn(life_table,x=40,n=i,i=interest)
+  a30_40[i]<-axyzn(life_table_b,x=c(30,40),i=interest,n=i,status='joint')
+  a_30_40[i]<-axyzn(life_table_b,x=c(30,40),i=interest,n=i,status='last')
+}
+annuities<-data.frame(Temporalidad=1:80,a30,a40,a30_40,a_30_40)
+annuities<-annuities%>%gather('Anualidad','Valor',2:ncol(annuities))
+annuities%>%ggplot(aes(x=Temporalidad,y=Valor,color=Anualidad))+geom_line()+scale_fill_jcolors(palette = "pal2") +
+    theme_minimal()
+```
 
 b. Determine el valor $a_{30:40}$ y $a_{\overline{30:40}}$ de forma determinística y estocástica.
 
-c. Se grafica el histograma de las realizaciones de la anualidad.
+## Determinístico
+```{r}
+#Vida conjunta
+a30_40_d<-axyzn(life_table_b,x=c(30,40),i=interest,status='joint')
+#Ultimo sobreviviente
+a_30_40_d<-axyzn(life_table_b,x=c(30,40),i=interest,status='last')
+```
+Los resultados son
+$$
+\ddot{a}_{30:40}=`r a30_40_d` \qquad \ddot{a}_{\overline{30:40}}=`r a_30_40_d`
+$$
 
+## Estocástico
+```{r}
+
+# Vida conjunta
+a30_40_s <- sum((1 - v^T30_40)) / (1 - v) / simulations
+
+# Ultimo sobreviviente
+a_30_40_s <- sum((1 - v^T_30_40)) / (1 - v) / simulations
+
+```
+
+Entonces se obtiene como resultado
+$$
+\ddot{a}_{30:40}=`r a30_40_s` \qquad \ddot{a}_{\overline{30:40}}=`r a_30_40_s`
+$$
+
+c. Se grafica el histograma de las realizaciones de la anualidad.
+```{r}
+#Valores de las simulaciones
+##Vida conjunta
+a30_40_v<-1-v^T30_40/(1-v)
+##Ultimo sobreviviente
+a_30_40_v<-1-v^T_30_40/(1-v)
+distribution_axy<-data.frame(a30_40_v,a_30_40_v)
+distribution_axy<-distribution_axy%>%gather('Anualidad','Valor_de_las_simulaciones',1:ncol(distribution_axy))
+distribution_axy%>%ggplot(aes(x=Valor_de_las_simulaciones,fill=Anualidad))+geom_histogram(bins=100)+facet_wrap(~Anualidad,scales='free')+scale_fill_jcolors(palette = "pal2") +
+    theme_minimal()
+```
 d. Anualidad especial
 
 Considera una anualidad vitalicia que se paga al inicio de cada año a razón de 1 unidad de prima si ambos inidividuos permanecen con vida y el otro ha fallecido ha fallecido. Se calcula el valor presente actuarial de anualidad bajo el método determinístico y el método estocástico. 
+
+```{r}
+#Anualidad especial
+```
+
 
 e. se grafica el histograma de las realizaciones de la anualidad especial. 
 
