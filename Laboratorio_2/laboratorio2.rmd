@@ -513,29 +513,29 @@ for (i in quantiles) {
     # Vidas independientes
     quan1 <- quantile(p30_s, i / 2)
     quan2 <- quantile(p30_s, 1 - i / 2)
-    p30 <- p30_s[p30_s >= quan1 && p30_s <= quan2]
+    p30 <- p30_s[p30_s >= quan1 & p30_s <= quan2]
+    print(paste(length(p30), length(p30_s), sep = " "))
     p30 <- mean(p30)
-    print(paste(length(p30),p30_s))
     quan1 <- quantile(p40_s, i / 2)
     quan2 <- quantile(p40_s, 1 - i / 2)
-    p40 <- p40_s[p40_s >= quan1 && p40_s <= quan2]
+    p40 <- p40_s[p40_s >= quan1 & p40_s <= quan2]
+    print(paste(length(p40), length(p40_s), sep = " "))
     p40 <- mean(p40)
-    print(paste(length(p40),p40_s))
     # Vida conjunta
     quan1 <- quantile(p30_40_s, i / 2)
     quan2 <- quantile(p30_40_s, 1 - i / 2)
 
-    p30_40 <- p30_40_s[p30_40_s >= quan1 && p30_40_s <= quan2]
+    p30_40 <- p30_40_s[p30_40_s >= quan1 & p30_40_s <= quan2]
+    print(paste(length(p30_40), length(p30_40_s), sep = " "))
     p30_40 <- mean(p30_40)
-    print(paste(length(p30_40),p30_40_s))
     # Ultimo sobreviviente
 
     quan1 <- quantile(p_30_40_s, i / 2)
     quan2 <- quantile(p_30_40_s, 1 - i / 2)
 
-    p_30_40 <- p_30_40_s[p_30_40_s >= quan1 && p_30_40_s <= quan2]
+    p_30_40 <- p_30_40_s[p_30_40_s >= quan1 & p_30_40_s <= quan2]
+    print(paste(length(p_30_40), length(p_30_40_s), sep = " "))
     p_30_40 <- mean(p_30_40)
-    print(paste(length(p_30_40),p30_40_s))
 
     aux <- data.frame("Confianza" = paste((1 - i) * 100, "%"), p30 = p30, p40 = p40, p30_40 = p30_40, p_30_40 = p_30_40)
     table <- rbind(table, aux)
