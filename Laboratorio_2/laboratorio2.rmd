@@ -25,6 +25,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, width = 60, fig.align = "center")
 ## Paquetes necesarios
+library(knitr)
 library(devtools)
 library(prettydoc)
 library(rmarkdown)
@@ -33,6 +34,9 @@ library(lifecontingencies)
 library(kableExtra)
 library(jcolors)
 options(scipen = 999, digits = 5, OutDec = ",")
+knit_hooks$set(inline = function(x) {
+    prettyNum(x, big.mark = ".")
+})
 # Se procede a leer la tabla
 tabla <- read.csv("./TablaBowers.csv", sep = ";", dec = ",", header = TRUE, stringsAsFactors = FALSE)
 ```
