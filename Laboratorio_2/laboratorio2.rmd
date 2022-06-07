@@ -23,7 +23,7 @@ output:
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, width = 60)
+knitr::opts_chunk$set(echo = TRUE, width = 60, fig.align = "center")
 ## Paquetes necesarios
 library(devtools)
 library(prettydoc)
@@ -43,7 +43,7 @@ Considere la tabla ilustrativa del Bowers utilizada en este curso, se realiza un
 
 
 ```{r}
-#Se va usar la misma tabla para ambos ejercicios
+# Se va usar la misma tabla para ambos ejercicios
 px <- tabla$lx[-1] / tabla$lx[-length(tabla$lx)]
 px[length(px) + 1] <- 0
 
@@ -55,54 +55,66 @@ life_table <- probs2lifetable(px, type = "px")
 
 a. Se parte de edades iniciales denotadas por $x_1=30$ $y_1=40$, y se determinan vectores con los valores del seguro temporal a $n=1,2,..,80$ años respectivamente (en algunos casos sería de vida completo).
 ```{r}
-#Se estiman los seguros
-#nAx es seguro de una vida temporal a n edad x
-#nAx_y temporal a n conjunta
-#nA_x_y temporal a n ultimo sobreviviente
-#Tabla de vida de dos vida
-life_table_b<- list(life_table,life_table)
+# Se estiman los seguros
+# nAx es seguro de una vida temporal a n edad x
+# nAx_y temporal a n conjunta
+# nA_x_y temporal a n ultimo sobreviviente
+# Tabla de vida de dos vida
+life_table_b <- list(life_table, life_table)
 
-interest<- 0.06
+interest <- 0.06
 n <- 1:80
-x1<-30
-x2<-40
-nA30<-numeric()
-nA40<-numeric()
-nA30_40<-numeric()
-nA_30_40<-numeric()
-for(i in n){
-  nA30[i]<-Axn(life_table,n=i,i=interest,x=x1)
-  nA40[i]<-Axn(life_table,n=i,i=interest,x=x2)
-  nA30_40[i]<-Axyzn(life_table_b,x=c(x1,x2),n=i,i=interest,status='joint')
-  nA_30_40[i]<-Axyzn(life_table_b,x=c(x1,x2),n=i,i=interest,status='last')
+x1 <- 30
+x2 <- 40
+nA30 <- numeric()
+nA40 <- numeric()
+nA30_40 <- numeric()
+nA_30_40 <- numeric()
+for (i in n) {
+    nA30[i] <- Axn(life_table, n = i, i = interest, x = x1)
+    nA40[i] <- Axn(life_table, n = i, i = interest, x = x2)
+    nA30_40[i] <- Axyzn(life_table_b, x = c(x1, x2), n = i, i = interest, status = "joint")
+    nA_30_40[i] <- Axyzn(life_table_b, x = c(x1, x2), n = i, i = interest, status = "last")
 }
 ```
 
 
-```{r}
-#Se grafica
-insurance_n<-data.frame('n'=n,nA30,nA40,nA30_40,nA_30_40)
-insurance_n<-insurance_n%>%gather('Seguro','Valor',2:ncol(insurance_n))
-insurance_n%>%ggplot(aes(x=n,y=Valor,color=Seguro))+geom_line(size = 1) +
-    scale_color_jcolors(palette = "pal2") +
-    theme_minimal()
 
+
+<caption><center><strong>Figura 1: Valor de los seguros, según tiempo de cobertura.</strong></center></caption>
+```{r}
+# Se grafica
+insurance_n <- data.frame("n" = n, nA30, nA40, nA30_40, nA_30_40)
+insurance_n <- insurance_n %>% gather("Seguro", "Valor", 2:ncol(insurance_n))
+insurance_n %>% ggplot(aes(x = n, y = Valor, color = Seguro)) +
+    geom_line(size = 1) +
+    scale_color_jcolors(palette = "pal2") +
+    theme_minimal() +
+    labs(x = "Periodo", y = "Valor")
 ```
 
 b. Determine el valor $A_{30:40}$ y $A_{\overline{30:40}}$ de forma determinística y estocástica. 
 
 **Deterministico**
 ```{r}
-#Se procede a determinar el valor de los seguro pero vitalicios
+# Se procede a determinar el valor de los seguro pero vitalicios
 
-#Deterministico
+# Deterministico
 
-#Vida conjunta
-A30_40<-Axyzn(life_table_b,x=c(x1,x2),i=interest,status='joint')
+# Vida conjunta
+A30_40 <- Axyzn(life_table_b, x = c(x1, x2), i = interest, status = "joint")
 
-#Ultimo sobreviviente
-A_30_40<-Axyzn(life_table_b,x=c(x1,x2),i=interest,status='last')
+# Ultimo sobreviviente
+A_30_40 <- Axyzn(life_table_b, x = c(x1, x2), i = interest, status = "last")
+```
 
+
+```{r}
+# Seguro vida conjunta deterministico
+A30_40
+
+# Seguro vida ultimo sobreviviente deterministico
+A_30_40
 ```
 
 El valor de los reguros es
@@ -112,34 +124,42 @@ $$
 
 **Estocástico**
 ```{r}
-##Simulaciones
-simulations<-50000
+## Simulaciones
+simulations <- 50000
 
-#Tiempo de vida cada individuo
-T30<-rLife(simulations,life_table,x=30)+0.5
-T40<-rLife(simulations,life_table,x=40)+0.5
-
-
-#Tiempo vida conjunta
-T30_40<-unlist(mapply(FUN=min,T30,T40))
-
-#Tiempo de vida ultimo sobreviviente
-T_30_40<-unlist(mapply(FUN=max,T30,T40))
-
-#Se procede a calcular el valor de lo seguros
-v<-1/(1+interest)
-d<-1-v
-#Primero se crean los valores presentes de las simulaciones
-vT30_s<-v^(T30)
-vT40_s<-v^(T40)
-vT30_40_s<-v^(T30_40)
-vT_30_40_s<-v^(T_30_40)
+# Tiempo de vida cada individuo
+T30 <- rLife(simulations, life_table, x = 30) + 0.5
+T40 <- rLife(simulations, life_table, x = 40) + 0.5
 
 
-A30_s<-sum(vT30_s/simulations)
-A40_s<-sum(vT40_s/simulations)
-A30_40_s<- sum(vT30_40_s/simulations)
-A_30_40_s<- sum(vT_30_40_s/simulations)
+# Tiempo vida conjunta
+T30_40 <- unlist(mapply(FUN = min, T30, T40))
+
+# Tiempo de vida ultimo sobreviviente
+T_30_40 <- unlist(mapply(FUN = max, T30, T40))
+
+# Se procede a calcular el valor de lo seguros
+v <- 1 / (1 + interest)
+d <- 1 - v
+# Primero se crean los valores presentes de las simulaciones
+vT30_s <- v^(T30)
+vT40_s <- v^(T40)
+vT30_40_s <- v^(T30_40)
+vT_30_40_s <- v^(T_30_40)
+
+
+A30_s <- sum(vT30_s / simulations)
+A40_s <- sum(vT40_s / simulations)
+A30_40_s <- sum(vT30_40_s / simulations)
+A_30_40_s <- sum(vT_30_40_s / simulations)
+```
+
+```{r}
+# Vida conjunta estocastico
+A30_40_s
+
+# Ultimo sobreviviente estocastico
+A_30_40_s
 ```
 
 Entonces se obtiene
@@ -147,45 +167,66 @@ $$
 A_{30:40}=`r A30_40_s` \qquad A_{\overline{30:40}}=`r A_30_40_s`
 $$
 c. Se grafica el histograma de las realizaciones del seguro.
+
+
+
+<caption><center><strong>Figura 2: Distribución de los beneficios futuros.</strong></center></caption>
 ```{r}
-#En este caso se procede  grafica
-distribution<-data.frame(vT30_s,vT40_s,vT30_40_s,vT_30_40_s)
-distribution<-distribution%>%gather('Seguro','Valor_de_las_simulaciones',1:ncol(distribution))
-distribution%>%ggplot(aes(x=Valor_de_las_simulaciones,fill=Seguro))+geom_histogram(bins=100)+facet_wrap(~Seguro,scales='free')+scale_fill_jcolors(palette = "pal2") +
-    theme_minimal()
+# En este caso se procede  grafica
+distribution <- data.frame(vT30_s, vT40_s, vT30_40_s, vT_30_40_s)
+distribution <- distribution %>% gather("Seguro", "Valor_de_las_simulaciones", 1:ncol(distribution))
+distribution %>% ggplot(aes(x = Valor_de_las_simulaciones, fill = Seguro)) +
+    geom_histogram(bins = 100) +
+    facet_wrap(~Seguro, scales = "free") +
+    scale_fill_jcolors(palette = "pal2") +
+    theme_minimal() +
+    labs(x = "Valor", y = "Conteo")
 ```
 
 # Ejercicio 2
 Considere la tabla ilustrativa del Bowers utilizada en este curso, se realiza un ejercicio para calcular el valor presente actuarial de una anualidad temporal que paga 1 unidad al inicio del periodo mientras el estado permanezca activo, considerando dos vidas $x$ y $y$, y los estados de vida individuales, vida conjunta y último sobreviviente. Se utiliza una tasa del 6% anual.
 
 a. Se parte de edades iniciales denotadas por $x_1=30$ y $y_1=40$, y se determinan los vectores con valores de anualidad temporal a $n=1,2,...,80$ años respectivamente (en algunos casos sería de vida completo).
-```{r}
-#Se prococede a estimar cada uno de los valores para los seguros de acuerdo a cada temporalidad
-a30<-numeric()
-a40<-numeric()
-a30_40<-numeric()
-a_30_40<-numeric()
 
-for(i in 1:80){
-  a30[i]<-axn(life_table,x=30,n=i,i=interest)
-  a40[i]<-axn(life_table,x=40,n=i,i=interest)
-  a30_40[i]<-axyzn(life_table_b,x=c(30,40),i=interest,n=i,status='joint')
-  a_30_40[i]<-axyzn(life_table_b,x=c(30,40),i=interest,n=i,status='last')
+
+
+<caption><center><strong>Figura 3: Valor de la anualidades, según tiempo de duración.</strong></center></caption>
+```{r}
+# Se procede a estimar cada uno de los valores para los seguros de acuerdo a cada temporalidad
+a30 <- numeric()
+a40 <- numeric()
+a30_40 <- numeric()
+a_30_40 <- numeric()
+
+for (i in 1:80) {
+    a30[i] <- axn(life_table, x = 30, n = i, i = interest)
+    a40[i] <- axn(life_table, x = 40, n = i, i = interest)
+    a30_40[i] <- axyzn(life_table_b, x = c(30, 40), i = interest, n = i, status = "joint")
+    a_30_40[i] <- axyzn(life_table_b, x = c(30, 40), i = interest, n = i, status = "last")
 }
-annuities<-data.frame(Temporalidad=1:80,a30,a40,a30_40,a_30_40)
-annuities<-annuities%>%gather('Anualidad','Valor',2:ncol(annuities))
-annuities%>%ggplot(aes(x=Temporalidad,y=Valor,color=Anualidad))+geom_line()+scale_fill_jcolors(palette = "pal2") +
-    theme_minimal()
+annuities <- data.frame(Temporalidad = 1:80, a30, a40, a30_40, a_30_40)
+annuities <- annuities %>% gather("Anualidad", "Valor", 2:ncol(annuities))
+annuities %>% ggplot(aes(x = Temporalidad, y = Valor, color = Anualidad)) +
+    geom_line() +
+    scale_color_jcolors(palette = "pal2") +
+    theme_minimal() +
+    labs(x = "Periodo", y = "Valor")
 ```
 
 b. Determine el valor $a_{30:40}$ y $a_{\overline{30:40}}$ de forma determinística y estocástica.
 
 ## Determinístico
 ```{r}
-#Vida conjunta
-a30_40_d<-axyzn(life_table_b,x=c(30,40),i=interest,status='joint')
-#Ultimo sobreviviente
-a_30_40_d<-axyzn(life_table_b,x=c(30,40),i=interest,status='last')
+# Vida conjunta
+a30_40_d <- axyzn(life_table_b, x = c(30, 40), i = interest, status = "joint")
+# Ultimo sobreviviente
+a_30_40_d <- axyzn(life_table_b, x = c(30, 40), i = interest, status = "last")
+
+# Vida conjunta
+a30_40_d
+
+# Ultimo sobreviviente
+a_30_40_d
 ```
 Los resultados son
 $$
@@ -194,21 +235,27 @@ $$
 
 ## Estocástico
 ```{r}
-T30<-rLife(simulations,life_table,x=30)+0.5
-T40<-rLife(simulations,life_table,x=40)+0.5
+T30 <- rLife(simulations, life_table, x = 30) + 0.5
+T40 <- rLife(simulations, life_table, x = 40) + 0.5
 
 
-#Tiempo vida conjunta
-T30_40<-unlist(mapply(FUN=min,T30,T40))
+# Tiempo vida conjunta
+T30_40 <- unlist(mapply(FUN = min, T30, T40))
 
-#Tiempo de vida ultimo sobreviviente
-T_30_40<-unlist(mapply(FUN=max,T30,T40))
+# Tiempo de vida ultimo sobreviviente
+T_30_40 <- unlist(mapply(FUN = max, T30, T40))
 # Vida conjunta
-a30_40_s <- sum((1 - v^T30_40)) / (1 - v) / simulations
+a30_40_s <- sum((1 - v^T30_40) / (1 - v)) / simulations
 
 # Ultimo sobreviviente
-a_30_40_s <- sum((1 - v^T_30_40)) / (1 - v) / simulations
+a_30_40_s <- sum((1 - v^T_30_40) / (1 - v)) / simulations
 
+
+# Vida conjunta
+a30_40_s
+
+# Ultimo sobreviviente
+a_30_40_s
 ```
 
 Entonces se obtiene como resultado
@@ -217,19 +264,26 @@ $$
 $$
 
 c. Se grafica el histograma de las realizaciones de la anualidad.
+
+
+<caption><center><strong>Figura 4: Distribución de los anualidades.</strong></center></caption>
 ```{r}
-#Valores de las simulaciones
-#Vidas individuales
-a30_v<-(1-v^T30)/d
-a40_v<-(1-v^T40)/d
-##Vida conjunta
-a30_40_v<-(1-v^T30_40)/(1-v)
-##Ultimo sobreviviente
-a_30_40_v<-(1-v^T_30_40)/(1-v)
-distribution_axy<-data.frame(a30_40_v,a_30_40_v,a30_v,a40_v)
-distribution_axy<-distribution_axy%>%gather('Anualidad','Valor_de_las_simulaciones',1:ncol(distribution_axy))
-distribution_axy%>%ggplot(aes(x=Valor_de_las_simulaciones,fill=Anualidad))+geom_histogram(bins=100)+facet_wrap(~Anualidad,scales='free')+scale_fill_jcolors(palette = "pal2") +
-    theme_minimal()
+# Valores de las simulaciones
+# Vidas individuales
+a30_v <- (1 - v^T30) / d
+a40_v <- (1 - v^T40) / d
+## Vida conjunta
+a30_40_v <- (1 - v^T30_40) / (1 - v)
+## Ultimo sobreviviente
+a_30_40_v <- (1 - v^T_30_40) / (1 - v)
+distribution_axy <- data.frame(a30_40_v, a_30_40_v, a30_v, a40_v)
+distribution_axy <- distribution_axy %>% gather("Anualidad", "Valor_de_las_simulaciones", 1:ncol(distribution_axy))
+distribution_axy %>% ggplot(aes(x = Valor_de_las_simulaciones, fill = Anualidad)) +
+    geom_histogram(bins = 100) +
+    facet_wrap(~Anualidad, scales = "free") +
+    scale_fill_jcolors(palette = "pal2") +
+    theme_minimal() +
+    labs(x = "Valor", y = "Conteo")
 ```
 d. Anualidad especial
 
@@ -238,23 +292,25 @@ Considera una anualidad vitalicia que se paga al inicio de cada año a razón de
 
 ## Determinístico
 ```{r}
-#Anualidad especial
-#Deterministico
-a30_40_sp<-1/3*a30_40+2/3*a_30_40
+# Anualidad especial
+# Deterministico
+a30_40_sp <- 1 / 3 * axyzn(life_table_b, x = c(30, 40), i = interest, status = "joint") + 2 / 3 * axyzn(life_table_b, x = c(30, 40), i = interest, status = "last")
+
+a30_40_sp
 ```
-El valor obtenido es 
-$$
-`r a30_40_sp`
-$$
+
 ## Estocástico
 ```{r}
-a30_40_sp_s<-(1-v^(T30_40))/d+2/3*(v^T30_40-v^T_30_40)/d
+a30_40_sp_s <- (1 - v^(T30_40)) / d + 2 / 3 * (v^T30_40 - v^T_30_40) / d
 ```
-$$
-`r sum(a30_40_sp_s)/simulations`
-$$
 
 
+
+
+```{r}
+# Seguro de vida especial
+mean(a30_40_sp_s)
+```
 
 
 
@@ -262,12 +318,15 @@ $$
 e. Se grafica el histograma de las realizaciones de la anualidad especial. 
 
 
+<caption><center><strong>Figura 5: Distribución anualidad especial.</strong></center></caption>
 ```{r}
 
-axy_sp<-data.frame(a30_40_sp_s)
-axy_sp%>%ggplot(aes(x=a30_40_sp_s,fill=''))+geom_histogram(bins=100)+scale_fill_jcolors(palette = "pal2") +
-    theme_minimal()
-
+axy_sp <- data.frame(a30_40_sp_s)
+axy_sp %>% ggplot(aes(x = a30_40_sp_s, fill = "")) +
+    geom_histogram(bins = 100, show.legend = FALSE) +
+    scale_fill_jcolors(palette = "pal2") +
+    theme_minimal() +
+    labs(x = "Valor", y = "Conteo")
 ```
 
 # Ejercicio 3
@@ -276,43 +335,73 @@ a. Se estiman los valores de prima neta bajo el principio de equivalencia, y con
 
 ## Deterministico
 ```{r}
-p30_40<-A30_40/axn(life_table,x=30,i=interest)
+# Vidas individuales
+p30 <- Axn(life_table, i = interest, x = 30) / axn(life_table, i = interest, x = 30)
+p40 <- Axn(life_table, i = interest, x = 40) / axn(life_table, i = interest, x = 40)
 
-##Ultimo sobreviviente
-p_30_40<-A_30_40_s/axn(life_table,x=30,i=interest)
+# Vida conjunta
+p30_40 <- A30_40 / axyzn(life_table_b, x = c(30, 40), i = interest, status = "joint")
 
+## Ultimo sobreviviente
+p_30_40 <- A_30_40 / axyzn(life_table_b, x = c(30, 40), i = interest, status = "last")
 ```
-El resultado obtenido es 
-$$
-Prima_{30:40}=`r p30_40` \qquad Prima_{\overline{30:40}}=`r p_30_40`
-$$
+```{r}
+# Prima seguro individual 30 años
+p30
+
+# Prima seguro individual 40 años
+p40
+
+# Prima seguro vida conjunta
+p30_40
+
+# Prima seguro ultimo sobreviviente
+p_30_40
+```
+
+
 ## Estocástico
 ```{r}
-#Vida individuales
-p30_s<-vT30_s/a30_v
-p40_s<-vT40_s/a40_v
-#Vida conjunta
-p30_40_s<-vT30_40_s/a30_40_v
+# Vida individuales
+p30_s <- vT30_s / a30_v
+p40_s <- vT40_s / a40_v
+# Vida conjunta
+p30_40_s <- vT30_40_s / a30_40_v
 
-##Ultimo sobreviviente
-p_30_40_s<-vT_30_40_s/a_30_40_v
+## Ultimo sobreviviente
+p_30_40_s <- vT_30_40_s / a_30_40_v
 ```
 
-El resultado obtenido es 
-$$
-Prima_{30:40}=`r sum(p30_40_s)/simulations` \qquad Prima_{\overline{30:40}}=`r sum(p_30_40_s)/simulations`
-$$
 
+```{r}
+
+# Prima seguro individual 30 años
+mean(p30_s)
+
+# Prima seguro individual 40 años
+mean(p40_s)
+
+# Prima seguro vida conjunta
+mean(p30_40_s)
+
+# Prima seguro ultimo sobreviviente
+mean(p_30_40_s)
+```
 
 b. Se grafica el histograma de las realizaciones de la prima.
 
 
+<caption><center><strong>Figura 6: Distribución de las primas. </strong></center></caption>
 ```{r}
-distribution_pxy<-data.frame(p30_40_s,p_30_40_s,p30_s,p40_s)
-distribution_pxy<-distribution_pxy%>%gather('Prima','Valor_de_las_simulaciones',1:ncol(distribution_pxy))
+distribution_pxy <- data.frame(p30_40_s, p_30_40_s, p30_s, p40_s)
+distribution_pxy <- distribution_pxy %>% gather("Prima", "Valor_de_las_simulaciones", 1:ncol(distribution_pxy))
 
-distribution_pxy%>%ggplot(aes(x=Valor_de_las_simulaciones,fill=Prima))+geom_histogram(bins=100)+facet_wrap(~Prima,scales='free')+scale_fill_jcolors(palette = "pal2") +
-    theme_minimal()
+distribution_pxy %>% ggplot(aes(x = Valor_de_las_simulaciones, fill = Prima)) +
+    geom_histogram(bins = 100) +
+    facet_wrap(~Prima, scales = "free") +
+    scale_fill_jcolors(palette = "pal2") +
+    theme_minimal() +
+    labs(x = "Valor", y = "Conteo")
 ```
 
 
@@ -320,38 +409,203 @@ distribution_pxy%>%ggplot(aes(x=Valor_de_las_simulaciones,fill=Prima))+geom_hist
 * Suponga que la aseguradora espera una reducción en la mortalidad debido a que asegura una población con poder adquisitivo más alto que la media poblacional, por lo que considera la reducción en el riesgo en el percentil 45% de la distribución de beneficios futuros bajo el enfoque estocástico, ¿Cúal sería el valor de la nueva prima neta (de riesgo)?
 
 ```{r}
-#Tomando solo el cuantil 45 de la distribucion de beneficios futuros se cumple
-#Vidas independientes
-quan<-quantile(vT30_s,0.45)
-vT30_s<-vT30_s[vT30_s<=quan]
-p30<-mean(vT30_s)/mean(a30_v)
-quan<-quantile(vT40_s,0.45)
-vT40_s<-vT40_s[vT40_s<=quan]
-p40<-mean(vT40_s)/mean(a40_v)
+# Tomando solo el cuantil 45 de la distribucion de beneficios futuros se cumple
 
-#Vida conjunta
-quan<-quantile(vT30_40_s,0.45)
-vT30_40_s<-vT30_40_s[vT30_40_s<=quan]
-p30_40<-mean(vT30_40_s)/a30_40_s
-#Ultimo sobreviviente
-quan_last<-quantile(vT_30_40_s,0.45)
-vT_30_40_s<-vT_30_40_s[vT_30_40_s<=quan]
-p_30_40<-mean(vT_30_40_s)/a_30_40_s
+# Vidas independientes
+quan <- quantile(vT30_s, 0.45)
+p30 <- vT30_s[vT30_s <= quan]
+p30 <- mean(p30) / mean(a30_v)
+quan <- quantile(vT40_s, 0.45)
+p40 <- vT40_s[vT40_s <= quan]
+p40 <- mean(p40) / mean(a40_v)
+
+# Vida conjunta
+quan <- quantile(vT30_40_s, 0.45)
+p30_40 <- vT30_40_s[vT30_40_s <= quan]
+p30_40 <- mean(p30_40) / a30_40_s
+
+# Ultimo sobreviviente
+
+quan <- quantile(vT_30_40_s, 0.45)
+p_30_40 <- vT_30_40_s[vT_30_40_s <= quan]
+p_30_40 <- mean(p_30_40) / a_30_40_s
+```
 
 
+```{r}
+# Vida de edad 30
+p30
+
+# Vida de edad 40
+p40
+
+# Vida conjunta
+p30_40
+
+# Ultimo sobreviviente
+p_30_40
 ```
 
 
 
 * Con base en el enfoque estocástico, ¿Cuál es la probabilidad de que el valor presente de las primas efectivamente pagadas sea menor a la mitad del valor presente acturial de la anualidad?, esto para cada modelo de múltiples vidas.
 
-```{r}
-#Se contruyen las probabilidades con la funcion 
 
+
+```{r}
+## Para esto vamos a utilizar la distribucion empirica de la anualidad
+## Para este ejercicio se tomará en cuenta las realizaciones de las anualidades
+# Vidas independientes
+
+probability_30 <- a30_v[a30_v <= mean(a30_v) / 2]
+probability_30 <- length(probability_30) / length(a30_v)
+
+
+probability_40 <- a40_v[a30_v <= mean(a40_v) / 2]
+probability_40 <- length(probability_40) / length(a40_v)
+
+# Vida conjunta
+probability30_40 <- a30_40_v[a30_40_v <= mean(a30_40_v) / 2]
+probability30_40 <- length(probability30_40) / length(a30_40_v)
+
+# Ultimo sobreviviente
+probability_30_40 <- a_30_40_v[a30_40_v <= mean(a_30_40_v) / 2]
+probability_30_40 <- length(probability_30_40) / length(a_30_40_v)
 ```
+
+
+```{r}
+# Probabilidad vida individual 30 años
+probability_30
+
+
+# Probabilidad vida individual 40 años
+probability_40
+
+
+# Probabilidad vida conjunta
+probability30_40
+
+# Probabilida último sobreviviente
+probability_30_40
+```
+
 
 
 
 * ¿Cuál debería ser la prima neta pagadas en la anualidad respectiva si se desea un nivel de confianza del 85%, 90% y 95%, respectivamente?, conforme una tabla de valores.
 
+
+```{r}
+# Para 85% se estimane el cuantil 15/2% y 1-15/2% de los beneficios a pagar
+# Caso individual
+
+## Para este ejercicio se tomará las distribución de las realizaciones de las primas y se le estimarán los intervalos de confianza tomando los cuantiles
+quantiles <- c(0.15, 0.10, 0.05)
+table <- data.frame("Confianza" = character(), p30 = numeric(), p40 = numeric(), p30_40 = numeric(), p_30_40 = numeric())
+
+for (i in quantiles) {
+
+    # Vidas independientes
+    quan1 <- quantile(p30_s, i / 2)
+    quan2 <- quantile(p30_s, 1 - i / 2)
+    p30 <- p30_s[p30_s >= quan1 && p30_s <= quan2]
+    p30 <- mean(p30)
+    quan1 <- quantile(p40_s, i / 2)
+    quan2 <- quantile(p40_s, 1 - i / 2)
+    p40 <- p40_s[p40_s >= quan1 && p40_s <= quan2]
+    p40 <- mean(p40)
+
+    # Vida conjunta
+    quan1 <- quantile(p30_40_s, i / 2)
+    quan2 <- quantile(p30_40_s, 1 - i / 2)
+
+    p30_40 <- p30_40_s[p30_40_s >= quan1 && p30_40_s <= quan2]
+    p30_40 <- mean(p30_40)
+
+    # Ultimo sobreviviente
+
+    quan1 <- quantile(p_30_40_s, i / 2)
+    quan2 <- quantile(p_30_40_s, 1 - i / 2)
+
+    p_30_40 <- p_30_40_s[p_30_40_s >= quan1 && p_30_40_s <= quan2]
+    p_30_40 <- mean(p_30_40)
+
+    aux <- data.frame("Confianza" = paste((1 - i) * 100, "%"), p30 = p30, p40 = p40, p30_40 = p30_40, p_30_40 = p_30_40)
+    table <- rbind(table, aux)
+}
+kable(table,
+    col.names = c(
+        "Nivel de confianza",
+        "Prima $A_{30}$",
+        "Prima $A_{40}$",
+        "Prima $A_{30:40}$",
+        "Prima $A_{\\overline{30:40}}$"
+    ),
+    caption = "Resultados", format.args = list(decimal.mark = ",", big.mark = "."), escape = FALSE
+) %>%
+    kable_styling(full_width = F) %>%
+    kable_material() %>%
+    row_spec(0, bold = T, color = "white", background = "#159957") %>%
+    scroll_box(height = "300px", width = "100%")
+```
+
 2. Realice el ejercicio 3 (sin las preguntas adicionales) considerando para las anualidades los mismos vectores Txs y Txy utilizados para los seguros, es decir, no generar unos nuevos para las anualidades. Detalle que sucede con las primas bajos los enfoques determinístico y estocástico en ambos modelo de múltiples vidas. ¿Porqué sucede lo observado?.
+
+
+```{r}
+# Vidas individuales
+T30 <- rLife(simulations, life_table, x = 30) + 0.5
+T40 <- rLife(simulations, life_table, x = 40) + 0.5
+
+# Vida conjumta
+T30_40 <- mapply(FUN = min, T30, T40)
+
+# Ultimo sobreviviente
+T_30_40 <- mapply(FUN = max, T30, T40)
+
+# Seguro vida conjunta
+A30_40 <- v^T30_40
+
+# Seguro ultimo sobreviviente
+A_30_40 <- v^T_30_40
+
+
+# Anualidad vida conjunta
+a30_40 <- (1 - v^T30_40) / d
+a_30_40 <- (1 - v^T_30_40) / d
+```
+
+```{r}
+# Prima vida conjunta
+prima30_40_s <- A30_40 / a30_40
+mean(prima30_40_s)
+```
+
+
+```{r}
+# Prima ultimo sobreviviente
+prima_30_40_s <- A_30_40 / a_30_40
+
+mean(prima_30_40_s)
+```
+
+
+Se procede a graficar las realizaciones de las prima
+
+<caption><center><strong>Figura 7: Distribución de las primas.</strong></center></caption>
+```{r}
+distribution_pxy <- data.frame(p30_40_s, p_30_40_s)
+distribution_pxy <- distribution_pxy %>% gather("Prima", "Valor_de_las_simulaciones", 1:ncol(distribution_pxy))
+
+distribution_pxy %>% ggplot(aes(x = Valor_de_las_simulaciones, fill = Prima)) +
+    geom_histogram(bins = 100) +
+    facet_wrap(~Prima, scales = "free") +
+    scale_fill_jcolors(palette = "pal2") +
+    theme_minimal() +
+    labs(x = "Valor", y = "Conteo")
+```
+
+**Análisis**
+
+Se puede observar que la prima que sufre una mayor variación es la de vida conjunta esto se debe a que se está estableciendo que justamente en el último año donde se paga la prima coincide con el año en que el status falla. Esto no sucede en el caso en que se generan valores distintos para la anualidad y para el seguro.
