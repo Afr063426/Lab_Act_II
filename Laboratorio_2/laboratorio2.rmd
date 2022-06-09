@@ -465,7 +465,7 @@ probability_30 <- a30_v[a30_v <= mean(a30_v) / 2]
 probability_30 <- length(probability_30) / length(a30_v)
 
 
-probability_40 <- a40_v[a30_v <= mean(a40_v) / 2]
+probability_40 <- a40_v[a40_v <= mean(a40_v) / 2]
 probability_40 <- length(probability_40) / length(a40_v)
 
 # Vida conjunta
@@ -473,7 +473,7 @@ probability30_40 <- a30_40_v[a30_40_v <= mean(a30_40_v) / 2]
 probability30_40 <- length(probability30_40) / length(a30_40_v)
 
 # Ultimo sobreviviente
-probability_30_40 <- a_30_40_v[a30_40_v <= mean(a_30_40_v) / 2]
+probability_30_40 <- a_30_40_v[a_30_40_v <= mean(a_30_40_v) / 2]
 probability_30_40 <- length(probability_30_40) / length(a_30_40_v)
 ```
 
@@ -514,19 +514,19 @@ for (i in quantiles) {
     quan1 <- quantile(p30_s, i / 2)
     quan2 <- quantile(p30_s, 1 - i / 2)
     p30 <- p30_s[p30_s >= quan1 & p30_s <= quan2]
-    print(paste(length(p30), length(p30_s), sep = " "))
+    # print(paste(length(p30), length(p30_s), sep = " "))
     p30 <- mean(p30)
     quan1 <- quantile(p40_s, i / 2)
     quan2 <- quantile(p40_s, 1 - i / 2)
     p40 <- p40_s[p40_s >= quan1 & p40_s <= quan2]
-    print(paste(length(p40), length(p40_s), sep = " "))
+    # print(paste(length(p40), length(p40_s), sep = " "))
     p40 <- mean(p40)
     # Vida conjunta
     quan1 <- quantile(p30_40_s, i / 2)
     quan2 <- quantile(p30_40_s, 1 - i / 2)
 
     p30_40 <- p30_40_s[p30_40_s >= quan1 & p30_40_s <= quan2]
-    print(paste(length(p30_40), length(p30_40_s), sep = " "))
+    # print(paste(length(p30_40), length(p30_40_s), sep = " "))
     p30_40 <- mean(p30_40)
     # Ultimo sobreviviente
 
@@ -534,7 +534,7 @@ for (i in quantiles) {
     quan2 <- quantile(p_30_40_s, 1 - i / 2)
 
     p_30_40 <- p_30_40_s[p_30_40_s >= quan1 & p_30_40_s <= quan2]
-    print(paste(length(p_30_40), length(p_30_40_s), sep = " "))
+    # print(paste(length(p_30_40), length(p_30_40_s), sep = " "))
     p_30_40 <- mean(p_30_40)
 
     aux <- data.frame("Confianza" = paste((1 - i) * 100, "%"), p30 = p30, p40 = p40, p30_40 = p30_40, p_30_40 = p_30_40)
