@@ -8,13 +8,25 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
+<a href="https://github.com/afr063426/" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+  <div class="col-xs-12 col-sm-4 col-md-3">
+  <div id="TOC" class="tocify">
+      </div>
+  </div>
+
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Joshua Cervantes" />
 
-<meta name="date" content="2022-06-25" />
+<meta name="date" content="2022-06-26" />
 
-<title>Laboratorio 2</title>
+<title>Laboratorio 3</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -390,9 +402,9 @@ code span.ot { color: #007020; }
 
 
 <section class="page-header">
-<h1 class="title toc-ignore project-name">Laboratorio 2</h1>
+<h1 class="title toc-ignore project-name">Laboratorio 3</h1>
 <h4 class="author project-author">Joshua Cervantes</h4>
-<h4 class="date project-date">25 June 2022</h4>
+<h4 class="date project-date">26 June 2022</h4>
 </section>
 
 
@@ -432,11 +444,11 @@ L =
      \pi v^{K+1}\ddot{s}_{\overline{K+1|}}-\pi
 \ddot{a}_{\overline{K+1|}} \qquad K&lt;35, J=1,2\\
      v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi
-\ddot{a}_{\overline{35}}\qquad K\geq 35, J=1
+\ddot{a}_{\overline{35|}}\qquad K\geq 35, J=1
 \end{cases}
 \]</span> Si se aplica el principio de equivalencia se obtiene <span class="math display">\[
 \mathbb{E}[L]=\sum_{K=35}^{\infty}\left(v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi
-a_{\overline{35|}}\right)_{K}p_{25}^{\tau}q_{25+K}=0
+\ddot{a}_{\overline{35|}}\right)_{K}p_{25}^{\tau}q_{25+K}=0
 \]</span> Entonces <span class="math display">\[
 \pi =\frac{v^{n}\ddot{a}_{60}}{\ddot{a}_{\overline{35|}}}
 \]</span></p></li>
@@ -478,6 +490,15 @@ al futuro, grafique e interprete.</li>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_jcolors</span>(<span class="at">palette =</span> <span class="st">&quot;pal2&quot;</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<p><strong>Interpretación</strong></p>
+<p>En este caso se puede ver que en el periodo de 0 a 35 en caso de que
+suceda el decremento la pérdida es 0, ya que la persona habrá pagado el
+equivalente en primas del beneficio y acumulado hasta ese periodo
+mediante la tasa de interés. Posteriormente las péridas son negativas
+esto se debe a que han acumulado las primas de los 35 perioodos
+anteriores. Sin embargo, las pérdidas vuelven a aumentar ya que no se
+obtienen más primas y se debe hacer frente a una anualidad que conforme
+más viva la persona se vuelve más costosa.</p>
 <ol start="4" style="list-style-type: lower-alpha">
 <li>Conforme la tabla de flujos para el ejercicio asumiendo que <span class="math inline">\(l_{25}\)</span> individuos toman el indiviuos
 toman el mismo plan de pensiones.</li>
@@ -536,14 +557,44 @@ toman el mismo plan de pensiones.</li>
 <span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Intereses[i] <span class="ot">&lt;-</span> interest <span class="sc">*</span> monto_inicio[i]</span>
 <span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Fondos.esperados.fin[i] <span class="ot">&lt;-</span> monto_inicio[i] <span class="sc">+</span> flujos<span class="sc">$</span>Intereses[i] <span class="sc">-</span> flujos<span class="sc">$</span>Reclamos.retiro[i] <span class="sc">-</span> flujos<span class="sc">$</span>Reclamos.fallecimiento[i]</span>
 <span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Reserva.observada[i] <span class="ot">&lt;-</span> flujos<span class="sc">$</span>Fondos.esperados.fin[i] <span class="sc">/</span> flujos<span class="sc">$</span>Sobrevivientes.final[i]</span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(flujos,</span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>)</span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (flujos<span class="sc">$</span>Reserva.observada[i] <span class="sc">==</span> <span class="cn">Inf</span>) {</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>        flujos<span class="sc">$</span>Reserva.observada[i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Reserva teorica</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>reserve <span class="ot">&lt;-</span> <span class="cf">function</span>(x, t) {</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (t <span class="sc">&lt;=</span> <span class="dv">35</span>) {</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(risk_p <span class="sc">*</span> ((<span class="dv">1</span> <span class="sc">+</span> interest)<span class="sc">^</span>t <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v))</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>        k <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">15</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>        pension <span class="ot">&lt;-</span> benefit <span class="sc">*</span> (<span class="fu">sum</span>(v<span class="sc">^</span>k <span class="sc">*</span> <span class="fu">pxt</span>(tabla_md, <span class="at">x =</span> x <span class="sc">+</span> t, <span class="at">t =</span> k)))</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(pension)</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>reserva_teorica <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> reserve, <span class="at">X =</span> t, <span class="at">x =</span> x))</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>flujos<span class="sc">$</span>Reserva.teorica <span class="ot">&lt;-</span> reserva_teorica</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>nombres <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Edad&quot;</span>, <span class="st">&quot;Sobrevivientes inicio&quot;</span>, <span class="st">&quot;Prima&quot;</span>,</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Intereses&quot;</span>, <span class="st">&quot;Reclamos fallecimiento&quot;</span>,</span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Reclamos retiro&quot;</span>, <span class="st">&quot;Monto pension&quot;</span>,</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Fondos esperados fin&quot;</span>, <span class="st">&quot;Sobrevivientes final&quot;</span>,</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Reserva observada&quot;</span>, <span class="st">&quot;Reserva teórica&quot;</span></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(flujos,</span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>),</span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> nombres</span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
 <table class="table lightable-material" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
 <caption>
@@ -555,7 +606,7 @@ Flujos
 Edad
 </th>
 <th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
-Sobrevivientes.inicio
+Sobrevivientes inicio
 </th>
 <th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
 Prima
@@ -564,22 +615,25 @@ Prima
 Intereses
 </th>
 <th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
-Reclamos.fallecimiento
+Reclamos fallecimiento
 </th>
 <th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
-Reclamos.retiro
+Reclamos retiro
 </th>
 <th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
-Monto.pension
+Monto pension
 </th>
 <th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
-Fondos.esperados.fin
+Fondos esperados fin
 </th>
 <th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
-Sobrevivientes.final
+Sobrevivientes final
 </th>
 <th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
-Reserva.observada
+Reserva observada
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Reserva teórica
 </th>
 </tr>
 </thead>
@@ -611,6 +665,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 894.884
+</td>
+<td style="text-align:right;">
+8.715,4
 </td>
 <td style="text-align:right;">
 8.715,4
@@ -647,6 +704,9 @@ Reserva.observada
 <td style="text-align:right;">
 17.805,6
 </td>
+<td style="text-align:right;">
+17.805,6
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -675,6 +735,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 890.824
+</td>
+<td style="text-align:right;">
+27.286,6
 </td>
 <td style="text-align:right;">
 27.286,6
@@ -711,6 +774,9 @@ Reserva.observada
 <td style="text-align:right;">
 37.175,3
 </td>
+<td style="text-align:right;">
+37.175,3
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -739,6 +805,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 886.250
+</td>
+<td style="text-align:right;">
+47.489,3
 </td>
 <td style="text-align:right;">
 47.489,3
@@ -775,6 +844,9 @@ Reserva.observada
 <td style="text-align:right;">
 58.246,7
 </td>
+<td style="text-align:right;">
+58.246,7
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -803,6 +875,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 880.575
+</td>
+<td style="text-align:right;">
+69.466,7
 </td>
 <td style="text-align:right;">
 69.466,7
@@ -839,6 +914,9 @@ Reserva.observada
 <td style="text-align:right;">
 81.169,2
 </td>
+<td style="text-align:right;">
+81.169,2
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -867,6 +945,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 873.726
+</td>
+<td style="text-align:right;">
+93.374,9
 </td>
 <td style="text-align:right;">
 93.374,9
@@ -903,6 +984,9 @@ Reserva.observada
 <td style="text-align:right;">
 106.105,4
 </td>
+<td style="text-align:right;">
+106.105,4
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -931,6 +1015,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 865.456
+</td>
+<td style="text-align:right;">
+119.383,3
 </td>
 <td style="text-align:right;">
 119.383,3
@@ -967,6 +1054,9 @@ Reserva.observada
 <td style="text-align:right;">
 133.232,2
 </td>
+<td style="text-align:right;">
+133.232,2
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -995,6 +1085,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 855.627
+</td>
+<td style="text-align:right;">
+147.676,6
 </td>
 <td style="text-align:right;">
 147.676,6
@@ -1031,6 +1124,9 @@ Reserva.observada
 <td style="text-align:right;">
 162.742,1
 </td>
+<td style="text-align:right;">
+162.742,1
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1059,6 +1155,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 843.765
+</td>
+<td style="text-align:right;">
+178.455,4
 </td>
 <td style="text-align:right;">
 178.455,4
@@ -1095,6 +1194,9 @@ Reserva.observada
 <td style="text-align:right;">
 194.844,4
 </td>
+<td style="text-align:right;">
+194.844,4
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1123,6 +1225,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 829.789
+</td>
+<td style="text-align:right;">
+211.938,1
 </td>
 <td style="text-align:right;">
 211.938,1
@@ -1159,6 +1264,9 @@ Reserva.observada
 <td style="text-align:right;">
 229.766,9
 </td>
+<td style="text-align:right;">
+229.766,9
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1187,6 +1295,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 813.453
+</td>
+<td style="text-align:right;">
+248.362,3
 </td>
 <td style="text-align:right;">
 248.362,3
@@ -1223,6 +1334,9 @@ Reserva.observada
 <td style="text-align:right;">
 267.757,2
 </td>
+<td style="text-align:right;">
+267.757,2
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1251,6 +1365,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 794.475
+</td>
+<td style="text-align:right;">
+287.986,2
 </td>
 <td style="text-align:right;">
 287.986,2
@@ -1287,6 +1404,9 @@ Reserva.observada
 <td style="text-align:right;">
 309.085,0
 </td>
+<td style="text-align:right;">
+309.085,0
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1315,6 +1435,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 772.003
+</td>
+<td style="text-align:right;">
+331.091,1
 </td>
 <td style="text-align:right;">
 331.091,1
@@ -1351,6 +1474,9 @@ Reserva.observada
 <td style="text-align:right;">
 354.043,4
 </td>
+<td style="text-align:right;">
+354.043,4
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1379,6 +1505,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 745.023
+</td>
+<td style="text-align:right;">
+377.982,7
 </td>
 <td style="text-align:right;">
 377.982,7
@@ -1415,6 +1544,9 @@ Reserva.observada
 <td style="text-align:right;">
 402.951,3
 </td>
+<td style="text-align:right;">
+402.951,3
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1443,6 +1575,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 710.471
+</td>
+<td style="text-align:right;">
+428.993,6
 </td>
 <td style="text-align:right;">
 428.993,6
@@ -1479,6 +1614,9 @@ Reserva.observada
 <td style="text-align:right;">
 456.155,7
 </td>
+<td style="text-align:right;">
+456.155,7
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1507,6 +1645,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 668.615
+</td>
+<td style="text-align:right;">
+484.485,8
 </td>
 <td style="text-align:right;">
 484.485,8
@@ -1543,6 +1684,9 @@ Reserva.observada
 <td style="text-align:right;">
 514.034,1
 </td>
+<td style="text-align:right;">
+514.034,1
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1571,6 +1715,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 620.240
+</td>
+<td style="text-align:right;">
+544.853,0
 </td>
 <td style="text-align:right;">
 544.853,0
@@ -1607,6 +1754,9 @@ Reserva.observada
 <td style="text-align:right;">
 576.997,1
 </td>
+<td style="text-align:right;">
+576.997,1
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1635,6 +1785,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 566.005
+</td>
+<td style="text-align:right;">
+610.523,4
 </td>
 <td style="text-align:right;">
 610.523,4
@@ -1671,6 +1824,9 @@ Reserva.observada
 <td style="text-align:right;">
 645.491,3
 </td>
+<td style="text-align:right;">
+645.491,3
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1699,6 +1855,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 507.876
+</td>
+<td style="text-align:right;">
+681.962,8
 </td>
 <td style="text-align:right;">
 681.962,8
@@ -1735,6 +1894,9 @@ Reserva.observada
 <td style="text-align:right;">
 645.792,5
 </td>
+<td style="text-align:right;">
+645.792,5
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1763,6 +1925,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 446.273
+</td>
+<td style="text-align:right;">
+608.913,4
 </td>
 <td style="text-align:right;">
 608.913,4
@@ -1799,6 +1964,9 @@ Reserva.observada
 <td style="text-align:right;">
 571.313,3
 </td>
+<td style="text-align:right;">
+571.313,3
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1827,6 +1995,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 382.406
+</td>
+<td style="text-align:right;">
+532.995,7
 </td>
 <td style="text-align:right;">
 532.995,7
@@ -1863,6 +2034,9 @@ Reserva.observada
 <td style="text-align:right;">
 493.949,7
 </td>
+<td style="text-align:right;">
+493.949,7
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1891,6 +2065,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 316.397
+</td>
+<td style="text-align:right;">
+454.048,9
 </td>
 <td style="text-align:right;">
 454.048,9
@@ -1927,6 +2104,9 @@ Reserva.observada
 <td style="text-align:right;">
 413.274,6
 </td>
+<td style="text-align:right;">
+413.274,6
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -1955,6 +2135,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 248.569
+</td>
+<td style="text-align:right;">
+371.624,0
 </td>
 <td style="text-align:right;">
 371.624,0
@@ -1991,6 +2174,9 @@ Reserva.observada
 <td style="text-align:right;">
 329.107,9
 </td>
+<td style="text-align:right;">
+329.107,9
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -2019,6 +2205,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 179.071
+</td>
+<td style="text-align:right;">
+285.535,6
 </td>
 <td style="text-align:right;">
 285.535,6
@@ -2055,6 +2244,9 @@ Reserva.observada
 <td style="text-align:right;">
 240.871,0
 </td>
+<td style="text-align:right;">
+240.871,0
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -2083,6 +2275,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 108.349
+</td>
+<td style="text-align:right;">
+195.089,2
 </td>
 <td style="text-align:right;">
 195.089,2
@@ -2119,6 +2314,9 @@ Reserva.observada
 <td style="text-align:right;">
 148.140,9
 </td>
+<td style="text-align:right;">
+148.140,9
+</td>
 </tr>
 <tr>
 <td style="text-align:right;">
@@ -2147,6 +2345,9 @@ Reserva.observada
 </td>
 <td style="text-align:right;">
 36.422
+</td>
+<td style="text-align:right;">
+100.000,0
 </td>
 <td style="text-align:right;">
 100.000,0
@@ -2181,7 +2382,10 @@ Reserva.observada
 0
 </td>
 <td style="text-align:right;">
-Inf
+0,0
+</td>
+<td style="text-align:right;">
+0,0
 </td>
 </tr>
 </tbody>
@@ -2192,12 +2396,26 @@ Inf
 </ol>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Edad</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Edad <span class="ot">&lt;-</span> <span class="dv">25</span><span class="sc">:</span><span class="dv">74</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>Reserva <span class="ot">&lt;-</span> flujos<span class="sc">$</span>Reserva.observada</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>Reserva <span class="ot">&lt;-</span> flujos<span class="sc">$</span>Reserva.teorica</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Reserva <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;Edad&quot;</span> <span class="ot">=</span> Edad, <span class="st">&quot;Reserva&quot;</span> <span class="ot">=</span> Reserva)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Reserva <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Edad, <span class="at">y =</span> Edad)) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Reserva <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Edad, <span class="at">y =</span> Reserva)) <span class="sc">+</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<p><strong>Interpretación</strong></p>
+<p>Se puede observar que conforme avanza el tiempo se aumentan las
+reservas por lo menos en el periodo de diferimiento, debido a que se
+logran obtener primas y acumular intereses sobre estas y los montos
+anteriormente recibos. Al tenerse una mayor cantidad en reservas que
+decrementos durante el periodo de diferimiento es posible hacer la
+acumulación de primas sobre estos. Posteriormente llegado el periodo 35
+las reservas comienzan a decrecer, esto se debe a que ya no se reciben
+las primas y además hay que hacer frente al pago de la anualidad
+vitalicia los montos de reclamo no superan inicialmente los montos en
+reserva por lo que se pueden seguir acumulando intereses sobre esta,
+pero finalmente tanto los reclamos como las reservas son iguales por lo
+que la reserva se hace 0, ya no se siguen acumulando intereses y todos
+los individuos del grupo bajo el modelo han muerto.</p>
 </div>
 </section>
 

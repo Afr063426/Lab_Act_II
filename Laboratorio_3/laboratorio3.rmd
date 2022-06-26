@@ -1,5 +1,5 @@
 ---
-title: "Laboratorio 2"
+title: "Laboratorio 3"
 author: "Joshua Cervantes"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "joshua.cervantes@ucr.ac.cr"
@@ -25,6 +25,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, width = 60, fig.align = "center")
 ## Paquetes necesarios
+
 library(knitr)
 library(devtools)
 library(prettydoc)
@@ -64,13 +65,13 @@ de equivalencia, la pérdida y la reserva a un determinado tiempo.
    L = 
    \begin{cases}
         \pi v^{K+1}\ddot{s}_{\overline{K+1|}}-\pi \ddot{a}_{\overline{K+1|}} \qquad K<35, J=1,2\\
-        v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi \ddot{a}_{\overline{35}}\qquad K\geq 35, J=1
+        v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi \ddot{a}_{\overline{35|}}\qquad K\geq 35, J=1
     \end{cases}
 \]
 Si se aplica el principio de equivalencia se obtiene
 \[
 \mathbb{E}[L]=\sum_{K=35}^{\infty}\left(v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi
-a_{\overline{35|}}\right)_{K}p_{25}^{\tau}q_{25+K}=0
+\ddot{a}_{\overline{35|}}\right)_{K}p_{25}^{\tau}q_{25+K}=0
 \]
 Entonces
 \[
@@ -108,6 +109,15 @@ L %>% ggplot(aes(x = Tiempo, y = L)) +
     theme_minimal() +
     scale_color_jcolors(palette = "pal2")
 ```
+
+**Interpretación**
+
+En este caso se puede ver que en el periodo de 0 a 35 en caso de que suceda el decremento 
+la pérdida es 0, ya que la persona habrá pagado el equivalente en primas del beneficio y 
+acumulado hasta ese periodo mediante la tasa de interés. Posteriormente las péridas son negativas
+esto se debe a que han acumulado las primas de los 35 perioodos anteriores. Sin embargo, las 
+pérdidas vuelven a aumentar ya que no se obtienen más primas y se debe hacer frente a una anualidad
+que conforme más viva la persona se vuelve más costosa. 
 
 d. Conforme la tabla de flujos para el ejercicio asumiendo que $l_{25}$ individuos toman
 el indiviuos toman el mismo plan de pensiones.
@@ -171,10 +181,34 @@ for (i in 2:nrow(flujos)) {
     }
 }
 
+
 # Reserva teorica
 
+reserve <- function(x, t) {
+    if (t <= 35) {
+        return(risk_p * ((1 + interest)^t - 1) / (1 - v))
+    } else {
+        k <- 0:15
+        pension <- benefit * (sum(v^k * pxt(tabla_md, x = x + t, t = k)))
+        return(pension)
+    }
+}
+t <- 1:50
+x <- 25
+reserva_teorica <- unlist(lapply(FUN = reserve, X = t, x = x))
+
+flujos$Reserva.teorica <- reserva_teorica
+
+nombres <- c(
+    "Edad", "Sobrevivientes inicio", "Prima",
+    "Intereses", "Reclamos fallecimiento",
+    "Reclamos retiro", "Monto pension",
+    "Fondos esperados fin", "Sobrevivientes final",
+    "Reserva observada", "Reserva teórica"
+)
 kable(flujos,
-    caption = "Flujos", format.args = list(decimal.mark = ",", big.mark = ".")
+    caption = "Flujos", format.args = list(decimal.mark = ",", big.mark = "."),
+    col.names = nombres
 ) %>%
     kable_styling(full_width = F) %>%
     kable_material() %>%
@@ -186,9 +220,22 @@ e. Se grafica e interpreta el vector de reservas.
 ```{r}
 # Edad
 Edad <- 25:74
-Reserva <- flujos$Reserva.observada
+Reserva <- flujos$Reserva.teorica
 Reserva <- data.frame("Edad" = Edad, "Reserva" = Reserva)
-Reserva %>% ggplot(aes(x = Edad, y = Edad)) +
+Reserva %>% ggplot(aes(x = Edad, y = Reserva)) +
     geom_line() +
     theme_minimal()
 ```
+
+**Interpretación**
+
+Se puede observar que conforme avanza el tiempo se aumentan las reservas por lo menos en el 
+periodo de diferimiento, debido a que se logran obtener primas y acumular intereses sobre estas
+y los montos anteriormente recibos. Al tenerse una mayor cantidad en reservas que decrementos
+durante el periodo de diferimiento es posible hacer la acumulación de primas sobre estos.
+Posteriormente llegado el periodo 35 las reservas comienzan a decrecer, esto se debe a 
+que ya no se reciben las primas y además hay que hacer frente al pago de la anualidad vitalicia
+los montos de reclamo no superan inicialmente los montos en reserva por lo que se pueden seguir
+acumulando intereses sobre esta, pero finalmente tanto los reclamos como las reservas son iguales
+por lo que la reserva se hace 0, ya no se siguen acumulando intereses y todos los individuos
+del grupo bajo el modelo han muerto.
