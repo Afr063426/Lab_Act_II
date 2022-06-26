@@ -1,0 +1,194 @@
+---
+title: "Laboratorio 2"
+author: "Joshua Cervantes"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "joshua.cervantes@ucr.ac.cr"
+linkedin: ""
+twitter: ""
+github: "afr063426"
+
+home: ""
+# !!! You need to provide a logo image here !!! Or just delete the field for no logo
+logo: ""
+output:
+  prettydoc::html_pretty:
+      theme: cayman
+      highlight: github
+      math: katex
+      toc: true
+      toc_depth: 2
+      code_menu: true
+
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, width = 60, fig.align = "center")
+## Paquetes necesarios
+library(knitr)
+library(devtools)
+library(prettydoc)
+library(rmarkdown)
+library(tidyverse)
+library(lifecontingencies)
+library(kableExtra)
+library(jcolors)
+options(scipen = 999, digits = 5, OutDec = ",")
+knit_hooks$set(inline = function(x) {
+    prettyNum(x, big.mark = ".")
+})
+datos <- read.csv("BaseMD2.csv", sep = ";")
+tabla_md <- new("mdt", name = "Tabla", table = datos[, 2:3])
+```
+
+```{r}
+# La persona ahora tiene edad 25, la edad de retiro baja de 60 a 65 y la tasa de interes es 4.3%
+#
+```
+# Ejercicio
+
+Una persona de 25 años de edad posee un plan de pensión que consiste en una anualidad vitalicia
+pagada al inicio de cada año a partir de la edad 60. Durante el periodo diferido de 35 años
+se paga un beneficio de fallecimiento (decremento $J=1$) o por retiro (decremento $J=2$) pagado
+al final del año de ocurrido el suceso y que consiste en el valor acumulado de la primas pagadas 
+a ese momento utlizando la misma tasa de interés que para el cálculo de la prima. Las primas 
+se pagan al inicio de cada año mientras la persona se mantenga activa en el estado/modelo y 
+hasta edad 59 (inclusive). Para este ejercicio se asume que no existe la contingencia de retiro
+una vez se inicie con el pago de la anualidad vitalicia, así mismo, considere una tasa de 
+interés de 4.3% y como insumo para la tabla de múltiples decrementos utilice el archivo 
+suministrado.
+
+a. Determine las expresiones algebraicas para calcular la prima de con base en el principio
+de equivalencia, la pérdida y la reserva a un determinado tiempo.
+\[
+   L = 
+   \begin{cases}
+        \pi v^{K+1}\ddot{s}_{\overline{K+1|}}-\pi \ddot{a}_{\overline{K+1|}} \qquad K<35, J=1,2\\
+        v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi \ddot{a}_{\overline{35}}\qquad K\geq 35, J=1
+    \end{cases}
+\]
+Si se aplica el principio de equivalencia se obtiene
+\[
+\mathbb{E}[L]=\sum_{K=35}^{\infty}\left(v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi
+a_{\overline{35|}}\right)_{K}p_{25}^{\tau}q_{25+K}=0
+\]
+Entonces
+\[
+\pi =\frac{v^{n}\ddot{a}_{60}}{\ddot{a}_{\overline{35|}}}
+\]
+
+b. Calcule la prima de riesgo para el ejercicio si se asume que la anualidad vitalica paga 
+100.000 al inicio de cada año si se aplica. 
+```{r}
+# El beneficio
+benefit <- 100000
+interest <- 0.043
+v <- 1 / (1 + interest)
+
+# Analidad de pension
+a_60_md <- v^(35) * sum(v^(0:15) * pxt(tabla_md, x = 60, 0:15))
+
+# Anualidad primas
+a_35 <- (1 - v^(35)) / (1 - v)
+# Prima por riesgo
+(risk_p <- benefit * a_60_md / a_35)
+```
+c. Estime el valor de la pérdida si la persona falleciera en cada hacia al futuro, grafique
+e interprete. 
+```{r}
+L <- benefit * v^35 * (1 - v^(1:15)) / (1 - v) - risk_p * (1 - v^(35)) / (1 - v)
+(L <- c(rep(0, 35), L))
+```
+
+```{r}
+# Graficamos
+L <- data.frame(Tiempo = 0:49, L = L)
+L %>% ggplot(aes(x = Tiempo, y = L)) +
+    geom_line() +
+    theme_minimal() +
+    scale_color_jcolors(palette = "pal2")
+```
+
+d. Conforme la tabla de flujos para el ejercicio asumiendo que $l_{25}$ individuos toman
+el indiviuos toman el mismo plan de pensiones.
+```{r}
+# Personas que permanecen
+filas <- 26:nrow(datos)
+lx <- datos$lx[filas]
+
+# Decrementos caso 1
+d_1 <- datos$Fallecimiento[filas]
+
+# Decrementos caso 2
+d_2 <- datos$Retiro[filas]
+
+
+
+# Primas inicio
+# Fondos inicio
+zeros <- rep(0, length(lx) - 1)
+primas <- c(risk_p * lx[1:35], rep(0, 15))
+
+# Intereses
+intereses <- c(primas[1] * interest, zeros)
+
+# Reclamos decrementos
+reclamos <- 1:35
+sn <- risk_p * ((1 + interest)^(reclamos) - 1) / (1 - v)
+claim_1 <- c(d_1[1:35] * sn, rep(0, 15))
+claim_2 <- c(d_2[1:35] * sn, rep(0, 15))
+
+# Monto pension
+pension <- c(rep(0, 35), benefit * lx[36:50])
+
+# Fondos fin
+fondos_fin <- c(primas[1] + intereses[1] - claim_1[1] - claim_2[1], zeros)
+
+# Sobrevivientes fin
+lx_fin <- c(lx[-1], 0)
+
+# Reserva
+reserve <- c(fondos_fin[1] / lx_fin[1], zeros)
+
+
+
+# Flujos
+flujos <- data.frame(
+    "Edad" = 25:74, "Sobrevivientes inicio" = lx, "Prima" = primas,
+    "Intereses" = intereses, "Reclamos fallecimiento" = claim_1,
+    "Reclamos retiro" = claim_2, "Monto pension" = pension,
+    "Fondos esperados fin" = fondos_fin, "Sobrevivientes final" = lx_fin,
+    "Reserva observada" = reserve
+)
+monto_inicio <- 0
+for (i in 2:nrow(flujos)) {
+    monto_inicio[i] <- (flujos$Prima[i] + flujos$Fondos.esperados.fin[i - 1] - flujos$Monto.pension[i])
+    flujos$Intereses[i] <- interest * monto_inicio[i]
+    flujos$Fondos.esperados.fin[i] <- monto_inicio[i] + flujos$Intereses[i] - flujos$Reclamos.retiro[i] - flujos$Reclamos.fallecimiento[i]
+    flujos$Reserva.observada[i] <- flujos$Fondos.esperados.fin[i] / flujos$Sobrevivientes.final[i]
+    if (flujos$Reserva.observada[i] == Inf) {
+        flujos$Reserva.observada[i] <- 0
+    }
+}
+
+# Reserva teorica
+
+kable(flujos,
+    caption = "Flujos", format.args = list(decimal.mark = ",", big.mark = ".")
+) %>%
+    kable_styling(full_width = F) %>%
+    kable_material() %>%
+    row_spec(0, bold = T, color = "white", background = "#159957") %>%
+    scroll_box(height = "500px", width = "100%")
+```
+e. Se grafica e interpreta el vector de reservas. 
+
+```{r}
+# Edad
+Edad <- 25:74
+Reserva <- flujos$Reserva.observada
+Reserva <- data.frame("Edad" = Edad, "Reserva" = Reserva)
+Reserva %>% ggplot(aes(x = Edad, y = Edad)) +
+    geom_line() +
+    theme_minimal()
+```

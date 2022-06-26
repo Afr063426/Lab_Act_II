@@ -25,6 +25,8 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, width = 60, fig.align = "center")
 ## Paquetes necesarios
+install.packages("lifecontingencies_1.3.8.tar.gz", repos = NULL, type = "source")
+
 library(knitr)
 library(devtools)
 library(prettydoc)
@@ -351,10 +353,10 @@ p_30_40 <- A_30_40 / axyzn(life_table_b, x = c(30, 40), i = interest, status = "
 ```
 ```{r}
 # Prima seguro individual 30 años
-p30
+# p30
 
 # Prima seguro individual 40 años
-p40
+# p40
 
 # Prima seguro vida conjunta
 p30_40
@@ -380,10 +382,10 @@ p_30_40_s <- vT_30_40_s / a_30_40_v
 ```{r}
 
 # Prima seguro individual 30 años
-mean(p30_s)
+# mean(p30_s)
 
 # Prima seguro individual 40 años
-mean(p40_s)
+# mean(p40_s)
 
 # Prima seguro vida conjunta
 mean(p30_40_s)
@@ -416,12 +418,12 @@ distribution_pxy %>% ggplot(aes(x = Valor_de_las_simulaciones, fill = Prima)) +
 # Tomando solo el cuantil 45 de la distribucion de beneficios futuros se cumple
 
 # Vidas independientes
-quan <- quantile(vT30_s, 0.45)
-p30 <- vT30_s[vT30_s <= quan]
-p30 <- mean(p30) / mean(a30_v)
-quan <- quantile(vT40_s, 0.45)
-p40 <- vT40_s[vT40_s <= quan]
-p40 <- mean(p40) / mean(a40_v)
+# quan <- quantile(vT30_s, 0.45)
+# p30 <- vT30_s[vT30_s <= quan]
+# p30 <- mean(p30) / mean(a30_v)
+# quan <- quantile(vT40_s, 0.45)
+# p40 <- vT40_s[vT40_s <= quan]
+# p40 <- mean(p40) / mean(a40_v)
 
 # Vida conjunta
 quan <- quantile(vT30_40_s, 0.45)
@@ -438,10 +440,10 @@ p_30_40 <- mean(p_30_40) / a_30_40_s
 
 ```{r}
 # Vida de edad 30
-p30
+# p30
 
 # Vida de edad 40
-p40
+# p40
 
 # Vida conjunta
 p30_40
@@ -461,12 +463,12 @@ p_30_40
 ## Para este ejercicio se tomará en cuenta las realizaciones de las anualidades
 # Vidas independientes
 
-probability_30 <- a30_v[a30_v <= mean(a30_v) / 2]
-probability_30 <- length(probability_30) / length(a30_v)
+# probability_30 <- a30_v[a30_v <= mean(a30_v) / 2]
+# probability_30 <- length(probability_30) / length(a30_v)
 
 
-probability_40 <- a40_v[a40_v <= mean(a40_v) / 2]
-probability_40 <- length(probability_40) / length(a40_v)
+# probability_40 <- a40_v[a40_v <= mean(a40_v) / 2]
+# probability_40 <- length(probability_40) / length(a40_v)
 
 # Vida conjunta
 probability30_40 <- a30_40_v[a30_40_v <= mean(a30_40_v) / 2]
@@ -480,11 +482,11 @@ probability_30_40 <- length(probability_30_40) / length(a_30_40_v)
 
 ```{r}
 # Probabilidad vida individual 30 años
-probability_30
+# probability_30
 
 
 # Probabilidad vida individual 40 años
-probability_40
+# probability_40
 
 
 # Probabilidad vida conjunta
@@ -506,21 +508,21 @@ probability_30_40
 
 ## Para este ejercicio se tomará las distribución de las realizaciones de las primas y se le estimarán los intervalos de confianza tomando los cuantiles
 quantiles <- c(0.15, 0.10, 0.05)
-table <- data.frame("Confianza" = character(), p30 = numeric(), p40 = numeric(), p30_40 = numeric(), p_30_40 = numeric())
+table <- data.frame("Confianza" = character(), p30_40 = numeric(), p_30_40 = numeric())
 
 for (i in quantiles) {
 
     # Vidas independientes
-    quan1 <- quantile(p30_s, i / 2)
-    quan2 <- quantile(p30_s, 1 - i / 2)
-    p30 <- p30_s[p30_s >= quan1 & p30_s <= quan2]
+    # quan1 <- quantile(p30_s, i / 2)
+    # quan2 <- quantile(p30_s, 1 - i / 2)
+    # p30 <- p30_s[p30_s >= quan1 & p30_s <= quan2]
     # print(paste(length(p30), length(p30_s), sep = " "))
-    p30 <- mean(p30)
-    quan1 <- quantile(p40_s, i / 2)
-    quan2 <- quantile(p40_s, 1 - i / 2)
-    p40 <- p40_s[p40_s >= quan1 & p40_s <= quan2]
+    # p30 <- mean(p30)
+    # quan1 <- quantile(p40_s, i / 2)
+    # quan2 <- quantile(p40_s, 1 - i / 2)
+    # p40 <- p40_s[p40_s >= quan1 & p40_s <= quan2]
     # print(paste(length(p40), length(p40_s), sep = " "))
-    p40 <- mean(p40)
+    # p40 <- mean(p40)
     # Vida conjunta
     quan1 <- quantile(p30_40_s, i / 2)
     quan2 <- quantile(p30_40_s, 1 - i / 2)
@@ -537,14 +539,12 @@ for (i in quantiles) {
     # print(paste(length(p_30_40), length(p_30_40_s), sep = " "))
     p_30_40 <- mean(p_30_40)
 
-    aux <- data.frame("Confianza" = paste((1 - i) * 100, "%"), p30 = p30, p40 = p40, p30_40 = p30_40, p_30_40 = p_30_40)
+    aux <- data.frame("Confianza" = paste((1 - i) * 100, "%"), p30_40 = p30_40, p_30_40 = p_30_40)
     table <- rbind(table, aux)
 }
 kable(table,
     col.names = c(
         "Nivel de confianza",
-        "Prima $A_{30}$",
-        "Prima $A_{40}$",
         "Prima $A_{30:40}$",
         "Prima $A_{\\overline{30:40}}$"
     ),
@@ -569,6 +569,8 @@ T30_40 <- mapply(FUN = min, T30, T40)
 
 # Ultimo sobreviviente
 T_30_40 <- mapply(FUN = max, T30, T40)
+
+
 
 # Seguro vida conjunta
 A30_40 <- v^T30_40
