@@ -1,5 +1,5 @@
 ---
-title: "Parcial 1"
+title: "Parcial 2"
 author: "Joshua Cervantes"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "joshua.cervantes@ucr.ac.cr"
