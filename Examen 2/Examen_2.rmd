@@ -1,0 +1,427 @@
+---
+title: "Parcial 1"
+author: "Joshua Cervantes"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "joshua.cervantes@ucr.ac.cr"
+linkedin: ""
+twitter: ""
+github: "afr063426"
+
+home: ""
+# !!! You need to provide a logo image here !!! Or just delete the field for no logo
+logo: ""
+output:
+  prettydoc::html_pretty:
+      theme: cayman
+      highlight: github
+      math: katex
+      toc: true
+      toc_depth: 2
+      code_menu: true
+
+---
+<!--
+    Instruciones
+    
+
+
+-->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, width = 60, fig.align = "center")
+## Paquetes necesarios
+
+library(knitr)
+library(devtools)
+library(prettydoc)
+library(rmarkdown)
+library(tidyverse)
+library(lifecontingencies)
+library(kableExtra)
+library(jcolors)
+library(future.apply)
+plan(multicore)
+options(scipen = 999, digits = 5, OutDec = ",")
+knit_hooks$set(inline = function(x) {
+    prettyNum(x, big.mark = ".")
+})
+datos <- read.csv("BaseMD2.csv", sep = ";")
+tabla_md <- new("mdt", name = "Tabla", table = datos[, 2:3])
+datos_1 <- read.csv("BaseMD.csv", sep = ";")
+tabla_md_1 <- new("mdt", name = "Tabla", table = datos_1)
+```
+
+# Ejercicio 1
+Conforme y muestre el código de una función que determine el valor presente actuarial para un seguro vitalicio, temporal, dotal y dotal puro, 
+en donde el pago del beneficio de "salida/fallo" por un determinado decremento se realiza al final del año de ocurrencia y el beneficio de
+sobrevivencia al momento de transcurrido el período temporal y habiendo sobrevivido a todos los decrementos. Se debe crear un única 
+función que reciba los parámetros que se indican en el siguiente seudocódigo: 
+
+*fseg<-function(TablaMD,decremento,tipo_de_seguro,edad,tasa_interes,enfoque,m)*
+
+Con base en la función anterior calcule, muestre y conforme una tabla con los 32 valores que resultan de combinar los 4 decrementos (tipos de muerte),
+los 4 tipos de seguro y los dos enfoques. Para esto utilice la tabla de "TablaMD.xlsx" cargada en el Virtual para el laboratorio 7, una tasa de 
+interpete de 4.3% y una edad de 27 años. Lo enfoques son el determinístico (sin usar funciones del paquete respectivo) y estocástico con al menos 5.000
+simulaciones. 
+
+
+```{r}
+# Se programan dos funciones distintas de acuerdo al tipo de enfoque y se unan en una sola función
+# Lo seguros que recibirá la función serán vitalicio, temporarl, dotal y dotal_puro
+Axn <- function(TablaMD, decremento, tipo_seguro, edad, tasa_interes, N = 0, w) {
+    v <- 1 / (1 + tasa_interes)
+    if (tipo_seguro != "dotal_puro") {
+        n <- (tipo_seguro == "vitalicio") * (w - edad) +
+            (tipo_seguro == "temporal" | tipo_seguro == "dotal") * N
+        n <- 0:(n - 1)
+        px <- pxt(TablaMD, x = edad, t = n)
+        qx <- qxt(TablaMD, x = edad + n, t = 1, decrement = decremento)
+        suma <- sum(v^(n + 1) * px * qx)
+        if (tipo_seguro == "dotal") {
+            dotal <- v^N * pxt(TablaMD, x = edad, t = N)
+            suma <- dotal + suma
+        }
+    } else {
+        suma <- v^N * pxt(TablaMD, x = edad, t = N)
+    }
+    return(suma)
+}
+```
+
+
+```{r}
+# Enfoque estocastico
+# Primero se construye una funcion que pase el numero de decremento
+# al tipo de muerte
+tipo_decremento <- function(decremento) {
+    decremento <- switch(decremento,
+        "MuertesDiab",
+        "MuertesCanc",
+        "MuertesCard",
+        "MuertesOtras",
+    )
+    return(decremento)
+}
+Axn_s <- function(TablaMD, decremento, tipo_seguro, edad, tasa_interes, N = 0, simulaciones, w) {
+    simulaciones <- simulaciones
+    v <- 1 / (1 + tasa_interes)
+    if (tipo_seguro != "dotal_puro") {
+        n <- (tipo_seguro == "vitalicio") * (w - edad) +
+            (tipo_seguro == "temporal" | tipo_seguro == "dotal") * N
+        tabla_simulacion <- rmdt(
+            n = simulaciones, TablaMD, x = edad, t = n, t0 = "alive",
+            include.t0 = FALSE
+        )
+        fn2 <- function(n) {
+            suma <- sum(tipo_decremento(decremento) == tabla_simulacion[, n])
+            if (suma > 0) {
+                suma <- v^match(tipo_decremento(decremento), tabla_simulacion[, n])
+            }
+            return(suma)
+        }
+        n <- 1:simulaciones
+        suma <- sum(future_sapply(FUN = fn2, X = n))
+        if (tipo_seguro == "dotal") {
+            dotal <- v^N * sum(tabla_simulacion[N, ] == "alive")
+            suma <- (dotal + suma)
+        }
+    } else {
+        tabla_simulacion <- rmdt(
+            n = simulaciones, TablaMD, x = edad, t = N, t0 = "alive",
+            include.t0 = FALSE
+        )
+        suma <- v^N * sum(tabla_simulacion[N, ] == "alive")
+    }
+    return(suma / simulaciones)
+}
+```
+
+```{r}
+# Funcion final
+# Enfoques deben ingresarse como estocastico o deterministico
+# por defecto tiene deterministico
+fseg <- function(TablaMD, decremento, tipo_de_seguro, edad, tasa_interes, enfoque = "deterministico", N = 0) {
+    if (N == 0 & tipo_de_seguro != "vitalicio") {
+        print("Ingresar un valor para N")
+    } else {
+        w <- getOmega(TablaMD)
+        if (enfoque == "deterministico") {
+            suma <- Axn(TablaMD, decremento, tipo_de_seguro, edad, tasa_interes, N = N, w)
+        } else if (enfoque == "estocastico") {
+            suma <- Axn_s(TablaMD, decremento,
+                tipo_de_seguro, edad, tasa_interes,
+                N = N,
+                5000, w
+            )
+        }
+        return(suma)
+    }
+}
+```
+```{r}
+# Creacio de la tabla
+edad <- 27
+tipo_seguro <- c("vitalicio", "temporal", "dotal", "dotal_puro")
+tasa_interes <- 0.043
+N <- 20
+decremento <- as.numeric(1:4)
+enfoque <- c("deterministico", "estocastico")
+tabla <- data.frame(
+    "Decremento" = numeric(), "Vitalicio" = numeric(), "Temporal" = numeric(), "Dotal" = numeric(),
+    "Dotal_Puro" = numeric()
+)
+for (j in enfoque) {
+    for (k in decremento) {
+        vitalicio <- fseg(TablaMD = tabla_md_1, decremento = k, tipo_de_seguro = "vitalicio", edad = 27, tasa_interes = tasa_interes, enfoque = j, N = 20)
+        temporal <- fseg(TablaMD = tabla_md_1, decremento = k, tipo_de_seguro = "temporal", edad = edad, tasa_interes = tasa_interes, enfoque = j, N = 20)
+        dotal <- fseg(TablaMD = tabla_md_1, decremento = k, tipo_de_seguro = "dotal", edad = edad, tasa_interes = tasa_interes, enfoque = j, N = 20)
+        dotal_puro <- fseg(TablaMD = tabla_md_1, decremento = k, tipo_de_seguro = "dotal_puro", edad = edad, tasa_interes = tasa_interes, enfoque = j, N = 20)
+        aux <- data.frame(
+            "Decremento" = k, "Vitalicio" = vitalicio, "Temporal" = temporal, "Dotal" = dotal,
+            "Dotal_Puro" = dotal_puro
+        )
+        tabla <- rbind(tabla, aux)
+    }
+}
+enfoque <- c(rep("Determistico", 4), rep("Estocastico", 4))
+tabla <- cbind("Enfoque" = enfoque, tabla)
+nombres <- c("Enfoque", "Decremento", "Vitalicio", "Temporal", "Dotal", "Dotal puro")
+kable(tabla,
+    caption = "Flujos", format.args = list(decimal.mark = ",", big.mark = "."),
+    col.names = nombres
+) %>%
+    kable_styling(full_width = F) %>%
+    kable_material() %>%
+    row_spec(0, bold = T, color = "white", background = "#159957") %>%
+    scroll_box(height = "500px", width = "100%")
+```
+
+
+# Ejercicio 2
+
+Una persona de 25 años de edad posee un plan de pensión que consiste en una anualidad vitalicia
+pagada al inicio de cada año a partir de la edad 65. Durante el periodo diferido de 40 años
+se paga un beneficio de fallecimiento (decremento $J=1$) o por retiro (decremento $J=2$) pagado
+al final del año de ocurrido el suceso y que consiste en el valor acumulado de la primas pagadas 
+a ese momento utlizando la misma tasa de interés que para el cálculo de la prima. Las primas 
+se pagan al inicio de cada año mientras la persona se mantenga activa en el estado/modelo y 
+hasta edad 64 (inclusive). Para este ejercicio se asume que no existe la contingencia de retiro
+una vez se inicie con el pago de la anualidad vitalicia, así mismo, considere una tasa de 
+interés de 4.8% y como insumo para la tabla de múltiples decrementos utilice el archivo 
+suministrado.
+
+a. Determine las expresiones algebraicas para calcular la prima de con base en el principio
+de equivalencia, la pérdida y la reserva a un determinado tiempo.
+\[
+   L = 
+   \begin{cases}
+        \pi v^{K+1}\ddot{s}_{\overline{K+1|}}-\pi \ddot{a}_{\overline{K+1|}} \qquad K<40, J=1,2\\
+        v^{40}\ddot{a}_{\overline{(K+1)-40|}}-\pi \ddot{a}_{\overline{40|}}\qquad K\geq 40, J=1
+    \end{cases}
+\]
+
+Si se aplica el principio de equivalencia se obtiene
+
+\[
+\mathbb{E}[L]=\sum_{K=40}^{\infty}\left(v^{40}\ddot{a}_{\overline{(K+1)-40|}}-\pi
+\ddot{a}_{\overline{40|}}\right)\,_{K}p_{25}^{(\tau)}q_{25+K}^{(1)}
+\]
+
+Que se cumple si
+
+\[
+v^{40}\ddot{a}_{65}\, _{40}p_{25}^{(\tau)}-\pi\ddot{a}_{\overline{40|}}\, _{40}p_{25}
+\]
+
+Entonces
+\[
+\pi =\frac{v^{35}\ddot{a}_{65}}{\ddot{a}_{\overline{40|}}}
+\]
+Esto hay que multiplicarlo por el beneficio.
+
+b. Calcule la prima de riesgo para el ejercicio si se asume que la anualidad vitalicia paga 
+80.000 al inicio de cada año si se aplica. 
+```{r}
+# El beneficio
+benefit <- 80000
+interest <- 0.048
+v <- 1 / (1 + interest)
+
+# Analidad de pension
+a_65_md <- v^(40) * sum(v^(0:10) * pxt(tabla_md, x = 65, 0:10))
+
+# Anualidad primas
+a_40 <- (1 - v^(40)) / (1 - v)
+# Prima por riesgo
+(risk_p <- benefit * a_65_md / a_40)
+```
+c. Estime el valor de la pérdida si la persona falleciera en cada hacia al futuro, grafique
+e interprete. 
+```{r}
+L <- benefit * v^40 * (1 - v^(1:10)) / (1 - v) - risk_p * (1 - v^(40)) / (1 - v)
+(L <- c(rep(0, 40), L))
+```
+
+
+<caption><center><strong>Figura 1: Vector de pérdidas</strong></center></caption>
+```{r}
+# Graficamos
+L <- data.frame(Tiempo = 0:49, L = L)
+L %>% ggplot(aes(x = Tiempo, y = L)) +
+    geom_line() +
+    theme_minimal() +
+    scale_color_jcolors(palette = "pal2")
+```
+
+**Interpretación**
+
+En este caso se puede ver que en el periodo de 0 a 35 en caso de que suceda el decremento 
+la pérdida es 0, ya que la persona habrá pagado el equivalente en primas del beneficio y 
+acumulado hasta ese periodo mediante la tasa de interés. Posteriormente las pérdidas son negativas
+esto se debe a que han acumulado las primas de los 35 perioodos anteriores. Sin embargo, las 
+pérdidas vuelven a aumentar ya que no se obtienen más primas y se debe hacer frente a una anualidad
+que conforme más viva la persona quedan menos fondos de las primas y los intereses ganados. 
+
+d. Conforme la tabla de flujos para el ejercicio asumiendo que $l_{25}$ individuos toman
+el indiviuos toman el mismo plan de pensiones.
+
+Antes de empezar cabe destacar como es posible determinar la reserva teórica si $t\leq 40$ y entero entonces
+se tiene
+\[
+\sum_{K=0}^{40-t}(\pi v^{40}\ddot{a}_{\overline{t+K|}}-\pi \ddot{a}_{\overline{K|}})\,_{K}p_{25+t}^{(\tau)}q_{25+t+K}^{(\tau)}
++\sum_{K=40-t}^{\infty}(v^{35-t}\ddot{a}_{\overline{K-(35-t)|}}-\pi\ddot{a}_{\overline{35-t|}})\,_{K}p_{25+t}^{(\tau)}q_{25+t+K}^{(1)}
+\]
+\[
+=\pi v^{t}\ddot{a}_{\overline{t|}}(1-\,_{35-t}p^{(\tau)}_{25+t})+ \,_{40-t|}\ddot{a}_{25+t}
+-\pi \ddot{a}_{40-t}\,_{40-t}p_{25+t}^{(\tau)}
+\]
+\[
+=\pi \ddot{s}_{t}
+\]
+En el caso de $t>40$ entonces se cumple que la reserva teórica es
+\[
+    \ddot{a}_{65+t}
+\]
+Esto hay que multiplicarlo por el beneficio.
+```{r}
+# Personas que permanecen
+filas <- 26:nrow(datos)
+lx <- datos$lx[filas]
+
+# Decrementos caso 1
+d_1 <- datos$Fallecimiento[filas]
+
+# Decrementos caso 2
+d_2 <- datos$Retiro[filas]
+
+
+
+# Primas inicio
+# Fondos inicio
+zeros <- rep(0, length(lx) - 1)
+primas <- c(risk_p * lx[1:40], rep(0, 10))
+
+# Intereses
+intereses <- c(primas[1] * interest, zeros)
+
+# Reclamos decrementos
+reclamos <- 1:40
+sn <- risk_p * ((1 + interest)^(reclamos) - 1) / (1 - v)
+claim_1 <- c(d_1[1:40] * sn, rep(0, 10))
+claim_2 <- c(d_2[1:40] * sn, rep(0, 10))
+
+# Monto pension
+pension <- c(rep(0, 40), benefit * lx[41:50])
+
+# Fondos fin
+fondos_fin <- c(primas[1] + intereses[1] - claim_1[1] - claim_2[1], zeros)
+
+# Sobrevivientes fin
+lx_fin <- c(lx[-1], 0)
+
+# Reserva
+reserve <- c(fondos_fin[1] / lx_fin[1], zeros)
+
+
+# Monto inicio
+monto_inicio <- c(primas[1], zeros)
+
+
+# Flujos
+flujos <- data.frame(
+    "Edad" = 25:74, "Sobrevivientes inicio" = lx, "Prima" = primas, "Monto inicio" = monto_inicio,
+    "Intereses" = intereses, "Reclamos fallecimiento" = claim_1,
+    "Reclamos retiro" = claim_2, "Monto pension" = pension,
+    "Fondos esperados fin" = fondos_fin, "Sobrevivientes final" = lx_fin,
+    "Reserva observada" = reserve
+)
+for (i in 2:nrow(flujos)) {
+    monto_inicio[i] <- (flujos$Prima[i] + flujos$Fondos.esperados.fin[i - 1] - flujos$Monto.pension[i])
+    flujos$Intereses[i] <- interest * monto_inicio[i]
+    flujos$Monto.inicio[i] <- monto_inicio[i]
+    flujos$Fondos.esperados.fin[i] <- monto_inicio[i] + flujos$Intereses[i] - flujos$Reclamos.retiro[i] - flujos$Reclamos.fallecimiento[i]
+    flujos$Reserva.observada[i] <- flujos$Fondos.esperados.fin[i] / flujos$Sobrevivientes.final[i]
+    if (flujos$Reserva.observada[i] == Inf) {
+        flujos$Reserva.observada[i] <- 0
+    }
+}
+
+
+# Reserva teorica
+
+reserve <- function(x, t) {
+    if (t <= 40) {
+        return(risk_p * ((1 + interest)^t - 1) / (1 - v))
+    } else {
+        k <- 0:10
+        pension <- benefit * (sum(v^k * pxt(tabla_md, x = x + t, t = k)))
+        return(pension)
+    }
+}
+t <- 1:50
+x <- 25
+reserva_teorica <- unlist(lapply(FUN = reserve, X = t, x = x))
+
+flujos$Reserva.teorica <- reserva_teorica
+
+nombres <- c(
+    "Edad", "Sobrevivientes inicio", "Prima",
+    "Monto incio",
+    "Intereses", "Reclamos fallecimiento",
+    "Reclamos retiro", "Monto pension",
+    "Fondos esperados fin", "Sobrevivientes final",
+    "Reserva observada", "Reserva teórica"
+)
+kable(flujos,
+    caption = "Flujos", format.args = list(decimal.mark = ",", big.mark = "."),
+    col.names = nombres
+) %>%
+    kable_styling(full_width = F) %>%
+    kable_material() %>%
+    row_spec(0, bold = T, color = "white", background = "#159957") %>%
+    scroll_box(height = "500px", width = "100%")
+```
+e. Se grafica e interpreta el vector de reservas. 
+<caption><center><strong>Figura 1: Reserva</strong></center></caption>
+```{r}
+# Edad
+Edad <- 25:74
+Reserva <- flujos$Reserva.teorica
+Reserva <- data.frame("Edad" = Edad, "Reserva" = Reserva)
+Reserva %>% ggplot(aes(x = Edad, y = Reserva)) +
+    geom_line() +
+    theme_minimal()
+```
+
+**Interpretación**
+
+Se puede observar que conforme avanza el tiempo se aumentan las reservas por lo menos en el 
+periodo de diferimiento, debido a que se logran obtener primas y acumular intereses sobre estas
+y los montos anteriormente recibidos. Al tenerse una mayor cantidad en reservas que decrementos
+durante el periodo de diferimiento es posible hacer la acumulación de primas sobre estos.
+Posteriormente llegado el periodo 40 las reservas comienzan a decrecer, esto se debe a 
+que ya no se reciben las primas y además hay que hacer frente al pago de la anualidad vitalicia
+los montos de reclamo no superan inicialmente los montos en reserva por lo que se pueden seguir
+acumulando intereses sobre esta, pero finalmente tanto los reclamos como las reservas son iguales
+por lo que la reserva se hace 0, ya no se siguen acumulando intereses y todos los individuos
+del grupo bajo el modelo han muerto.

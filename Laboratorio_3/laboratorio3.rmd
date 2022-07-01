@@ -68,17 +68,27 @@ de equivalencia, la pérdida y la reserva a un determinado tiempo.
         v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi \ddot{a}_{\overline{35|}}\qquad K\geq 35, J=1
     \end{cases}
 \]
+
 Si se aplica el principio de equivalencia se obtiene
+
 \[
 \mathbb{E}[L]=\sum_{K=35}^{\infty}\left(v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi
-\ddot{a}_{\overline{35|}}\right)_{K}p_{25}^{\tau}q_{25+K}=0
-\]
-Entonces
-\[
-\pi =\frac{v^{n}\ddot{a}_{60}}{\ddot{a}_{\overline{35|}}}
+\ddot{a}_{\overline{35|}}\right)\,_{K}p_{25}^{(\tau)}q_{25+K}^{(1)}
 \]
 
-b. Calcule la prima de riesgo para el ejercicio si se asume que la anualidad vitalica paga 
+Que se cumple si
+
+\[
+v^{35}\ddot{a}_{60}\, _{35}p_{25}^{(\tau)}-\pi\ddot{a}_{\overline{35|}}\, _{35}p_{25}
+\]
+
+Entonces
+\[
+\pi =\frac{v^{35}\ddot{a}_{60}}{\ddot{a}_{\overline{35|}}}
+\]
+Esto hay que multiplicarlo por el beneficio.
+
+b. Calcule la prima de riesgo para el ejercicio si se asume que la anualidad vitalicia paga 
 100.000 al inicio de cada año si se aplica. 
 ```{r}
 # El beneficio
@@ -101,6 +111,8 @@ L <- benefit * v^35 * (1 - v^(1:15)) / (1 - v) - risk_p * (1 - v^(35)) / (1 - v)
 (L <- c(rep(0, 35), L))
 ```
 
+
+<caption><center><strong>Figura 1: Vector de pérdidas</strong></center></caption>
 ```{r}
 # Graficamos
 L <- data.frame(Tiempo = 0:49, L = L)
@@ -114,13 +126,32 @@ L %>% ggplot(aes(x = Tiempo, y = L)) +
 
 En este caso se puede ver que en el periodo de 0 a 35 en caso de que suceda el decremento 
 la pérdida es 0, ya que la persona habrá pagado el equivalente en primas del beneficio y 
-acumulado hasta ese periodo mediante la tasa de interés. Posteriormente las péridas son negativas
+acumulado hasta ese periodo mediante la tasa de interés. Posteriormente las pérdidas son negativas
 esto se debe a que han acumulado las primas de los 35 perioodos anteriores. Sin embargo, las 
 pérdidas vuelven a aumentar ya que no se obtienen más primas y se debe hacer frente a una anualidad
-que conforme más viva la persona se vuelve más costosa. 
+que conforme más viva la persona quedan menos fondos de las primas y los intereses ganados. 
 
 d. Conforme la tabla de flujos para el ejercicio asumiendo que $l_{25}$ individuos toman
 el indiviuos toman el mismo plan de pensiones.
+
+Antes de empezar cabe destacar como es posible determinar la reserva teórica si $t\leq 35$ y entero entonces
+se tiene
+\[
+\sum_{K=0}^{35-t}(\pi v^{35}\ddot{a}_{\overline{t+K|}}-\pi \ddot{a}_{\overline{K|}})\,_{K}p_{25+t}^{(\tau)}q_{25+t+k}^{(\tau)}
++\sum_{K=35-t}^{\infty}(v^{35-t}\ddot{a}_{\overline{K-(35-t)|}}-\pi\ddot{a}_{\overline{35-t|}})\,_{K}p_{25+t}^{(\tau)}q_{25+t+K}^{(1)}
+\]
+\[
+=\pi v^{t}\ddot{a}_{\overline{t|}}(1-\,_{35-t}p^{(\tau)}_{25+t})+ \,_{35-t|}\ddot{a}_{25+t}
+-\pi \ddot{a}_{35-t}\,_{35-t}p_{25+t}^{(\tau)}
+\]
+\[
+=\pi \ddot{s}_{t}
+\]
+En el caso de $t>35$ entonces se cumple que la reserva teórica es
+\[
+    \ddot{a}_{60+t}
+\]
+Esto hay que multiplicarlo por el beneficio.
 ```{r}
 # Personas que permanecen
 filas <- 26:nrow(datos)
@@ -161,19 +192,22 @@ lx_fin <- c(lx[-1], 0)
 reserve <- c(fondos_fin[1] / lx_fin[1], zeros)
 
 
+# Monto inicio
+monto_inicio <- c(primas[1], zeros)
+
 
 # Flujos
 flujos <- data.frame(
-    "Edad" = 25:74, "Sobrevivientes inicio" = lx, "Prima" = primas,
+    "Edad" = 25:74, "Sobrevivientes inicio" = lx, "Prima" = primas, "Monto inicio" = monto_inicio,
     "Intereses" = intereses, "Reclamos fallecimiento" = claim_1,
     "Reclamos retiro" = claim_2, "Monto pension" = pension,
     "Fondos esperados fin" = fondos_fin, "Sobrevivientes final" = lx_fin,
     "Reserva observada" = reserve
 )
-monto_inicio <- 0
 for (i in 2:nrow(flujos)) {
     monto_inicio[i] <- (flujos$Prima[i] + flujos$Fondos.esperados.fin[i - 1] - flujos$Monto.pension[i])
     flujos$Intereses[i] <- interest * monto_inicio[i]
+    flujos$Monto.inicio[i] <- monto_inicio[i]
     flujos$Fondos.esperados.fin[i] <- monto_inicio[i] + flujos$Intereses[i] - flujos$Reclamos.retiro[i] - flujos$Reclamos.fallecimiento[i]
     flujos$Reserva.observada[i] <- flujos$Fondos.esperados.fin[i] / flujos$Sobrevivientes.final[i]
     if (flujos$Reserva.observada[i] == Inf) {
@@ -201,6 +235,7 @@ flujos$Reserva.teorica <- reserva_teorica
 
 nombres <- c(
     "Edad", "Sobrevivientes inicio", "Prima",
+    "Monto incio",
     "Intereses", "Reclamos fallecimiento",
     "Reclamos retiro", "Monto pension",
     "Fondos esperados fin", "Sobrevivientes final",
@@ -216,7 +251,7 @@ kable(flujos,
     scroll_box(height = "500px", width = "100%")
 ```
 e. Se grafica e interpreta el vector de reservas. 
-
+<caption><center><strong>Figura 1: Reserva</strong></center></caption>
 ```{r}
 # Edad
 Edad <- 25:74
@@ -231,7 +266,7 @@ Reserva %>% ggplot(aes(x = Edad, y = Reserva)) +
 
 Se puede observar que conforme avanza el tiempo se aumentan las reservas por lo menos en el 
 periodo de diferimiento, debido a que se logran obtener primas y acumular intereses sobre estas
-y los montos anteriormente recibos. Al tenerse una mayor cantidad en reservas que decrementos
+y los montos anteriormente recibidos. Al tenerse una mayor cantidad en reservas que decrementos
 durante el periodo de diferimiento es posible hacer la acumulación de primas sobre estos.
 Posteriormente llegado el periodo 35 las reservas comienzan a decrecer, esto se debe a 
 que ya no se reciben las primas y además hay que hacer frente al pago de la anualidad vitalicia

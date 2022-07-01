@@ -24,9 +24,9 @@
 
 <meta name="author" content="Joshua Cervantes" />
 
-<meta name="date" content="2022-06-30" />
+<meta name="date" content="2022-07-01" />
 
-<title>Laboratorio 3</title>
+<title>Parcial 1</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -402,37 +402,371 @@ code span.ot { color: #007020; }
 
 
 <section class="page-header">
-<h1 class="title toc-ignore project-name">Laboratorio 3</h1>
+<h1 class="title toc-ignore project-name">Parcial 1</h1>
 <h4 class="author project-author">Joshua Cervantes</h4>
-<h4 class="date project-date">30 June 2022</h4>
+<h4 class="date project-date">01 July 2022</h4>
 </section>
 
 
 <div id="TOC" class="toc">
 <div class="toc-box">
 <ul>
-<li><a href="#ejercicio" id="toc-ejercicio">Ejercicio</a></li>
+<li><a href="#ejercicio-1" id="toc-ejercicio-1">Ejercicio 1</a></li>
+<li><a href="#ejercicio-2" id="toc-ejercicio-2">Ejercicio 2</a></li>
 </ul>
 </div>
 </div>
 
 <section class="main-content">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La persona ahora tiene edad 25, la edad de retiro baja de 60 a 65 y la tasa de interes es 4.3%</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span></code></pre></div>
-<div id="ejercicio" class="section level1">
-<h1>Ejercicio</h1>
+<!--
+    Instruciones
+    
+
+
+-->
+<div id="ejercicio-1" class="section level1">
+<h1>Ejercicio 1</h1>
+<p>Conforme y muestre el código de una función que determine el valor
+presente actuarial para un seguro vitalicio, temporal, dotal y dotal
+puro, en donde el pago del beneficio de “salida/fallo” por un
+determinado decremento se realiza al final del año de ocurrencia y el
+beneficio de sobrevivencia al momento de transcurrido el período
+temporal y habiendo sobrevivido a todos los decrementos. Se debe crear
+un única función que reciba los parámetros que se indican en el
+siguiente seudocódigo:</p>
+<p><em>fseg&lt;-function(TablaMD,decremento,tipo_de_seguro,edad,tasa_interes,enfoque,m)</em></p>
+<p>Con base en la función anterior calcule, muestre y conforme una tabla
+con los 32 valores que resultan de combinar los 4 decrementos (tipos de
+muerte), los 4 tipos de seguro y los dos enfoques. Para esto utilice la
+tabla de “TablaMD.xlsx” cargada en el Virtual para el laboratorio 7, una
+tasa de interpete de 4.3% y una edad de 27 años. Lo enfoques son el
+determinístico (sin usar funciones del paquete respectivo) y estocástico
+con al menos 5.000 simulaciones.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Se programan dos funciones distintas de acuerdo al tipo de enfoque y se unan en una sola función</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lo seguros que recibirá la función serán vitalicio, temporarl, dotal y dotal_puro</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Axn <span class="ot">&lt;-</span> <span class="cf">function</span>(TablaMD, decremento, tipo_seguro, edad, tasa_interes, <span class="at">N =</span> <span class="dv">0</span>, w) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> tasa_interes)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (tipo_seguro <span class="sc">!=</span> <span class="st">&quot;dotal_puro&quot;</span>) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        n <span class="ot">&lt;-</span> (tipo_seguro <span class="sc">==</span> <span class="st">&quot;vitalicio&quot;</span>) <span class="sc">*</span> (w <span class="sc">-</span> edad) <span class="sc">+</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>            (tipo_seguro <span class="sc">==</span> <span class="st">&quot;temporal&quot;</span> <span class="sc">|</span> tipo_seguro <span class="sc">==</span> <span class="st">&quot;dotal&quot;</span>) <span class="sc">*</span> N</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        n <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span>(n <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        px <span class="ot">&lt;-</span> <span class="fu">pxt</span>(TablaMD, <span class="at">x =</span> edad, <span class="at">t =</span> n)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        qx <span class="ot">&lt;-</span> <span class="fu">qxt</span>(TablaMD, <span class="at">x =</span> edad <span class="sc">+</span> n, <span class="at">t =</span> <span class="dv">1</span>, <span class="at">decrement =</span> decremento)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        suma <span class="ot">&lt;-</span> <span class="fu">sum</span>(v<span class="sc">^</span>(n <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">*</span> px <span class="sc">*</span> qx)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (tipo_seguro <span class="sc">==</span> <span class="st">&quot;dotal&quot;</span>) {</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            dotal <span class="ot">&lt;-</span> v<span class="sc">^</span>N <span class="sc">*</span> <span class="fu">pxt</span>(TablaMD, <span class="at">x =</span> edad, <span class="at">t =</span> N)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            suma <span class="ot">&lt;-</span> dotal <span class="sc">+</span> suma</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        suma <span class="ot">&lt;-</span> v<span class="sc">^</span>N <span class="sc">*</span> <span class="fu">pxt</span>(TablaMD, <span class="at">x =</span> edad, <span class="at">t =</span> N)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(suma)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Enfoque estocastico</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Primero se construye una funcion que pase el numero de decremento</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># al tipo de muerte</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>tipo_decremento <span class="ot">&lt;-</span> <span class="cf">function</span>(decremento) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    decremento <span class="ot">&lt;-</span> <span class="cf">switch</span>(decremento,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;MuertesDiab&quot;</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;MuertesCanc&quot;</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;MuertesCard&quot;</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;MuertesOtras&quot;</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(decremento)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>Axn_s <span class="ot">&lt;-</span> <span class="cf">function</span>(TablaMD, decremento, tipo_seguro, edad, tasa_interes, <span class="at">N =</span> <span class="dv">0</span>, simulaciones, w) {</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    simulaciones <span class="ot">&lt;-</span> simulaciones</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> tasa_interes)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (tipo_seguro <span class="sc">!=</span> <span class="st">&quot;dotal_puro&quot;</span>) {</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        n <span class="ot">&lt;-</span> (tipo_seguro <span class="sc">==</span> <span class="st">&quot;vitalicio&quot;</span>) <span class="sc">*</span> (w <span class="sc">-</span> edad) <span class="sc">+</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            (tipo_seguro <span class="sc">==</span> <span class="st">&quot;temporal&quot;</span> <span class="sc">|</span> tipo_seguro <span class="sc">==</span> <span class="st">&quot;dotal&quot;</span>) <span class="sc">*</span> N</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        tabla_simulacion <span class="ot">&lt;-</span> <span class="fu">rmdt</span>(</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> simulaciones, TablaMD, <span class="at">x =</span> edad, <span class="at">t =</span> n, <span class="at">t0 =</span> <span class="st">&quot;alive&quot;</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">include.t0 =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        fn2 <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>            suma <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">tipo_decremento</span>(decremento) <span class="sc">==</span> tabla_simulacion[, n])</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (suma <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                suma <span class="ot">&lt;-</span> v<span class="sc">^</span><span class="fu">match</span>(<span class="fu">tipo_decremento</span>(decremento), tabla_simulacion[, n])</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            <span class="fu">return</span>(suma)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        n <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>simulaciones</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        suma <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">future_sapply</span>(<span class="at">FUN =</span> fn2, <span class="at">X =</span> n))</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (tipo_seguro <span class="sc">==</span> <span class="st">&quot;dotal&quot;</span>) {</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            dotal <span class="ot">&lt;-</span> v<span class="sc">^</span>N <span class="sc">*</span> <span class="fu">sum</span>(tabla_simulacion[N, ] <span class="sc">==</span> <span class="st">&quot;alive&quot;</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            suma <span class="ot">&lt;-</span> (dotal <span class="sc">+</span> suma)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        tabla_simulacion <span class="ot">&lt;-</span> <span class="fu">rmdt</span>(</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>            <span class="at">n =</span> simulaciones, TablaMD, <span class="at">x =</span> edad, <span class="at">t =</span> N, <span class="at">t0 =</span> <span class="st">&quot;alive&quot;</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>            <span class="at">include.t0 =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        suma <span class="ot">&lt;-</span> v<span class="sc">^</span>N <span class="sc">*</span> <span class="fu">sum</span>(tabla_simulacion[N, ] <span class="sc">==</span> <span class="st">&quot;alive&quot;</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(suma <span class="sc">/</span> simulaciones)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Funcion final</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Enfoques deben ingresarse como estocastico o deterministico</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># por defecto tiene deterministico</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>fseg <span class="ot">&lt;-</span> <span class="cf">function</span>(TablaMD, decremento, tipo_de_seguro, edad, tasa_interes, <span class="at">enfoque =</span> <span class="st">&quot;deterministico&quot;</span>, <span class="at">N =</span> <span class="dv">0</span>) {</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (N <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> tipo_de_seguro <span class="sc">!=</span> <span class="st">&quot;vitalicio&quot;</span>) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="st">&quot;Ingresar un valor para N&quot;</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        w <span class="ot">&lt;-</span> <span class="fu">getOmega</span>(TablaMD)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (enfoque <span class="sc">==</span> <span class="st">&quot;deterministico&quot;</span>) {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            suma <span class="ot">&lt;-</span> <span class="fu">Axn</span>(TablaMD, decremento, tipo_de_seguro, edad, tasa_interes, <span class="at">N =</span> N, w)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> <span class="cf">if</span> (enfoque <span class="sc">==</span> <span class="st">&quot;estocastico&quot;</span>) {</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            suma <span class="ot">&lt;-</span> <span class="fu">Axn_s</span>(TablaMD, decremento,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                tipo_de_seguro, edad, tasa_interes,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">N =</span> N,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                <span class="dv">5000</span>, w</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(suma)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creacio de la tabla</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>edad <span class="ot">&lt;-</span> <span class="dv">27</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>tipo_seguro <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;vitalicio&quot;</span>, <span class="st">&quot;temporal&quot;</span>, <span class="st">&quot;dotal&quot;</span>, <span class="st">&quot;dotal_puro&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>tasa_interes <span class="ot">&lt;-</span> <span class="fl">0.043</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>decremento <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>enfoque <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;deterministico&quot;</span>, <span class="st">&quot;estocastico&quot;</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>tabla <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Decremento&quot;</span> <span class="ot">=</span> <span class="fu">numeric</span>(), <span class="st">&quot;Vitalicio&quot;</span> <span class="ot">=</span> <span class="fu">numeric</span>(), <span class="st">&quot;Temporal&quot;</span> <span class="ot">=</span> <span class="fu">numeric</span>(), <span class="st">&quot;Dotal&quot;</span> <span class="ot">=</span> <span class="fu">numeric</span>(),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Dotal_Puro&quot;</span> <span class="ot">=</span> <span class="fu">numeric</span>()</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> enfoque) {</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (k <span class="cf">in</span> decremento) {</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        vitalicio <span class="ot">&lt;-</span> <span class="fu">fseg</span>(<span class="at">TablaMD =</span> tabla_md_1, <span class="at">decremento =</span> k, <span class="at">tipo_de_seguro =</span> <span class="st">&quot;vitalicio&quot;</span>, <span class="at">edad =</span> <span class="dv">27</span>, <span class="at">tasa_interes =</span> tasa_interes, <span class="at">enfoque =</span> j, <span class="at">N =</span> <span class="dv">20</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        temporal <span class="ot">&lt;-</span> <span class="fu">fseg</span>(<span class="at">TablaMD =</span> tabla_md_1, <span class="at">decremento =</span> k, <span class="at">tipo_de_seguro =</span> <span class="st">&quot;temporal&quot;</span>, <span class="at">edad =</span> edad, <span class="at">tasa_interes =</span> tasa_interes, <span class="at">enfoque =</span> j, <span class="at">N =</span> <span class="dv">20</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        dotal <span class="ot">&lt;-</span> <span class="fu">fseg</span>(<span class="at">TablaMD =</span> tabla_md_1, <span class="at">decremento =</span> k, <span class="at">tipo_de_seguro =</span> <span class="st">&quot;dotal&quot;</span>, <span class="at">edad =</span> edad, <span class="at">tasa_interes =</span> tasa_interes, <span class="at">enfoque =</span> j, <span class="at">N =</span> <span class="dv">20</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        dotal_puro <span class="ot">&lt;-</span> <span class="fu">fseg</span>(<span class="at">TablaMD =</span> tabla_md_1, <span class="at">decremento =</span> k, <span class="at">tipo_de_seguro =</span> <span class="st">&quot;dotal_puro&quot;</span>, <span class="at">edad =</span> edad, <span class="at">tasa_interes =</span> tasa_interes, <span class="at">enfoque =</span> j, <span class="at">N =</span> <span class="dv">20</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        aux <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;Decremento&quot;</span> <span class="ot">=</span> k, <span class="st">&quot;Vitalicio&quot;</span> <span class="ot">=</span> vitalicio, <span class="st">&quot;Temporal&quot;</span> <span class="ot">=</span> temporal, <span class="st">&quot;Dotal&quot;</span> <span class="ot">=</span> dotal,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;Dotal_Puro&quot;</span> <span class="ot">=</span> dotal_puro</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        tabla <span class="ot">&lt;-</span> <span class="fu">rbind</span>(tabla, aux)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>enfoque <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;Determistico&quot;</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;Estocastico&quot;</span>, <span class="dv">4</span>))</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>tabla <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;Enfoque&quot;</span> <span class="ot">=</span> enfoque, tabla)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>nombres <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Enfoque&quot;</span>, <span class="st">&quot;Decremento&quot;</span>, <span class="st">&quot;Vitalicio&quot;</span>, <span class="st">&quot;Temporal&quot;</span>, <span class="st">&quot;Dotal&quot;</span>, <span class="st">&quot;Dotal puro&quot;</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(tabla,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>),</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> nombres</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
+<table class="table lightable-material" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
+<caption>
+Flujos
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Enfoque
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Decremento
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Vitalicio
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Temporal
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Dotal
+</th>
+<th style="text-align:right;font-weight: bold;color: white !important;background-color: #159957 !important;position: sticky; top:0; background-color: #FFFFFF;">
+Dotal puro
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Determistico
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0,00470
+</td>
+<td style="text-align:right;">
+0,00102
+</td>
+<td style="text-align:right;">
+0,37915
+</td>
+<td style="text-align:right;">
+0,37814
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Determistico
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0,05540
+</td>
+<td style="text-align:right;">
+0,01397
+</td>
+<td style="text-align:right;">
+0,39210
+</td>
+<td style="text-align:right;">
+0,37814
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Determistico
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0,07473
+</td>
+<td style="text-align:right;">
+0,01200
+</td>
+<td style="text-align:right;">
+0,39014
+</td>
+<td style="text-align:right;">
+0,37814
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Determistico
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0,12948
+</td>
+<td style="text-align:right;">
+0,04490
+</td>
+<td style="text-align:right;">
+0,42304
+</td>
+<td style="text-align:right;">
+0,37814
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estocastico
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0,00449
+</td>
+<td style="text-align:right;">
+0,00133
+</td>
+<td style="text-align:right;">
+0,37496
+</td>
+<td style="text-align:right;">
+0,38000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estocastico
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0,05651
+</td>
+<td style="text-align:right;">
+0,01607
+</td>
+<td style="text-align:right;">
+0,39191
+</td>
+<td style="text-align:right;">
+0,37664
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estocastico
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0,00000
+</td>
+<td style="text-align:right;">
+0,00000
+</td>
+<td style="text-align:right;">
+0,37681
+</td>
+<td style="text-align:right;">
+0,37896
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estocastico
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0,12981
+</td>
+<td style="text-align:right;">
+0,04745
+</td>
+<td style="text-align:right;">
+0,42175
+</td>
+<td style="text-align:right;">
+0,37914
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="ejercicio-2" class="section level1">
+<h1>Ejercicio 2</h1>
 <p>Una persona de 25 años de edad posee un plan de pensión que consiste
 en una anualidad vitalicia pagada al inicio de cada año a partir de la
-edad 60. Durante el periodo diferido de 35 años se paga un beneficio de
+edad 65. Durante el periodo diferido de 40 años se paga un beneficio de
 fallecimiento (decremento <span class="math inline">\(J=1\)</span>) o
 por retiro (decremento <span class="math inline">\(J=2\)</span>) pagado
 al final del año de ocurrido el suceso y que consiste en el valor
 acumulado de la primas pagadas a ese momento utlizando la misma tasa de
 interés que para el cálculo de la prima. Las primas se pagan al inicio
 de cada año mientras la persona se mantenga activa en el estado/modelo y
-hasta edad 59 (inclusive). Para este ejercicio se asume que no existe la
+hasta edad 64 (inclusive). Para este ejercicio se asume que no existe la
 contingencia de retiro una vez se inicie con el pago de la anualidad
-vitalicia, así mismo, considere una tasa de interés de 4.3% y como
+vitalicia, así mismo, considere una tasa de interés de 4.8% y como
 insumo para la tabla de múltiples decrementos utilice el archivo
 suministrado.</p>
 <ol style="list-style-type: lower-alpha">
@@ -442,69 +776,67 @@ determinado tiempo. <span class="math display">\[
 L =
 \begin{cases}
      \pi v^{K+1}\ddot{s}_{\overline{K+1|}}-\pi
-\ddot{a}_{\overline{K+1|}} \qquad K&lt;35, J=1,2\\
-     v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi
-\ddot{a}_{\overline{35|}}\qquad K\geq 35, J=1
+\ddot{a}_{\overline{K+1|}} \qquad K&lt;40, J=1,2\\
+     v^{40}\ddot{a}_{\overline{(K+1)-40|}}-\pi
+\ddot{a}_{\overline{40|}}\qquad K\geq 40, J=1
 \end{cases}
 \]</span></li>
 </ol>
 <p>Si se aplica el principio de equivalencia se obtiene</p>
 <p><span class="math display">\[
-\mathbb{E}[L]=\sum_{K=35}^{\infty}\left(v^{35}\ddot{a}_{\overline{(K+1)-35|}}-\pi
-\ddot{a}_{\overline{35|}}\right)\,_{K}p_{25}^{(\tau)}q_{25+K}^{(1)}
+\mathbb{E}[L]=\sum_{K=40}^{\infty}\left(v^{40}\ddot{a}_{\overline{(K+1)-40|}}-\pi
+\ddot{a}_{\overline{40|}}\right)\,_{K}p_{25}^{(\tau)}q_{25+K}^{(1)}
 \]</span></p>
 <p>Que se cumple si</p>
 <p><span class="math display">\[
-v^{35}\ddot{a}_{60}\,
-_{35}p_{25}^{(\tau)}-\pi\ddot{a}_{\overline{35|}}\, _{35}p_{25}
+v^{40}\ddot{a}_{65}\,
+_{40}p_{25}^{(\tau)}-\pi\ddot{a}_{\overline{40|}}\, _{40}p_{25}
 \]</span></p>
 <p>Entonces <span class="math display">\[
-\pi =\frac{v^{35}\ddot{a}_{60}}{\ddot{a}_{\overline{35|}}}
+\pi =\frac{v^{35}\ddot{a}_{65}}{\ddot{a}_{\overline{40|}}}
 \]</span> Esto hay que multiplicarlo por el beneficio.</p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Calcule la prima de riesgo para el ejercicio si se asume que la
-anualidad vitalicia paga 100.000 al inicio de cada año si se
-aplica.</li>
+anualidad vitalicia paga 80.000 al inicio de cada año si se aplica.</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># El beneficio</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>benefit <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>interest <span class="ot">&lt;-</span> <span class="fl">0.043</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> interest)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Analidad de pension</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>a_60_md <span class="ot">&lt;-</span> v<span class="sc">^</span>(<span class="dv">35</span>) <span class="sc">*</span> <span class="fu">sum</span>(v<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>) <span class="sc">*</span> <span class="fu">pxt</span>(tabla_md, <span class="at">x =</span> <span class="dv">60</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Anualidad primas</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>a_35 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> v<span class="sc">^</span>(<span class="dv">35</span>)) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Prima por riesgo</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>(risk_p <span class="ot">&lt;-</span> benefit <span class="sc">*</span> a_60_md <span class="sc">/</span> a_35)</span></code></pre></div>
-<pre><code>## [1] 8356,1</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># El beneficio</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>benefit <span class="ot">&lt;-</span> <span class="dv">80000</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>interest <span class="ot">&lt;-</span> <span class="fl">0.048</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> interest)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Analidad de pension</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>a_65_md <span class="ot">&lt;-</span> v<span class="sc">^</span>(<span class="dv">40</span>) <span class="sc">*</span> <span class="fu">sum</span>(v<span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>) <span class="sc">*</span> <span class="fu">pxt</span>(tabla_md, <span class="at">x =</span> <span class="dv">65</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span>))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Anualidad primas</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>a_40 <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> v<span class="sc">^</span>(<span class="dv">40</span>)) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Prima por riesgo</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>(risk_p <span class="ot">&lt;-</span> benefit <span class="sc">*</span> a_65_md <span class="sc">/</span> a_40)</span></code></pre></div>
+<pre><code>## [1] 3233,9</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Estime el valor de la pérdida si la persona falleciera en cada hacia
 al futuro, grafique e interprete.</li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> benefit <span class="sc">*</span> v<span class="sc">^</span><span class="dv">35</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> v<span class="sc">^</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>)) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v) <span class="sc">-</span> risk_p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> v<span class="sc">^</span>(<span class="dv">35</span>)) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>(L <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">35</span>), L))</span></code></pre></div>
-<pre><code>##  [1]       0,0       0,0       0,0       0,0       0,0       0,0       0,0
-##  [8]       0,0       0,0       0,0       0,0       0,0       0,0       0,0
-## [15]       0,0       0,0       0,0       0,0       0,0       0,0       0,0
-## [22]       0,0       0,0       0,0       0,0       0,0       0,0       0,0
-## [29]       0,0       0,0       0,0       0,0       0,0       0,0       0,0
-## [36] -133335,1 -111368,4  -90307,3  -70114,5  -50754,2  -32192,1  -14395,2
-## [43]    2667,9   19027,6   34712,8   49751,4   64169,9   77994,0   91248,2
-## [50]  103956,0</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> benefit <span class="sc">*</span> v<span class="sc">^</span><span class="dv">40</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> v<span class="sc">^</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v) <span class="sc">-</span> risk_p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> v<span class="sc">^</span>(<span class="dv">40</span>)) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>(L <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">40</span>), L))</span></code></pre></div>
+<pre><code>##  [1]      0,0      0,0      0,0      0,0      0,0      0,0      0,0      0,0
+##  [9]      0,0      0,0      0,0      0,0      0,0      0,0      0,0      0,0
+## [17]      0,0      0,0      0,0      0,0      0,0      0,0      0,0      0,0
+## [25]      0,0      0,0      0,0      0,0      0,0      0,0      0,0      0,0
+## [33]      0,0      0,0      0,0      0,0      0,0      0,0      0,0      0,0
+## [41] -47518,2 -35815,7 -24649,2 -13994,2  -3827,2   5874,2  15131,2  23964,2
+## [49]  32392,7  40435,1</code></pre>
 <caption>
 <center>
 <strong>Figura 1: Vector de pérdidas</strong>
 </center>
 </caption>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficamos</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Tiempo =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">49</span>, <span class="at">L =</span> L)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>L <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Tiempo, <span class="at">y =</span> L)) <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_jcolors</span>(<span class="at">palette =</span> <span class="st">&quot;pal2&quot;</span>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficamos</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Tiempo =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">49</span>, <span class="at">L =</span> L)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>L <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Tiempo, <span class="at">y =</span> L)) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_jcolors</span>(<span class="at">palette =</span> <span class="st">&quot;pal2&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
 <p><strong>Interpretación</strong></p>
 <p>En este caso se puede ver que en el periodo de 0 a 35 en caso de que
 suceda el decremento la pérdida es 0, ya que la persona habrá pagado el
@@ -520,117 +852,117 @@ ganados.</p>
 toman el mismo plan de pensiones.</li>
 </ol>
 <p>Antes de empezar cabe destacar como es posible determinar la reserva
-teórica si <span class="math inline">\(t\leq 35\)</span> y entero
+teórica si <span class="math inline">\(t\leq 40\)</span> y entero
 entonces se tiene <span class="math display">\[
-\sum_{K=0}^{35-t}(\pi v^{35}\ddot{a}_{\overline{t+K|}}-\pi
-\ddot{a}_{\overline{K|}})\,_{K}p_{25+t}^{(\tau)}q_{25+t+k}^{(\tau)}
-+\sum_{K=35-t}^{\infty}(v^{35-t}\ddot{a}_{\overline{K-(35-t)|}}-\pi\ddot{a}_{\overline{35-t|}})\,_{K}p_{25+t}^{(\tau)}q_{25+t+K}^{(1)}
+\sum_{K=0}^{40-t}(\pi v^{40}\ddot{a}_{\overline{t+K|}}-\pi
+\ddot{a}_{\overline{K|}})\,_{K}p_{25+t}^{(\tau)}q_{25+t+K}^{(\tau)}
++\sum_{K=40-t}^{\infty}(v^{35-t}\ddot{a}_{\overline{K-(35-t)|}}-\pi\ddot{a}_{\overline{35-t|}})\,_{K}p_{25+t}^{(\tau)}q_{25+t+K}^{(1)}
 \]</span> <span class="math display">\[
 =\pi v^{t}\ddot{a}_{\overline{t|}}(1-\,_{35-t}p^{(\tau)}_{25+t})+
-\,_{35-t|}\ddot{a}_{25+t}
--\pi \ddot{a}_{35-t}\,_{35-t}p_{25+t}^{(\tau)}
+\,_{40-t|}\ddot{a}_{25+t}
+-\pi \ddot{a}_{40-t}\,_{40-t}p_{25+t}^{(\tau)}
 \]</span> <span class="math display">\[
 =\pi \ddot{s}_{t}
-\]</span> En el caso de <span class="math inline">\(t&gt;35\)</span>
+\]</span> En el caso de <span class="math inline">\(t&gt;40\)</span>
 entonces se cumple que la reserva teórica es <span class="math display">\[
-    \ddot{a}_{60+t}
+    \ddot{a}_{65+t}
 \]</span> Esto hay que multiplicarlo por el beneficio.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Personas que permanecen</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>filas <span class="ot">&lt;-</span> <span class="dv">26</span><span class="sc">:</span><span class="fu">nrow</span>(datos)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>lx <span class="ot">&lt;-</span> datos<span class="sc">$</span>lx[filas]</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Decrementos caso 1</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>d_1 <span class="ot">&lt;-</span> datos<span class="sc">$</span>Fallecimiento[filas]</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Decrementos caso 2</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>d_2 <span class="ot">&lt;-</span> datos<span class="sc">$</span>Retiro[filas]</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Primas inicio</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Fondos inicio</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>zeros <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(lx) <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>primas <span class="ot">&lt;-</span> <span class="fu">c</span>(risk_p <span class="sc">*</span> lx[<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>], <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">15</span>))</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Intereses</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>intereses <span class="ot">&lt;-</span> <span class="fu">c</span>(primas[<span class="dv">1</span>] <span class="sc">*</span> interest, zeros)</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Reclamos decrementos</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>reclamos <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">35</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>sn <span class="ot">&lt;-</span> risk_p <span class="sc">*</span> ((<span class="dv">1</span> <span class="sc">+</span> interest)<span class="sc">^</span>(reclamos) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>claim_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(d_1[<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>] <span class="sc">*</span> sn, <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">15</span>))</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>claim_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(d_2[<span class="dv">1</span><span class="sc">:</span><span class="dv">35</span>] <span class="sc">*</span> sn, <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">15</span>))</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Monto pension</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>pension <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">35</span>), benefit <span class="sc">*</span> lx[<span class="dv">36</span><span class="sc">:</span><span class="dv">50</span>])</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Fondos fin</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>fondos_fin <span class="ot">&lt;-</span> <span class="fu">c</span>(primas[<span class="dv">1</span>] <span class="sc">+</span> intereses[<span class="dv">1</span>] <span class="sc">-</span> claim_1[<span class="dv">1</span>] <span class="sc">-</span> claim_2[<span class="dv">1</span>], zeros)</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Sobrevivientes fin</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>lx_fin <span class="ot">&lt;-</span> <span class="fu">c</span>(lx[<span class="sc">-</span><span class="dv">1</span>], <span class="dv">0</span>)</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Reserva</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>reserve <span class="ot">&lt;-</span> <span class="fu">c</span>(fondos_fin[<span class="dv">1</span>] <span class="sc">/</span> lx_fin[<span class="dv">1</span>], zeros)</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Monto inicio</span></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>monto_inicio <span class="ot">&lt;-</span> <span class="fu">c</span>(primas[<span class="dv">1</span>], zeros)</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Flujos</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>flujos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Edad&quot;</span> <span class="ot">=</span> <span class="dv">25</span><span class="sc">:</span><span class="dv">74</span>, <span class="st">&quot;Sobrevivientes inicio&quot;</span> <span class="ot">=</span> lx, <span class="st">&quot;Prima&quot;</span> <span class="ot">=</span> primas, <span class="st">&quot;Monto inicio&quot;</span> <span class="ot">=</span> monto_inicio,</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Intereses&quot;</span> <span class="ot">=</span> intereses, <span class="st">&quot;Reclamos fallecimiento&quot;</span> <span class="ot">=</span> claim_1,</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Reclamos retiro&quot;</span> <span class="ot">=</span> claim_2, <span class="st">&quot;Monto pension&quot;</span> <span class="ot">=</span> pension,</span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Fondos esperados fin&quot;</span> <span class="ot">=</span> fondos_fin, <span class="st">&quot;Sobrevivientes final&quot;</span> <span class="ot">=</span> lx_fin,</span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Reserva observada&quot;</span> <span class="ot">=</span> reserve</span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(flujos)) {</span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    monto_inicio[i] <span class="ot">&lt;-</span> (flujos<span class="sc">$</span>Prima[i] <span class="sc">+</span> flujos<span class="sc">$</span>Fondos.esperados.fin[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">-</span> flujos<span class="sc">$</span>Monto.pension[i])</span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Intereses[i] <span class="ot">&lt;-</span> interest <span class="sc">*</span> monto_inicio[i]</span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Monto.inicio[i] <span class="ot">&lt;-</span> monto_inicio[i]</span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Fondos.esperados.fin[i] <span class="ot">&lt;-</span> monto_inicio[i] <span class="sc">+</span> flujos<span class="sc">$</span>Intereses[i] <span class="sc">-</span> flujos<span class="sc">$</span>Reclamos.retiro[i] <span class="sc">-</span> flujos<span class="sc">$</span>Reclamos.fallecimiento[i]</span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Reserva.observada[i] <span class="ot">&lt;-</span> flujos<span class="sc">$</span>Fondos.esperados.fin[i] <span class="sc">/</span> flujos<span class="sc">$</span>Sobrevivientes.final[i]</span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (flujos<span class="sc">$</span>Reserva.observada[i] <span class="sc">==</span> <span class="cn">Inf</span>) {</span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>        flujos<span class="sc">$</span>Reserva.observada[i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Reserva teorica</span></span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>reserve <span class="ot">&lt;-</span> <span class="cf">function</span>(x, t) {</span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (t <span class="sc">&lt;=</span> <span class="dv">35</span>) {</span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(risk_p <span class="sc">*</span> ((<span class="dv">1</span> <span class="sc">+</span> interest)<span class="sc">^</span>t <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v))</span>
-<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
-<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>        k <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">15</span></span>
-<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>        pension <span class="ot">&lt;-</span> benefit <span class="sc">*</span> (<span class="fu">sum</span>(v<span class="sc">^</span>k <span class="sc">*</span> <span class="fu">pxt</span>(tabla_md, <span class="at">x =</span> x <span class="sc">+</span> t, <span class="at">t =</span> k)))</span>
-<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(pension)</span>
-<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
-<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">25</span></span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>reserva_teorica <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> reserve, <span class="at">X =</span> t, <span class="at">x =</span> x))</span>
-<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>flujos<span class="sc">$</span>Reserva.teorica <span class="ot">&lt;-</span> reserva_teorica</span>
-<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>nombres <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Edad&quot;</span>, <span class="st">&quot;Sobrevivientes inicio&quot;</span>, <span class="st">&quot;Prima&quot;</span>,</span>
-<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Monto incio&quot;</span>,</span>
-<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Intereses&quot;</span>, <span class="st">&quot;Reclamos fallecimiento&quot;</span>,</span>
-<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Reclamos retiro&quot;</span>, <span class="st">&quot;Monto pension&quot;</span>,</span>
-<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Fondos esperados fin&quot;</span>, <span class="st">&quot;Sobrevivientes final&quot;</span>,</span>
-<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Reserva observada&quot;</span>, <span class="st">&quot;Reserva teórica&quot;</span></span>
-<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(flujos,</span>
-<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>),</span>
-<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> nombres</span>
-<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
-<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Personas que permanecen</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>filas <span class="ot">&lt;-</span> <span class="dv">26</span><span class="sc">:</span><span class="fu">nrow</span>(datos)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>lx <span class="ot">&lt;-</span> datos<span class="sc">$</span>lx[filas]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Decrementos caso 1</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>d_1 <span class="ot">&lt;-</span> datos<span class="sc">$</span>Fallecimiento[filas]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Decrementos caso 2</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>d_2 <span class="ot">&lt;-</span> datos<span class="sc">$</span>Retiro[filas]</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Primas inicio</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Fondos inicio</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>zeros <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(lx) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>primas <span class="ot">&lt;-</span> <span class="fu">c</span>(risk_p <span class="sc">*</span> lx[<span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>], <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>))</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Intereses</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>intereses <span class="ot">&lt;-</span> <span class="fu">c</span>(primas[<span class="dv">1</span>] <span class="sc">*</span> interest, zeros)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Reclamos decrementos</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>reclamos <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">40</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>sn <span class="ot">&lt;-</span> risk_p <span class="sc">*</span> ((<span class="dv">1</span> <span class="sc">+</span> interest)<span class="sc">^</span>(reclamos) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>claim_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(d_1[<span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>] <span class="sc">*</span> sn, <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>))</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>claim_2 <span class="ot">&lt;-</span> <span class="fu">c</span>(d_2[<span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>] <span class="sc">*</span> sn, <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>))</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Monto pension</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>pension <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">40</span>), benefit <span class="sc">*</span> lx[<span class="dv">41</span><span class="sc">:</span><span class="dv">50</span>])</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Fondos fin</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>fondos_fin <span class="ot">&lt;-</span> <span class="fu">c</span>(primas[<span class="dv">1</span>] <span class="sc">+</span> intereses[<span class="dv">1</span>] <span class="sc">-</span> claim_1[<span class="dv">1</span>] <span class="sc">-</span> claim_2[<span class="dv">1</span>], zeros)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Sobrevivientes fin</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>lx_fin <span class="ot">&lt;-</span> <span class="fu">c</span>(lx[<span class="sc">-</span><span class="dv">1</span>], <span class="dv">0</span>)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Reserva</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>reserve <span class="ot">&lt;-</span> <span class="fu">c</span>(fondos_fin[<span class="dv">1</span>] <span class="sc">/</span> lx_fin[<span class="dv">1</span>], zeros)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Monto inicio</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>monto_inicio <span class="ot">&lt;-</span> <span class="fu">c</span>(primas[<span class="dv">1</span>], zeros)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Flujos</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>flujos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Edad&quot;</span> <span class="ot">=</span> <span class="dv">25</span><span class="sc">:</span><span class="dv">74</span>, <span class="st">&quot;Sobrevivientes inicio&quot;</span> <span class="ot">=</span> lx, <span class="st">&quot;Prima&quot;</span> <span class="ot">=</span> primas, <span class="st">&quot;Monto inicio&quot;</span> <span class="ot">=</span> monto_inicio,</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Intereses&quot;</span> <span class="ot">=</span> intereses, <span class="st">&quot;Reclamos fallecimiento&quot;</span> <span class="ot">=</span> claim_1,</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Reclamos retiro&quot;</span> <span class="ot">=</span> claim_2, <span class="st">&quot;Monto pension&quot;</span> <span class="ot">=</span> pension,</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Fondos esperados fin&quot;</span> <span class="ot">=</span> fondos_fin, <span class="st">&quot;Sobrevivientes final&quot;</span> <span class="ot">=</span> lx_fin,</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Reserva observada&quot;</span> <span class="ot">=</span> reserve</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(flujos)) {</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>    monto_inicio[i] <span class="ot">&lt;-</span> (flujos<span class="sc">$</span>Prima[i] <span class="sc">+</span> flujos<span class="sc">$</span>Fondos.esperados.fin[i <span class="sc">-</span> <span class="dv">1</span>] <span class="sc">-</span> flujos<span class="sc">$</span>Monto.pension[i])</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Intereses[i] <span class="ot">&lt;-</span> interest <span class="sc">*</span> monto_inicio[i]</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Monto.inicio[i] <span class="ot">&lt;-</span> monto_inicio[i]</span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Fondos.esperados.fin[i] <span class="ot">&lt;-</span> monto_inicio[i] <span class="sc">+</span> flujos<span class="sc">$</span>Intereses[i] <span class="sc">-</span> flujos<span class="sc">$</span>Reclamos.retiro[i] <span class="sc">-</span> flujos<span class="sc">$</span>Reclamos.fallecimiento[i]</span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>    flujos<span class="sc">$</span>Reserva.observada[i] <span class="ot">&lt;-</span> flujos<span class="sc">$</span>Fondos.esperados.fin[i] <span class="sc">/</span> flujos<span class="sc">$</span>Sobrevivientes.final[i]</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (flujos<span class="sc">$</span>Reserva.observada[i] <span class="sc">==</span> <span class="cn">Inf</span>) {</span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>        flujos<span class="sc">$</span>Reserva.observada[i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Reserva teorica</span></span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>reserve <span class="ot">&lt;-</span> <span class="cf">function</span>(x, t) {</span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (t <span class="sc">&lt;=</span> <span class="dv">40</span>) {</span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(risk_p <span class="sc">*</span> ((<span class="dv">1</span> <span class="sc">+</span> interest)<span class="sc">^</span>t <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> v))</span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>        k <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>        pension <span class="ot">&lt;-</span> benefit <span class="sc">*</span> (<span class="fu">sum</span>(v<span class="sc">^</span>k <span class="sc">*</span> <span class="fu">pxt</span>(tabla_md, <span class="at">x =</span> x <span class="sc">+</span> t, <span class="at">t =</span> k)))</span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(pension)</span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span></span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>reserva_teorica <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="at">FUN =</span> reserve, <span class="at">X =</span> t, <span class="at">x =</span> x))</span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>flujos<span class="sc">$</span>Reserva.teorica <span class="ot">&lt;-</span> reserva_teorica</span>
+<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>nombres <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Edad&quot;</span>, <span class="st">&quot;Sobrevivientes inicio&quot;</span>, <span class="st">&quot;Prima&quot;</span>,</span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Monto incio&quot;</span>,</span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Intereses&quot;</span>, <span class="st">&quot;Reclamos fallecimiento&quot;</span>,</span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Reclamos retiro&quot;</span>, <span class="st">&quot;Monto pension&quot;</span>,</span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Fondos esperados fin&quot;</span>, <span class="st">&quot;Sobrevivientes final&quot;</span>,</span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Reserva observada&quot;</span>, <span class="st">&quot;Reserva teórica&quot;</span></span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(flujos,</span>
+<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;Flujos&quot;</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">decimal.mark =</span> <span class="st">&quot;,&quot;</span>, <span class="at">big.mark =</span> <span class="st">&quot;.&quot;</span>),</span>
+<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> nombres</span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F) <span class="sc">%&gt;%</span></span>
+<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kable_material</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">0</span>, <span class="at">bold =</span> T, <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">background =</span> <span class="st">&quot;#159957&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">height =</span> <span class="st">&quot;500px&quot;</span>, <span class="at">width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
 <table class="table lightable-material" style="width: auto !important; margin-left: auto; margin-right: auto; font-family: &quot;Source Sans Pro&quot;, helvetica, sans-serif; margin-left: auto; margin-right: auto;">
 <caption>
@@ -685,34 +1017,34 @@ Reserva teórica
 896.795
 </td>
 <td style="text-align:right;">
-7.493.700.664
+2.900.132.034
 </td>
 <td style="text-align:right;">
-7.493.700.663,92799
+2.900.132.034,4355
 </td>
 <td style="text-align:right;">
-322.229.128,54890
+139.206.337,65290
 </td>
 <td style="text-align:right;">
-15.164.801
+5.897.054
 </td>
 <td style="text-align:right;">
-1.490.334
+579.538
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-7.799.274.657,43107
+3.032.861.779,74670
 </td>
 <td style="text-align:right;">
 894.884
 </td>
 <td style="text-align:right;">
-8.715,4
+3.389,1
 </td>
 <td style="text-align:right;">
-8.715,4
+3.389,1
 </td>
 </tr>
 <tr>
@@ -723,34 +1055,34 @@ Reserva teórica
 894.884
 </td>
 <td style="text-align:right;">
-7.477.732.174
+2.893.952.080
 </td>
 <td style="text-align:right;">
-15.277.006.831,38224
+5.926.813.859,6577
 </td>
 <td style="text-align:right;">
-656.911.293,74944
+284.487.065,26357
 </td>
 <td style="text-align:right;">
-32.637.607
+12.722.671
 </td>
 <td style="text-align:right;">
-2.777.669
+1.082.780
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-15.898.502.849,91066
+6.197.495.473,55586
 </td>
 <td style="text-align:right;">
 892.895
 </td>
 <td style="text-align:right;">
-17.805,6
+6.940,9
 </td>
 <td style="text-align:right;">
-17.805,6
+6.940,9
 </td>
 </tr>
 <tr>
@@ -761,34 +1093,34 @@ Reserva teórica
 892.895
 </td>
 <td style="text-align:right;">
-7.461.111.909
+2.887.519.882
 </td>
 <td style="text-align:right;">
-23.359.614.758,78391
+9.085.015.355,9005
 </td>
 <td style="text-align:right;">
-1.004.463.434,62771
+436.080.737,08322
 </td>
 <td style="text-align:right;">
-52.663.159
+20.579.929
 </td>
 <td style="text-align:right;">
-3.847.412
+1.503.508
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-24.307.567.622,80863
+9.499.012.656,51184
 </td>
 <td style="text-align:right;">
 890.824
 </td>
 <td style="text-align:right;">
-27.286,6
+10.663,2
 </td>
 <td style="text-align:right;">
-27.286,6
+10.663,2
 </td>
 </tr>
 <tr>
@@ -799,34 +1131,34 @@ Reserva teórica
 890.824
 </td>
 <td style="text-align:right;">
-7.443.806.444
+2.880.822.506
 </td>
 <td style="text-align:right;">
-31.751.374.067,13871
+12.379.835.162,7078
 </td>
 <td style="text-align:right;">
-1.365.309.084,88696
+594.232.087,80997
 </td>
 <td style="text-align:right;">
-75.242.884
+29.477.778
 </td>
 <td style="text-align:right;">
-4.609.742
+1.805.951
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-33.036.830.526,35489
+12.942.783.521,68452
 </td>
 <td style="text-align:right;">
 888.676
 </td>
 <td style="text-align:right;">
-37.175,3
+14.564,1
 </td>
 <td style="text-align:right;">
-37.175,3
+14.564,1
 </td>
 </tr>
 <tr>
@@ -837,34 +1169,34 @@ Reserva teórica
 888.676
 </td>
 <td style="text-align:right;">
-7.425.857.561
+2.873.876.121
 </td>
 <td style="text-align:right;">
-40.462.688.087,13174
+15.816.659.642,5750
 </td>
 <td style="text-align:right;">
-1.739.895.587,74666
+759.199.662,84360
 </td>
 <td style="text-align:right;">
-106.233.520
+41.725.215
 </td>
 <td style="text-align:right;">
-8.975.474
+3.525.286
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-42.087.374.680,82967
+16.530.608.803,91419
 </td>
 <td style="text-align:right;">
 886.250
 </td>
 <td style="text-align:right;">
-47.489,3
+18.652,3
 </td>
 <td style="text-align:right;">
-47.489,3
+18.652,3
 </td>
 </tr>
 <tr>
@@ -875,34 +1207,34 @@ Reserva teórica
 886.250
 </td>
 <td style="text-align:right;">
-7.405.585.684
+2.866.030.716
 </td>
 <td style="text-align:right;">
-49.492.960.364,74426
+19.396.639.519,4272
 </td>
 <td style="text-align:right;">
-2.128.197.295,68400
+931.038.696,93250
 </td>
 <td style="text-align:right;">
-142.587.976
+56.149.119
 </td>
 <td style="text-align:right;">
-14.678.174
+5.780.056
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-51.463.891.510,15108
+20.265.749.041,53971
 </td>
 <td style="text-align:right;">
 883.550
 </td>
 <td style="text-align:right;">
-58.246,7
+22.936,7
 </td>
 <td style="text-align:right;">
-58.246,7
+22.936,7
 </td>
 </tr>
 <tr>
@@ -913,34 +1245,34 @@ Reserva teórica
 883.550
 </td>
 <td style="text-align:right;">
-7.383.024.238
+2.857.299.226
 </td>
 <td style="text-align:right;">
-58.846.915.748,25854
+23.123.048.267,1436
 </td>
 <td style="text-align:right;">
-2.530.417.377,17512
+1.109.906.316,82289
 </td>
 <td style="text-align:right;">
-184.781.513
+72.955.304
 </td>
 <td style="text-align:right;">
-21.882.021
+8.639.444
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-61.170.669.590,77443
+24.151.359.835,63616
 </td>
 <td style="text-align:right;">
 880.575
 </td>
 <td style="text-align:right;">
-69.466,7
+27.426,8
 </td>
 <td style="text-align:right;">
-69.466,7
+27.426,8
 </td>
 </tr>
 <tr>
@@ -951,34 +1283,34 @@ Reserva teórica
 880.575
 </td>
 <td style="text-align:right;">
-7.358.164.867
+2.847.678.417
 </td>
 <td style="text-align:right;">
-68.528.834.458,03885
+26.999.038.252,9144
 </td>
 <td style="text-align:right;">
-2.946.739.881,69567
+1.295.953.836,13989
 </td>
 <td style="text-align:right;">
-232.874.455
+92.187.868
 </td>
 <td style="text-align:right;">
-30.681.960
+12.146.049
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-71.212.017.925,02693
+28.190.658.171,65581
 </td>
 <td style="text-align:right;">
 877.328
 </td>
 <td style="text-align:right;">
-81.169,2
+32.132,4
 </td>
 <td style="text-align:right;">
-81.169,2
+32.132,4
 </td>
 </tr>
 <tr>
@@ -989,34 +1321,34 @@ Reserva teórica
 877.328
 </td>
 <td style="text-align:right;">
-7.331.032.640
+2.837.177.992
 </td>
 <td style="text-align:right;">
-78.543.050.564,68552
+31.027.836.163,8471
 </td>
 <td style="text-align:right;">
-3.377.351.174,28148
+1.489.336.135,86466
 </td>
 <td style="text-align:right;">
-285.540.401
+113.341.319
 </td>
 <td style="text-align:right;">
-50.795.938
+20.162.746
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-81.584.065.400,60352
+32.383.668.234,38667
 </td>
 <td style="text-align:right;">
 873.726
 </td>
 <td style="text-align:right;">
-93.374,9
+37.063,9
 </td>
 <td style="text-align:right;">
-93.374,9
+37.063,9
 </td>
 </tr>
 <tr>
@@ -1027,34 +1359,34 @@ Reserva teórica
 873.726
 </td>
 <td style="text-align:right;">
-7.300.934.000
+2.825.529.538
 </td>
 <td style="text-align:right;">
-88.884.999.400,33717
+35.209.197.772,2623
 </td>
 <td style="text-align:right;">
-3.822.054.974,21450
+1.690.041.493,06859
 </td>
 <td style="text-align:right;">
-344.418.157
+137.085.231
 </td>
 <td style="text-align:right;">
-75.440.946
+30.026.987
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-92.287.195.272,08693
+36.732.127.047,34389
 </td>
 <td style="text-align:right;">
 869.769
 </td>
 <td style="text-align:right;">
-106.105,4
+42.232,0
 </td>
 <td style="text-align:right;">
-106.105,4
+42.232,0
 </td>
 </tr>
 <tr>
@@ -1065,34 +1397,34 @@ Reserva teórica
 869.769
 </td>
 <td style="text-align:right;">
-7.267.868.947
+2.812.733.054
 </td>
 <td style="text-align:right;">
-99.555.064.219,57658
+39.544.860.101,6751
 </td>
 <td style="text-align:right;">
-4.280.867.761,44179
+1.898.153.284,88040
 </td>
 <td style="text-align:right;">
-410.201.171
+163.719.555
 </td>
 <td style="text-align:right;">
-104.699.193
+41.787.558
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-103.321.031.617,08940
+41.237.506.272,90090
 </td>
 <td style="text-align:right;">
 865.456
 </td>
 <td style="text-align:right;">
-119.383,3
+47.648,3
 </td>
 <td style="text-align:right;">
-119.383,3
+47.648,3
 </td>
 </tr>
 <tr>
@@ -1103,34 +1435,34 @@ Reserva teórica
 865.456
 </td>
 <td style="text-align:right;">
-7.231.829.127
+2.798.785.308
 </td>
 <td style="text-align:right;">
-110.552.860.743,92493
+44.036.291.580,5737
 </td>
 <td style="text-align:right;">
-4.753.773.011,98877
+2.113.741.995,86754
 </td>
 <td style="text-align:right;">
-482.167.444
+192.981.470
 </td>
 <td style="text-align:right;">
-138.694.753
+55.510.835
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-114.685.771.559,21906
+45.901.541.271,26773
 </td>
 <td style="text-align:right;">
 860.796
 </td>
 <td style="text-align:right;">
-133.232,2
+53.324,5
 </td>
 <td style="text-align:right;">
-133.232,2
+53.324,5
 </td>
 </tr>
 <tr>
@@ -1141,34 +1473,34 @@ Reserva teórica
 860.796
 </td>
 <td style="text-align:right;">
-7.192.889.743
+2.783.715.403
 </td>
 <td style="text-align:right;">
-121.878.661.301,80968
+48.685.256.674,1345
 </td>
 <td style="text-align:right;">
-5.240.782.435,97782
+2.336.892.320,35846
 </td>
 <td style="text-align:right;">
-611.824.236
+245.568.942
 </td>
 <td style="text-align:right;">
-151.516.212
+60.814.322
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-126.356.103.289,31815
+50.715.765.730,45304
 </td>
 <td style="text-align:right;">
 855.627
 </td>
 <td style="text-align:right;">
-147.676,6
+59.273,2
 </td>
 <td style="text-align:right;">
-147.676,6
+59.273,2
 </td>
 </tr>
 <tr>
@@ -1179,34 +1511,34 @@ Reserva teórica
 855.627
 </td>
 <td style="text-align:right;">
-7.149.697.108
+2.766.999.451
 </td>
 <td style="text-align:right;">
-133.505.800.397,32468
+53.482.765.180,9718
 </td>
 <td style="text-align:right;">
-5.740.749.417,08496
+2.567.172.728,68664
 </td>
 <td style="text-align:right;">
-759.680.205
+305.788.749
 </td>
 <td style="text-align:right;">
-164.044.054
+66.031.504
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-138.322.825.555,18616
+55.678.117.656,70329
 </td>
 <td style="text-align:right;">
 849.951
 </td>
 <td style="text-align:right;">
-162.742,1
+65.507,4
 </td>
 <td style="text-align:right;">
-162.742,1
+65.507,4
 </td>
 </tr>
 <tr>
@@ -1217,34 +1549,34 @@ Reserva teórica
 849.951
 </td>
 <td style="text-align:right;">
-7.102.267.935
+2.748.643.918
 </td>
 <td style="text-align:right;">
-145.425.093.490,45148
+58.426.761.575,1021
 </td>
 <td style="text-align:right;">
-6.253.279.020,08941
+2.804.484.555,60490
 </td>
 <td style="text-align:right;">
-926.719.056
+374.108.462
 </td>
 <td style="text-align:right;">
-177.206.244
+71.536.627
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-150.574.447.210,90573
+60.785.601.042,26716
 </td>
 <td style="text-align:right;">
 843.765
 </td>
 <td style="text-align:right;">
-178.455,4
+72.040,9
 </td>
 <td style="text-align:right;">
-178.455,4
+72.040,9
 </td>
 </tr>
 <tr>
@@ -1255,34 +1587,34 @@ Reserva teórica
 843.765
 </td>
 <td style="text-align:right;">
-7.050.577.156
+2.728.639.105
 </td>
 <td style="text-align:right;">
-157.625.024.366,99960
+63.514.240.147,1188
 </td>
 <td style="text-align:right;">
-6.777.876.047,78098
+3.048.683.527,06170
 </td>
 <td style="text-align:right;">
-1.113.535.849
+450.844.855
 </td>
 <td style="text-align:right;">
-190.168.152
+76.994.677
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-163.099.196.413,45877
+66.035.084.142,67125
 </td>
 <td style="text-align:right;">
 837.074
 </td>
 <td style="text-align:right;">
-194.844,4
+78.888,0
 </td>
 <td style="text-align:right;">
-194.844,4
+78.888,0
 </td>
 </tr>
 <tr>
@@ -1293,34 +1625,34 @@ Reserva teórica
 837.074
 </td>
 <td style="text-align:right;">
-6.994.666.551
+2.707.001.179
 </td>
 <td style="text-align:right;">
-170.093.862.964,40616
+68.742.085.321,9743
 </td>
 <td style="text-align:right;">
-7.314.036.107,46946
+3.299.620.095,45477
 </td>
 <td style="text-align:right;">
-1.249.163.344
+507.259.587
 </td>
 <td style="text-align:right;">
-294.805.940
+119.714.640
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-175.863.929.787,51291
+71.414.731.190,57936
 </td>
 <td style="text-align:right;">
 829.789
 </td>
 <td style="text-align:right;">
-211.938,1
+86.063,7
 </td>
 <td style="text-align:right;">
-211.938,1
+86.063,7
 </td>
 </tr>
 <tr>
@@ -1331,34 +1663,34 @@ Reserva teórica
 829.789
 </td>
 <td style="text-align:right;">
-6.933.792.428
+2.683.442.326
 </td>
 <td style="text-align:right;">
-182.797.722.215,23624
+74.098.173.516,5537
 </td>
 <td style="text-align:right;">
-7.860.302.055,25516
+3.556.712.328,79458
 </td>
 <td style="text-align:right;">
-1.393.536.088
+567.586.317
 </td>
 <td style="text-align:right;">
-415.188.741
+169.106.097
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-188.849.299.441,58032
+76.918.193.431,52434
 </td>
 <td style="text-align:right;">
 821.917
 </td>
 <td style="text-align:right;">
-229.766,9
+93.583,9
 </td>
 <td style="text-align:right;">
-229.766,9
+93.583,9
 </td>
 </tr>
 <tr>
@@ -1369,34 +1701,34 @@ Reserva teórica
 821.917
 </td>
 <td style="text-align:right;">
-6.868.013.279
+2.657.985.182
 </td>
 <td style="text-align:right;">
-195.717.312.720,63931
+79.576.178.613,5861
 </td>
 <td style="text-align:right;">
-8.415.844.446,98749
+3.819.656.573,45213
 </td>
 <td style="text-align:right;">
-1.550.028.815
+633.243.268
 </td>
 <td style="text-align:right;">
-552.109.286
+225.556.767
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-202.031.019.065,76639
+82.537.035.151,24014
 </td>
 <td style="text-align:right;">
 813.453
 </td>
 <td style="text-align:right;">
-248.362,3
+101.465,0
 </td>
 <td style="text-align:right;">
-248.362,3
+101.465,0
 </td>
 </tr>
 <tr>
@@ -1407,34 +1739,34 @@ Reserva teórica
 813.453
 </td>
 <td style="text-align:right;">
-6.797.287.324
+2.630.613.578
 </td>
 <td style="text-align:right;">
-208.828.306.390,26553
+85.167.648.729,3797
 </td>
 <td style="text-align:right;">
-8.979.617.174,78142
+4.088.047.139,01022
 </td>
 <td style="text-align:right;">
-1.717.127.128
+703.662.999
 </td>
 <td style="text-align:right;">
-706.075.821
+289.343.416
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-215.384.720.616,30414
+88.262.689.453,01137
 </td>
 <td style="text-align:right;">
 804.403
 </td>
 <td style="text-align:right;">
-267.757,2
+109.724,5
 </td>
 <td style="text-align:right;">
-267.757,2
+109.724,5
 </td>
 </tr>
 <tr>
@@ -1445,34 +1777,34 @@ Reserva teórica
 804.403
 </td>
 <td style="text-align:right;">
-6.721.664.701
+2.601.346.918
 </td>
 <td style="text-align:right;">
-222.106.385.316,89420
+90.864.036.370,5299
 </td>
 <td style="text-align:right;">
-9.550.574.568,62645
+4.361.473.745,78543
 </td>
 <td style="text-align:right;">
-2.006.975.799
+824.992.672
 </td>
 <td style="text-align:right;">
-852.151.153
+350.287.461
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-228.797.832.933,30460
+94.050.229.983,80116
 </td>
 <td style="text-align:right;">
 794.475
 </td>
 <td style="text-align:right;">
-287.986,2
+118.380,4
 </td>
 <td style="text-align:right;">
-287.986,2
+118.380,4
 </td>
 </tr>
 <tr>
@@ -1483,34 +1815,34 @@ Reserva teórica
 794.475
 </td>
 <td style="text-align:right;">
-6.638.705.429
+2.569.240.906
 </td>
 <td style="text-align:right;">
-235.436.538.362,05273
+96.619.470.889,5356
 </td>
 <td style="text-align:right;">
-10.123.771.149,56827
+4.637.734.602,69771
 </td>
 <td style="text-align:right;">
-2.324.010.154
+958.309.485
 </td>
 <td style="text-align:right;">
-1.013.489.732
+417.914.191
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-242.222.809.625,39868
+99.880.981.816,34027
 </td>
 <td style="text-align:right;">
 783.677
 </td>
 <td style="text-align:right;">
-309.085,0
+127.451,7
 </td>
 <td style="text-align:right;">
-309.085,0
+127.451,7
 </td>
 </tr>
 <tr>
@@ -1521,34 +1853,34 @@ Reserva teórica
 783.677
 </td>
 <td style="text-align:right;">
-6.548.476.358
+2.534.321.414
 </td>
 <td style="text-align:right;">
-248.771.285.983,10037
+102.415.303.230,2089
 </td>
 <td style="text-align:right;">
-10.697.165.297,27332
+4.915.934.555,05003
 </td>
 <td style="text-align:right;">
-2.673.229.246
+1.105.803.046
 </td>
 <td style="text-align:right;">
-1.191.927.828
+493.050.652
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-255.603.294.206,41708
+105.732.384.086,72609
 </td>
 <td style="text-align:right;">
 772.003
 </td>
 <td style="text-align:right;">
-331.091,1
+136.958,5
 </td>
 <td style="text-align:right;">
-331.091,1
+136.958,5
 </td>
 </tr>
 <tr>
@@ -1559,34 +1891,34 @@ Reserva teórica
 772.003
 </td>
 <td style="text-align:right;">
-6.450.927.351
+2.496.569.039
 </td>
 <td style="text-align:right;">
-262.054.221.557,32159
+108.228.953.125,3361
 </td>
 <td style="text-align:right;">
-11.268.331.526,96483
+5.194.989.750,01613
 </td>
 <td style="text-align:right;">
-3.053.270.127
+1.267.052.179
 </td>
 <td style="text-align:right;">
-1.387.850.058
+575.932.809
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-268.881.432.899,66373
+111.580.957.887,69235
 </td>
 <td style="text-align:right;">
 759.459
 </td>
 <td style="text-align:right;">
-354.043,4
+146.921,6
 </td>
 <td style="text-align:right;">
-354.043,4
+146.921,6
 </td>
 </tr>
 <tr>
@@ -1597,34 +1929,34 @@ Reserva teórica
 759.459
 </td>
 <td style="text-align:right;">
-6.346.108.545
+2.456.003.183
 </td>
 <td style="text-align:right;">
-275.227.541.444,56653
+114.036.961.070,9620
 </td>
 <td style="text-align:right;">
-11.834.784.282,11636
+5.473.774.131,40618
 </td>
 <td style="text-align:right;">
-3.741.650.257
+1.557.736.188
 </td>
 <td style="text-align:right;">
-1.714.907.285
+713.955.863
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-281.605.768.184,81372
+117.239.043.151,34059
 </td>
 <td style="text-align:right;">
 745.023
 </td>
 <td style="text-align:right;">
-377.982,7
+157.363,0
 </td>
 <td style="text-align:right;">
-377.982,7
+157.363,0
 </td>
 </tr>
 <tr>
@@ -1635,34 +1967,34 @@ Reserva teórica
 745.023
 </td>
 <td style="text-align:right;">
-6.225.480.015
+2.409.318.817
 </td>
 <td style="text-align:right;">
-287.831.248.199,46771
+119.648.361.968,5633
 </td>
 <td style="text-align:right;">
-12.376.743.672,57711
+5.743.121.374,49104
 </td>
 <td style="text-align:right;">
-4.502.980.860
+1.880.814.185
 </td>
 <td style="text-align:right;">
-2.077.213.990
+867.614.955
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-293.627.797.022,66364
+122.643.054.203,29344
 </td>
 <td style="text-align:right;">
 728.693
 </td>
 <td style="text-align:right;">
-402.951,3
+168.305,5
 </td>
 <td style="text-align:right;">
-402.951,3
+168.305,5
 </td>
 </tr>
 <tr>
@@ -1673,34 +2005,34 @@ Reserva teórica
 728.693
 </td>
 <td style="text-align:right;">
-6.089.025.048
+2.356.509.473
 </td>
 <td style="text-align:right;">
-299.716.822.070,63971
+124.999.563.675,9922
 </td>
 <td style="text-align:right;">
-12.887.823.349,03751
+5.999.979.056,44763
 </td>
 <td style="text-align:right;">
-5.340.970.526
+2.238.177.541
 </td>
 <td style="text-align:right;">
-2.476.151.155
+1.037.651.467
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-304.787.523.739,02795
+127.723.713.723,96780
 </td>
 <td style="text-align:right;">
 710.471
 </td>
 <td style="text-align:right;">
-428.993,6
+179.773,3
 </td>
 <td style="text-align:right;">
-428.993,6
+179.773,3
 </td>
 </tr>
 <tr>
@@ -1711,34 +2043,34 @@ Reserva teórica
 710.471
 </td>
 <td style="text-align:right;">
-5.936.760.357
+2.297.581.617
 </td>
 <td style="text-align:right;">
-310.724.284.096,07898
+130.021.295.341,4360
 </td>
 <td style="text-align:right;">
-13.361.144.216,13140
+6.241.022.176,38893
 </td>
 <td style="text-align:right;">
-6.260.737.600
+2.632.338.699
 </td>
 <td style="text-align:right;">
-2.913.922.899
+1.225.164.270
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-314.910.767.812,84662
+132.404.814.548,33569
 </td>
 <td style="text-align:right;">
 690.358
 </td>
 <td style="text-align:right;">
-456.155,7
+191.791,5
 </td>
 <td style="text-align:right;">
-456.155,7
+191.791,5
 </td>
 </tr>
 <tr>
@@ -1749,34 +2081,34 @@ Reserva teórica
 690.358
 </td>
 <td style="text-align:right;">
-5.768.694.298
+2.232.538.485
 </td>
 <td style="text-align:right;">
-320.679.462.110,81659
+134.637.353.033,7519
 </td>
 <td style="text-align:right;">
-13.789.216.870,76511
+6.462.592.945,62009
 </td>
 <td style="text-align:right;">
-7.400.521.282
+3.122.005.792
 </td>
 <td style="text-align:right;">
-3.133.654.445
+1.321.972.731
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-323.934.503.253,77600
+136.655.967.456,01239
 </td>
 <td style="text-align:right;">
 668.615
 </td>
 <td style="text-align:right;">
-484.485,8
+204.386,6
 </td>
 <td style="text-align:right;">
-484.485,8
+204.386,6
 </td>
 </tr>
 <tr>
@@ -1787,34 +2119,34 @@ Reserva teórica
 668.615
 </td>
 <td style="text-align:right;">
-5.587.007.810
+2.162.224.121
 </td>
 <td style="text-align:right;">
-329.521.511.064,27026
+138.818.191.576,5796
 </td>
 <td style="text-align:right;">
-14.169.424.975,76362
+6.663.273.195,67582
 </td>
 <td style="text-align:right;">
-8.647.596.325
+3.660.454.345
 </td>
 <td style="text-align:right;">
-3.366.409.578
+1.424.972.687
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-331.676.930.136,59521
+140.396.037.740,76923
 </td>
 <td style="text-align:right;">
 645.243
 </td>
 <td style="text-align:right;">
-514.034,1
+217.586,3
 </td>
 <td style="text-align:right;">
-514.034,1
+217.586,3
 </td>
 </tr>
 <tr>
@@ -1825,34 +2157,34 @@ Reserva teórica
 645.243
 </td>
 <td style="text-align:right;">
-5.391.709.251
+2.086.641.757
 </td>
 <td style="text-align:right;">
-337.068.639.387,31012
+142.482.679.497,5757
 </td>
 <td style="text-align:right;">
-14.493.951.493,65433
+6.839.168.615,88363
 </td>
 <td style="text-align:right;">
-10.010.584.357
+4.251.871.489
 </td>
 <td style="text-align:right;">
-3.612.375.458
+1.534.311.652
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-337.939.631.066,14008
+143.535.664.972,56384
 </td>
 <td style="text-align:right;">
 620.240
 </td>
 <td style="text-align:right;">
-544.853,0
+231.419,6
 </td>
 <td style="text-align:right;">
-544.853,0
+231.419,6
 </td>
 </tr>
 <tr>
@@ -1863,34 +2195,34 @@ Reserva teórica
 620.240
 </td>
 <td style="text-align:right;">
-5.182.781.906
+2.005.784.926
 </td>
 <td style="text-align:right;">
-343.122.412.972,58990
+145.541.449.898,9275
 </td>
 <td style="text-align:right;">
-14.754.263.757,82137
+6.985.989.595,14852
 </td>
 <td style="text-align:right;">
-11.492.628.091
+4.898.170.934
 </td>
 <td style="text-align:right;">
-3.871.650.492
+1.650.101.765
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-342.512.398.147,96350
+145.979.166.795,04294
 </td>
 <td style="text-align:right;">
 593.612
 </td>
 <td style="text-align:right;">
-576.997,1
+245.916,8
 </td>
 <td style="text-align:right;">
-576.997,1
+245.916,8
 </td>
 </tr>
 <tr>
@@ -1901,34 +2233,34 @@ Reserva teórica
 593.612
 </td>
 <td style="text-align:right;">
-4.960.275.914
+1.919.673.033
 </td>
 <td style="text-align:right;">
-347.472.674.062,20880
+147.898.839.827,5925
 </td>
 <td style="text-align:right;">
-14.941.324.984,67498
+7.099.144.311,72444
 </td>
 <td style="text-align:right;">
-12.891.811.493
+5.513.597.153
 </td>
 <td style="text-align:right;">
-3.962.907.198
+1.694.864.516
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-345.559.280.355,73993
+147.789.522.470,52634
 </td>
 <td style="text-align:right;">
 566.005
 </td>
 <td style="text-align:right;">
-610.523,4
+261.109,9
 </td>
 <td style="text-align:right;">
-610.523,4
+261.109,9
 </td>
 </tr>
 <tr>
@@ -1939,34 +2271,34 @@ Reserva teórica
 566.005
 </td>
 <td style="text-align:right;">
-4.729.589.309
+1.830.395.165
 </td>
 <td style="text-align:right;">
-350.288.869.664,65283
+149.619.917.635,6986
 </td>
 <td style="text-align:right;">
-15.062.421.395,58007
+7.181.756.046,51353
 </td>
 <td style="text-align:right;">
-14.398.328.457
+6.179.482.749
 </td>
 <td style="text-align:right;">
-4.048.521.298
+1.737.546.660
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-346.904.441.304,63123
+148.884.644.273,47852
 </td>
 <td style="text-align:right;">
 537.427
 </td>
 <td style="text-align:right;">
-645.491,3
+277.032,3
 </td>
 <td style="text-align:right;">
-645.491,3
+277.032,3
 </td>
 </tr>
 <tr>
@@ -1977,34 +2309,34 @@ Reserva teórica
 537.427
 </td>
 <td style="text-align:right;">
-4.490.788.939
+1.737.977.195
 </td>
 <td style="text-align:right;">
-351.395.230.243,81226
+150.622.621.468,7913
 </td>
 <td style="text-align:right;">
-15.109.994.900,48392
+7.229.885.830,50198
 </td>
 <td style="text-align:right;">
-16.025.443.987
+6.902.102.181
 </td>
 <td style="text-align:right;">
-4.127.238.904
+1.777.587.234
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-346.352.542.252,96570
+149.172.817.884,35617
 </td>
 <td style="text-align:right;">
 507.876
 </td>
 <td style="text-align:right;">
-681.962,8
+293.719,0
 </td>
 <td style="text-align:right;">
-681.962,8
+293.719,0
 </td>
 </tr>
 <tr>
@@ -2015,34 +2347,34 @@ Reserva teórica
 507.876
 </td>
 <td style="text-align:right;">
+1.642.412.655
+</td>
+<td style="text-align:right;">
+150.815.230.539,5571
+</td>
+<td style="text-align:right;">
+7.239.131.065,89874
+</td>
+<td style="text-align:right;">
+7.683.068.464
+</td>
+<td style="text-align:right;">
+1.814.334.460
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-295.564.942.252,96570
-</td>
-<td style="text-align:right;">
-12.709.292.516,87752
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-50.787.600.000
-</td>
-<td style="text-align:right;">
-308.274.234.769,84320
+148.556.958.681,36554
 </td>
 <td style="text-align:right;">
 477.358
 </td>
 <td style="text-align:right;">
-645.792,5
+311.206,6
 </td>
 <td style="text-align:right;">
-645.792,5
+311.206,6
 </td>
 </tr>
 <tr>
@@ -2053,34 +2385,34 @@ Reserva teórica
 477.358
 </td>
 <td style="text-align:right;">
+1.543.720.948
+</td>
+<td style="text-align:right;">
+150.100.679.629,5132
+</td>
+<td style="text-align:right;">
+7.204.832.622,21663
+</td>
+<td style="text-align:right;">
+8.262.396.584
+</td>
+<td style="text-align:right;">
+1.981.156.155
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-260.538.434.769,84320
-</td>
-<td style="text-align:right;">
-11.203.152.695,10326
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-47.735.800.000
-</td>
-<td style="text-align:right;">
-271.741.587.464,94647
+147.061.959.512,81058
 </td>
 <td style="text-align:right;">
 446.273
 </td>
 <td style="text-align:right;">
-608.913,4
+329.533,6
 </td>
 <td style="text-align:right;">
-608.913,4
+329.533,6
 </td>
 </tr>
 <tr>
@@ -2091,34 +2423,34 @@ Reserva teórica
 446.273
 </td>
 <td style="text-align:right;">
+1.443.195.628
+</td>
+<td style="text-align:right;">
+148.505.155.141,0240
+</td>
+<td style="text-align:right;">
+7.128.247.446,76915
+</td>
+<td style="text-align:right;">
+8.877.534.371
+</td>
+<td style="text-align:right;">
+2.159.748.993
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-227.114.287.464,94647
-</td>
-<td style="text-align:right;">
-9.765.914.360,99270
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-44.627.300.000
-</td>
-<td style="text-align:right;">
-236.880.201.825,93918
+144.596.119.224,24420
 </td>
 <td style="text-align:right;">
 414.624
 </td>
 <td style="text-align:right;">
-571.313,3
+348.740,4
 </td>
 <td style="text-align:right;">
-571.313,3
+348.740,4
 </td>
 </tr>
 <tr>
@@ -2129,34 +2461,34 @@ Reserva teórica
 414.624
 </td>
 <td style="text-align:right;">
+1.340.846.397
+</td>
+<td style="text-align:right;">
+145.936.965.621,2979
+</td>
+<td style="text-align:right;">
+7.004.974.349,82230
+</td>
+<td style="text-align:right;">
+9.532.681.549
+</td>
+<td style="text-align:right;">
+2.351.539.871
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-195.417.801.825,93918
-</td>
-<td style="text-align:right;">
-8.402.965.478,51538
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-41.462.400.000
-</td>
-<td style="text-align:right;">
-203.820.767.304,45456
+141.057.718.551,25653
 </td>
 <td style="text-align:right;">
 382.406
 </td>
 <td style="text-align:right;">
-532.995,7
+368.869,0
 </td>
 <td style="text-align:right;">
-532.995,7
+368.869,0
 </td>
 </tr>
 <tr>
@@ -2167,34 +2499,34 @@ Reserva teórica
 382.406
 </td>
 <td style="text-align:right;">
+1.236.657.085
+</td>
+<td style="text-align:right;">
+142.294.375.636,4994
+</td>
+<td style="text-align:right;">
+6.830.130.030,55197
+</td>
+<td style="text-align:right;">
+10.225.241.401
+</td>
+<td style="text-align:right;">
+2.555.822.895
+</td>
+<td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-165.580.167.304,45456
-</td>
-<td style="text-align:right;">
-7.119.947.194,09154
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-0
-</td>
-<td style="text-align:right;">
-38.240.600.000
-</td>
-<td style="text-align:right;">
-172.700.114.498,54611
+136.343.441.370,89069
 </td>
 <td style="text-align:right;">
 349.631
 </td>
 <td style="text-align:right;">
-493.949,7
+389.963,8
 </td>
 <td style="text-align:right;">
-493.949,7
+389.963,8
 </td>
 </tr>
 <tr>
@@ -2208,31 +2540,31 @@ Reserva teórica
 0
 </td>
 <td style="text-align:right;">
-137.737.014.498,54611
+108.372.961.370,8907
 </td>
 <td style="text-align:right;">
-5.922.691.623,43748
-</td>
-<td style="text-align:right;">
-0
+5.201.902.145,80275
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-34.963.100.000
+0
 </td>
 <td style="text-align:right;">
-143.659.706.121,98358
+27.970.480.000
+</td>
+<td style="text-align:right;">
+113.574.863.516,69344
 </td>
 <td style="text-align:right;">
 316.397
 </td>
 <td style="text-align:right;">
-454.048,9
+358.963,1
 </td>
 <td style="text-align:right;">
-454.048,9
+358.963,1
 </td>
 </tr>
 <tr>
@@ -2246,31 +2578,31 @@ Reserva teórica
 0
 </td>
 <td style="text-align:right;">
-112.020.006.121,98358
+88.263.103.516,6934
 </td>
 <td style="text-align:right;">
-4.816.860.263,24529
-</td>
-<td style="text-align:right;">
-0
+4.236.628.968,80128
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-31.639.700.000
+0
 </td>
 <td style="text-align:right;">
-116.836.866.385,22888
+25.311.760.000
+</td>
+<td style="text-align:right;">
+92.499.732.485,49472
 </td>
 <td style="text-align:right;">
 282.710
 </td>
 <td style="text-align:right;">
-413.274,6
+327.189,5
 </td>
 <td style="text-align:right;">
-413.274,6
+327.189,5
 </td>
 </tr>
 <tr>
@@ -2284,31 +2616,31 @@ Reserva teórica
 0
 </td>
 <td style="text-align:right;">
-88.565.866.385,22888
+69.882.932.485,4947
 </td>
 <td style="text-align:right;">
-3.808.332.254,56484
-</td>
-<td style="text-align:right;">
-0
+3.354.380.759,30375
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-28.271.000.000
+0
 </td>
 <td style="text-align:right;">
-92.374.198.639,79372
+22.616.800.000
+</td>
+<td style="text-align:right;">
+73.237.313.244,79846
 </td>
 <td style="text-align:right;">
 248.569
 </td>
 <td style="text-align:right;">
-371.624,0
+294.635,7
 </td>
 <td style="text-align:right;">
-371.624,0
+294.635,7
 </td>
 </tr>
 <tr>
@@ -2322,31 +2654,31 @@ Reserva teórica
 0
 </td>
 <td style="text-align:right;">
-67.517.298.639,79372
+53.351.793.244,7985
 </td>
 <td style="text-align:right;">
-2.903.243.841,51113
-</td>
-<td style="text-align:right;">
-0
+2.560.886.075,75033
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-24.856.900.000
+0
 </td>
 <td style="text-align:right;">
-70.420.542.481,30484
+19.885.520.000
+</td>
+<td style="text-align:right;">
+55.912.679.320,54879
 </td>
 <td style="text-align:right;">
 213.974
 </td>
 <td style="text-align:right;">
-329.107,9
+261.305,9
 </td>
 <td style="text-align:right;">
-329.107,9
+261.305,9
 </td>
 </tr>
 <tr>
@@ -2360,31 +2692,31 @@ Reserva teórica
 0
 </td>
 <td style="text-align:right;">
-49.023.142.481,30484
+38.794.759.320,5488
 </td>
 <td style="text-align:right;">
-2.107.995.126,69611
-</td>
-<td style="text-align:right;">
-0
+1.862.148.447,38634
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-21.397.400.000
+0
 </td>
 <td style="text-align:right;">
-51.131.137.608,00095
+17.117.920.000
+</td>
+<td style="text-align:right;">
+40.656.907.767,93513
 </td>
 <td style="text-align:right;">
 179.071
 </td>
 <td style="text-align:right;">
-285.535,6
+227.043,5
 </td>
 <td style="text-align:right;">
-285.535,6
+227.043,5
 </td>
 </tr>
 <tr>
@@ -2398,31 +2730,31 @@ Reserva teórica
 0
 </td>
 <td style="text-align:right;">
-33.224.037.608,00095
+26.331.227.767,9351
 </td>
 <td style="text-align:right;">
-1.428.633.617,14404
-</td>
-<td style="text-align:right;">
-0
+1.263.898.932,86089
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-17.907.100.000
+0
 </td>
 <td style="text-align:right;">
-34.652.671.225,14499
+14.325.680.000
+</td>
+<td style="text-align:right;">
+27.595.126.700,79602
 </td>
 <td style="text-align:right;">
 143.864
 </td>
 <td style="text-align:right;">
-240.871,0
+191.814,0
 </td>
 <td style="text-align:right;">
-240.871,0
+191.814,0
 </td>
 </tr>
 <tr>
@@ -2436,31 +2768,31 @@ Reserva teórica
 0
 </td>
 <td style="text-align:right;">
-20.266.271.225,14499
+16.086.006.700,7960
 </td>
 <td style="text-align:right;">
-871.449.662,68123
-</td>
-<td style="text-align:right;">
-0
+772.128.321,63821
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-14.386.400.000
+0
 </td>
 <td style="text-align:right;">
-21.137.720.887,82623
+11.509.120.000
+</td>
+<td style="text-align:right;">
+16.858.135.022,43423
 </td>
 <td style="text-align:right;">
 108.349
 </td>
 <td style="text-align:right;">
-195.089,2
+155.591,1
 </td>
 <td style="text-align:right;">
-195.089,2
+155.591,1
 </td>
 </tr>
 <tr>
@@ -2474,31 +2806,31 @@ Reserva teórica
 0
 </td>
 <td style="text-align:right;">
-10.302.820.887,82623
+8.190.215.022,4342
 </td>
 <td style="text-align:right;">
-443.021.298,17653
-</td>
-<td style="text-align:right;">
-0
+393.130.321,07684
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-10.834.900.000
+0
 </td>
 <td style="text-align:right;">
-10.745.842.186,00275
+8.667.920.000
+</td>
+<td style="text-align:right;">
+8.583.345.343,51107
 </td>
 <td style="text-align:right;">
 72.538
 </td>
 <td style="text-align:right;">
-148.140,9
+118.328,9
 </td>
 <td style="text-align:right;">
-148.140,9
+118.328,9
 </td>
 </tr>
 <tr>
@@ -2512,31 +2844,31 @@ Reserva teórica
 0
 </td>
 <td style="text-align:right;">
-3.492.042.186,00275
+2.780.305.343,5111
 </td>
 <td style="text-align:right;">
-150.157.813,99812
-</td>
-<td style="text-align:right;">
-0
+133.454.656,48853
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-7.253.800.000
+0
 </td>
 <td style="text-align:right;">
-3.642.200.000,00087
+5.803.040.000
+</td>
+<td style="text-align:right;">
+2.913.759.999,99960
 </td>
 <td style="text-align:right;">
 36.422
 </td>
 <td style="text-align:right;">
-100.000,0
+80.000,0
 </td>
 <td style="text-align:right;">
-100.000,0
+80.000,0
 </td>
 </tr>
 <tr>
@@ -2550,28 +2882,28 @@ Reserva teórica
 0
 </td>
 <td style="text-align:right;">
-0,00087
+-0,0004
 </td>
 <td style="text-align:right;">
-0,00004
-</td>
-<td style="text-align:right;">
-0
+-0,00002
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-3.642.200.000
+0
 </td>
 <td style="text-align:right;">
-0,00091
+2.913.760.000
+</td>
+<td style="text-align:right;">
+-0,00042
 </td>
 <td style="text-align:right;">
 0
 </td>
 <td style="text-align:right;">
-0,0
+-Inf
 </td>
 <td style="text-align:right;">
 0,0
@@ -2588,21 +2920,21 @@ Reserva teórica
 </center>
 </caption></li>
 </ol>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Edad</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Edad <span class="ot">&lt;-</span> <span class="dv">25</span><span class="sc">:</span><span class="dv">74</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>Reserva <span class="ot">&lt;-</span> flujos<span class="sc">$</span>Reserva.teorica</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Reserva <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;Edad&quot;</span> <span class="ot">=</span> Edad, <span class="st">&quot;Reserva&quot;</span> <span class="ot">=</span> Reserva)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Reserva <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Edad, <span class="at">y =</span> Reserva)) <span class="sc">+</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Edad</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Edad <span class="ot">&lt;-</span> <span class="dv">25</span><span class="sc">:</span><span class="dv">74</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Reserva <span class="ot">&lt;-</span> flujos<span class="sc">$</span>Reserva.teorica</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Reserva <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="st">&quot;Edad&quot;</span> <span class="ot">=</span> Edad, <span class="st">&quot;Reserva&quot;</span> <span class="ot">=</span> Reserva)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>Reserva <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Edad, <span class="at">y =</span> Reserva)) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
 <p><strong>Interpretación</strong></p>
 <p>Se puede observar que conforme avanza el tiempo se aumentan las
 reservas por lo menos en el periodo de diferimiento, debido a que se
 logran obtener primas y acumular intereses sobre estas y los montos
 anteriormente recibidos. Al tenerse una mayor cantidad en reservas que
 decrementos durante el periodo de diferimiento es posible hacer la
-acumulación de primas sobre estos. Posteriormente llegado el periodo 35
+acumulación de primas sobre estos. Posteriormente llegado el periodo 40
 las reservas comienzan a decrecer, esto se debe a que ya no se reciben
 las primas y además hay que hacer frente al pago de la anualidad
 vitalicia los montos de reclamo no superan inicialmente los montos en
