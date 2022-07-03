@@ -97,11 +97,12 @@ tipo_decremento <- function(decremento) {
     decremento <- switch(decremento,
         "MuertesDiab",
         "MuertesCanc",
-        "MuertesCard",
+        "MuerteCard",
         "MuertesOtras",
     )
     return(decremento)
 }
+
 Axn_s <- function(TablaMD, decremento, tipo_seguro, edad, tasa_interes, N = 0, simulaciones, w) {
     simulaciones <- simulaciones
     v <- 1 / (1 + tasa_interes)
@@ -131,6 +132,7 @@ Axn_s <- function(TablaMD, decremento, tipo_seguro, edad, tasa_interes, N = 0, s
             include.t0 = FALSE
         )
         suma <- v^N * sum(tabla_simulacion[N, ] == "alive")
+        print(suma)
     }
     return(suma / simulaciones)
 }
@@ -187,7 +189,7 @@ enfoque <- c(rep("Determistico", 4), rep("Estocastico", 4))
 tabla <- cbind("Enfoque" = enfoque, tabla)
 nombres <- c("Enfoque", "Decremento", "Vitalicio", "Temporal", "Dotal", "Dotal puro")
 kable(tabla,
-    caption = "Flujos", format.args = list(decimal.mark = ",", big.mark = "."),
+    caption = "Seguros", format.args = list(decimal.mark = ",", big.mark = "."),
     col.names = nombres
 ) %>%
     kable_styling(full_width = F) %>%
@@ -235,7 +237,7 @@ v^{40}\ddot{a}_{65}\, _{40}p_{25}^{(\tau)}-\pi\ddot{a}_{\overline{40|}}\, _{40}p
 
 Entonces
 \[
-\pi =\frac{v^{35}\ddot{a}_{65}}{\ddot{a}_{\overline{40|}}}
+\pi =\frac{v^{40}\ddot{a}_{65}}{\ddot{a}_{\overline{40|}}}
 \]
 Esto hay que multiplicarlo por el beneficio.
 
@@ -361,7 +363,7 @@ for (i in 2:nrow(flujos)) {
     flujos$Monto.inicio[i] <- monto_inicio[i]
     flujos$Fondos.esperados.fin[i] <- monto_inicio[i] + flujos$Intereses[i] - flujos$Reclamos.retiro[i] - flujos$Reclamos.fallecimiento[i]
     flujos$Reserva.observada[i] <- flujos$Fondos.esperados.fin[i] / flujos$Sobrevivientes.final[i]
-    if (flujos$Reserva.observada[i] == Inf) {
+    if (i == nrow(flujos)) {
         flujos$Reserva.observada[i] <- 0
     }
 }
@@ -383,7 +385,7 @@ x <- 25
 reserva_teorica <- unlist(lapply(FUN = reserve, X = t, x = x))
 
 flujos$Reserva.teorica <- reserva_teorica
-
+flujos <- round(flujos, digits = 2)
 nombres <- c(
     "Edad", "Sobrevivientes inicio", "Prima",
     "Monto incio",
