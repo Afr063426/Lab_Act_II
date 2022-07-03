@@ -64,6 +64,9 @@ los 4 tipos de seguro y los dos enfoques. Para esto utilice la tabla de "TablaMD
 interpete de 4.3% y una edad de 27 años. Lo enfoques son el determinístico (sin usar funciones del paquete respectivo) y estocástico con al menos 5.000
 simulaciones. 
 
+**Nota** 
+Antes de empezar los tipos de de decrementos son 1,2, 3 y 4 que corresponden a muertes por 
+diabetes, muertes por cancer, muertes cardíacas y muertes otras.
 
 ```{r}
 # Se programan dos funciones distintas de acuerdo al tipo de enfoque y se unan en una sola función
@@ -142,6 +145,9 @@ Axn_s <- function(TablaMD, decremento, tipo_seguro, edad, tasa_interes, N = 0, s
 # Funcion final
 # Enfoques deben ingresarse como estocastico o deterministico
 # por defecto tiene deterministico
+# Hay que ingresar la temporalidad para el dotal y para el determinístico
+# Hay que especificar el tipo de decremento
+# Hay que ingresar una tabla de múltiples decrementos
 fseg <- function(TablaMD, decremento, tipo_de_seguro, edad, tasa_interes, enfoque = "deterministico", N = 0) {
     if (N == 0 & tipo_de_seguro != "vitalicio") {
         print("Ingresar un valor para N")
@@ -185,7 +191,7 @@ for (j in enfoque) {
         tabla <- rbind(tabla, aux)
     }
 }
-enfoque <- c(rep("Determistico", 4), rep("Estocastico", 4))
+enfoque <- c(rep("Determinístico", 4), rep("Estocástico", 4))
 tabla <- cbind("Enfoque" = enfoque, tabla)
 nombres <- c("Enfoque", "Decremento", "Vitalicio", "Temporal", "Dotal", "Dotal puro")
 kable(tabla,
@@ -198,6 +204,18 @@ kable(tabla,
     scroll_box(height = "500px", width = "100%")
 ```
 
+
+**Análisis**
+
+Se puede observar que los resultados obtenidos mediante el modelo determinístico y el modelo
+estocástico son similares, salvo por una diferencia relativa. El seguro dotal es la suma
+entre el seguro temporal y dotal puro, y de esto se puede destacar que el seguro que mayor 
+valor agrega al seguro dotal es el dotal puro. 
+Otro aspecto importante es que en los seguros vitalicios y temporales, los que tienen
+mayor valor son los asociados al decremento 4 que corresponde a muerte por otras causas, 
+por lo que se espera que la muerte por esta causa sea la mayor.
+El que menor valor tiene es el seguro asociado al decremento 1 que corresponde a muerte por 
+diabetes, de forma análoga a lo anterior se espera que esta sea la menor causa de muerte.
 
 # Ejercicio 2
 

@@ -24,7 +24,7 @@
 
 <meta name="author" content="Joshua Cervantes" />
 
-<meta name="date" content="2022-07-02" />
+<meta name="date" content="2022-07-03" />
 
 <title>Parcial 2</title>
 
@@ -404,7 +404,7 @@ code span.ot { color: #007020; }
 <section class="page-header">
 <h1 class="title toc-ignore project-name">Parcial 2</h1>
 <h4 class="author project-author">Joshua Cervantes</h4>
-<h4 class="date project-date">02 July 2022</h4>
+<h4 class="date project-date">03 July 2022</h4>
 </section>
 
 
@@ -442,6 +442,9 @@ tabla de “TablaMD.xlsx” cargada en el Virtual para el laboratorio 7, una
 tasa de interpete de 4.3% y una edad de 27 años. Lo enfoques son el
 determinístico (sin usar funciones del paquete respectivo) y estocástico
 con al menos 5.000 simulaciones.</p>
+<p><strong>Nota</strong> Antes de empezar los tipos de de decrementos
+son 1,2, 3 y 4 que corresponden a muertes por diabetes, muertes por
+cancer, muertes cardíacas y muertes otras.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Se programan dos funciones distintas de acuerdo al tipo de enfoque y se unan en una sola función</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Lo seguros que recibirá la función serán vitalicio, temporarl, dotal y dotal_puro</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Axn <span class="ot">&lt;-</span> <span class="cf">function</span>(TablaMD, decremento, tipo_seguro, edad, tasa_interes, <span class="at">N =</span> <span class="dv">0</span>, w) {</span>
@@ -511,23 +514,26 @@ con al menos 5.000 simulaciones.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Funcion final</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Enfoques deben ingresarse como estocastico o deterministico</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># por defecto tiene deterministico</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>fseg <span class="ot">&lt;-</span> <span class="cf">function</span>(TablaMD, decremento, tipo_de_seguro, edad, tasa_interes, <span class="at">enfoque =</span> <span class="st">&quot;deterministico&quot;</span>, <span class="at">N =</span> <span class="dv">0</span>) {</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (N <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> tipo_de_seguro <span class="sc">!=</span> <span class="st">&quot;vitalicio&quot;</span>) {</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="st">&quot;Ingresar un valor para N&quot;</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        w <span class="ot">&lt;-</span> <span class="fu">getOmega</span>(TablaMD)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (enfoque <span class="sc">==</span> <span class="st">&quot;deterministico&quot;</span>) {</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            suma <span class="ot">&lt;-</span> <span class="fu">Axn</span>(TablaMD, decremento, tipo_de_seguro, edad, tasa_interes, <span class="at">N =</span> N, w)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> <span class="cf">if</span> (enfoque <span class="sc">==</span> <span class="st">&quot;estocastico&quot;</span>) {</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            suma <span class="ot">&lt;-</span> <span class="fu">Axn_s</span>(TablaMD, decremento,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                tipo_de_seguro, edad, tasa_interes,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">N =</span> N,</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                <span class="dv">5000</span>, w</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(suma)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Hay que ingresar la temporalidad para el dotal y para el determinístico</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Hay que especificar el tipo de decremento</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Hay que ingresar una tabla de múltiples decrementos</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>fseg <span class="ot">&lt;-</span> <span class="cf">function</span>(TablaMD, decremento, tipo_de_seguro, edad, tasa_interes, <span class="at">enfoque =</span> <span class="st">&quot;deterministico&quot;</span>, <span class="at">N =</span> <span class="dv">0</span>) {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (N <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> tipo_de_seguro <span class="sc">!=</span> <span class="st">&quot;vitalicio&quot;</span>) {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">print</span>(<span class="st">&quot;Ingresar un valor para N&quot;</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        w <span class="ot">&lt;-</span> <span class="fu">getOmega</span>(TablaMD)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (enfoque <span class="sc">==</span> <span class="st">&quot;deterministico&quot;</span>) {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            suma <span class="ot">&lt;-</span> <span class="fu">Axn</span>(TablaMD, decremento, tipo_de_seguro, edad, tasa_interes, <span class="at">N =</span> N, w)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> <span class="cf">if</span> (enfoque <span class="sc">==</span> <span class="st">&quot;estocastico&quot;</span>) {</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>            suma <span class="ot">&lt;-</span> <span class="fu">Axn_s</span>(TablaMD, decremento,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                tipo_de_seguro, edad, tasa_interes,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">N =</span> N,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                <span class="dv">5000</span>, w</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(suma)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creacio de la tabla</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>edad <span class="ot">&lt;-</span> <span class="dv">27</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>tipo_seguro <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;vitalicio&quot;</span>, <span class="st">&quot;temporal&quot;</span>, <span class="st">&quot;dotal&quot;</span>, <span class="st">&quot;dotal_puro&quot;</span>)</span>
@@ -552,11 +558,11 @@ con al menos 5.000 simulaciones.</p>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        tabla <span class="ot">&lt;-</span> <span class="fu">rbind</span>(tabla, aux)</span>
 <span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>## [1] 1888,8
-## [1] 1890,9
-## [1] 1900
-## [1] 1881</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>enfoque <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;Determistico&quot;</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;Estocastico&quot;</span>, <span class="dv">4</span>))</span>
+<pre><code>## [1] 1884,5
+## [1] 1881
+## [1] 1888,8
+## [1] 1887,1</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>enfoque <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;Determinístico&quot;</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">&quot;Estocástico&quot;</span>, <span class="dv">4</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>tabla <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="st">&quot;Enfoque&quot;</span> <span class="ot">=</span> enfoque, tabla)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>nombres <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Enfoque&quot;</span>, <span class="st">&quot;Decremento&quot;</span>, <span class="st">&quot;Vitalicio&quot;</span>, <span class="st">&quot;Temporal&quot;</span>, <span class="st">&quot;Dotal&quot;</span>, <span class="st">&quot;Dotal puro&quot;</span>)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(tabla,</span>
@@ -597,7 +603,7 @@ Dotal puro
 <tbody>
 <tr>
 <td style="text-align:left;">
-Determistico
+Determinístico
 </td>
 <td style="text-align:right;">
 1
@@ -617,7 +623,7 @@ Determistico
 </tr>
 <tr>
 <td style="text-align:left;">
-Determistico
+Determinístico
 </td>
 <td style="text-align:right;">
 2
@@ -637,7 +643,7 @@ Determistico
 </tr>
 <tr>
 <td style="text-align:left;">
-Determistico
+Determinístico
 </td>
 <td style="text-align:right;">
 3
@@ -657,7 +663,7 @@ Determistico
 </tr>
 <tr>
 <td style="text-align:left;">
-Determistico
+Determinístico
 </td>
 <td style="text-align:right;">
 4
@@ -677,19 +683,59 @@ Determistico
 </tr>
 <tr>
 <td style="text-align:left;">
-Estocastico
+Estocástico
 </td>
 <td style="text-align:right;">
 1
 </td>
 <td style="text-align:right;">
-0,00421
+0,00488
 </td>
 <td style="text-align:right;">
-0,00092
+0,00150
 </td>
 <td style="text-align:right;">
-0,37791
+0,37541
+</td>
+<td style="text-align:right;">
+0,37690
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estocástico
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0,05056
+</td>
+<td style="text-align:right;">
+0,01329
+</td>
+<td style="text-align:right;">
+0,39407
+</td>
+<td style="text-align:right;">
+0,37621
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Estocástico
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0,07440
+</td>
+<td style="text-align:right;">
+0,01274
+</td>
+<td style="text-align:right;">
+0,39007
 </td>
 <td style="text-align:right;">
 0,37776
@@ -697,67 +743,39 @@ Estocastico
 </tr>
 <tr>
 <td style="text-align:left;">
-Estocastico
-</td>
-<td style="text-align:right;">
-2
-</td>
-<td style="text-align:right;">
-0,05398
-</td>
-<td style="text-align:right;">
-0,01348
-</td>
-<td style="text-align:right;">
-0,39182
-</td>
-<td style="text-align:right;">
-0,37819
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Estocastico
-</td>
-<td style="text-align:right;">
-3
-</td>
-<td style="text-align:right;">
-0,07342
-</td>
-<td style="text-align:right;">
-0,01306
-</td>
-<td style="text-align:right;">
-0,38705
-</td>
-<td style="text-align:right;">
-0,38000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Estocastico
+Estocástico
 </td>
 <td style="text-align:right;">
 4
 </td>
 <td style="text-align:right;">
-0,12809
+0,12780
 </td>
 <td style="text-align:right;">
-0,04441
+0,04352
 </td>
 <td style="text-align:right;">
-0,42369
+0,42413
 </td>
 <td style="text-align:right;">
-0,37621
+0,37741
 </td>
 </tr>
 </tbody>
 </table>
 </div>
+<p><strong>Análisis</strong></p>
+<p>Se puede observar que los resultados obtenidos mediante el modelo
+determinístico y el modelo estocástico son similares, salvo por una
+diferencia relativa. El seguro dotal es la suma entre el seguro temporal
+y dotal puro, y de esto se puede destacar que el seguro que mayor valor
+agrega al seguro dotal es el dotal puro. Otro aspecto importante es que
+en los seguros vitalicios y temporales, los que tienen mayor valor son
+los asociados al decremento 4 que corresponde a muerte por otras causas,
+por lo que se espera que la muerte por esta causa sea la mayor. El que
+menor valor tiene es el seguro asociado al decremento 1 que corresponde
+a muerte por diabetes, de forma análoga a lo anterior se espera que esta
+sea la menor causa de muerte.</p>
 </div>
 <div id="ejercicio-2" class="section level1">
 <h1>Ejercicio 2</h1>
